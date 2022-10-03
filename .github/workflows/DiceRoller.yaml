@@ -1,0 +1,55 @@
+name: Build DiceRoller sample
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build_android:
+    name: Build Android app
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Validate Gradle Wrapper
+        uses: gradle/wrapper-validation-action@v1
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: 11
+
+      - name: Build app
+        working-directory: ./DiceRoller
+        run: ./gradlew assemble --stacktrace
+
+  build_ios:
+    name: Build iOS app
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Validate Gradle Wrapper
+        uses: gradle/wrapper-validation-action@v1
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+
+      - name: Initialize pods
+        working-directory: ./DiceRoller
+        run: ./gradlew shared:podInstall
+
+      - name: Build app
+        working-directory: ./DiceRoller
+        run: xcodebuild -workspace iosApp/iosApp.xcworkspace -configuration Debug -scheme iosApp -sdk iphonesimulator

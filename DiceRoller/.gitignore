@@ -1,0 +1,52 @@
+# Android Studio
+/*/build/
+/*/local.properties
+/*/out
+/*/*/build
+/*/*/production
+captures/
+.navigation/
+*.ipr
+*~
+*.swp
+*.iml
+*.idea/
+!*/gradle/wrapper/gradle-wrapper.jar
+
+### Xcode ###
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+!*.xcodeproj/xcshareddata/
+!*.xcworkspace/contents.xcworkspacedata/
+/*.gcno
+**/xcshareddata/WorkspaceSettings.xcsettings
+*.xcuserstate
+*.xcscheme
+*.xcworkspace
+
+## iOS App packaging
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Android App packaging
+*.apk
+*.ap_
+*.aab
+
+# macOs
+.DS_Store
+
+# Generated files
+bin/
+gen/
+*.class
+*.dex
+
+# Gradle files
+.gradle
+.gradle/
+build/
+
+# Local configuration file
+local.properties
