@@ -18,18 +18,25 @@ package com.google.samples.apps.diceroller
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
+import kotlinx.atomicfu.locks.SynchronizedObject
+import kotlinx.atomicfu.locks.synchronized
 import okio.Path.Companion.toPath
 
-fun createDataStore(producePath: () -> String): DataStore<Preferences> {
-    return PreferenceDataStoreFactory.createWithPath(
-        corruptionHandler = null,
-        migrations = emptyList(),
-        scope = CoroutineScope(Dispatchers.Default + SupervisorJob()),
-        produceFile = { producePath().toPath() },
-    )
-}
+private lateinit var dataStore: DataStore<Preferences>
+
+private val lock = SynchronizedObject()
+
+/**
+ * Gets the singleton DataStore instance, creating it if necessary.
+ */
+fun getDataStore(producePath: () -> String): DataStore<Preferences> =
+    synchronized(lock) {
+        if (::dataStore.isInitialized) {
+            dataStore
+        } else {
+            PreferenceDataStoreFactory.createWithPath(produceFile = { producePath().toPath() })
+                .also { dataStore = it }
+        }
+    }
 
 internal const val dataStoreFileName = "dice.preferences_pb"

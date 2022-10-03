@@ -22,7 +22,7 @@ import platform.Foundation.NSFileManager
 import platform.Foundation.NSURL
 import platform.Foundation.NSUserDomainMask
 
-fun createDataStore(): DataStore<Preferences> = createDataStore(
+fun createDataStore(): DataStore<Preferences> = getDataStore(
     producePath = {
         val documentDirectory: NSURL? = NSFileManager.defaultManager.URLForDirectory(
             directory = NSDocumentDirectory,
