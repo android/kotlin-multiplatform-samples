@@ -16,9 +16,33 @@
 package com.google.samples.apps.diceroller
 
 import android.content.Context
+import androidx.annotation.GuardedBy
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import kotlin.properties.ReadOnlyProperty
+import kotlin.reflect.KProperty
+
+val Context.dataStore by DataStoreSingletonDelegate()
 
 fun createDataStore(context: Context): DataStore<Preferences> = createDataStore(
     producePath = { context.filesDir.resolve(dataStoreFileName).absolutePath }
 )
+
+internal class DataStoreSingletonDelegate : ReadOnlyProperty<Context, DataStore<Preferences>> {
+
+    private val lock = Any()
+
+    @Volatile
+    @GuardedBy("lock")
+    private var INSTANCE: DataStore<Preferences>? = null
+
+    override fun getValue(thisRef: Context, property: KProperty<*>): DataStore<Preferences> {
+        return INSTANCE ?: synchronized(lock) {
+            if (INSTANCE == null) {
+                val applicationContext = thisRef.applicationContext
+                INSTANCE = createDataStore(applicationContext)
+            }
+            INSTANCE!!
+        }
+    }
+}

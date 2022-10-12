@@ -37,7 +37,7 @@ class MainActivity : ComponentActivity() {
     private fun diceViewModel(context: Context) = viewModel {
         DiceViewModel(
             roller = DiceRoller(),
-            settingsRepository = DiceSettingsRepository(createDataStore(context))
+            settingsRepository = DiceSettingsRepository(context.dataStore)
         )
     }
 }
