@@ -17,7 +17,7 @@ plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
     id("com.android.library")
-    id("com.rickclephas.kmp.nativecoroutines") version "0.13.1"
+    id("com.rickclephas.kmp.nativecoroutines") version "0.13.3"
 }
 
 version = "1.0"
@@ -53,7 +53,7 @@ kotlin {
             }
         }
         val androidMain by getting
-        val androidTest by getting
+        val androidUnitTest by getting
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
