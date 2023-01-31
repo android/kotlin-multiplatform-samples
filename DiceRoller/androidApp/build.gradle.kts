@@ -44,6 +44,7 @@ dependencies {
     implementation(project(":shared"))
 
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.0-alpha05")
     implementation("androidx.activity:activity-compose:1.6.1")
 
     implementation(platform("androidx.compose:compose-bom:2023.01.00"))
