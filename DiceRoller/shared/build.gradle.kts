@@ -38,7 +38,7 @@ kotlin {
         }
     }
 
-    val dataStoreVersion = "1.1.0-dev01"
+    val dataStoreVersion = "1.1.0-alpha03"
 
     sourceSets {
         val commonMain by getting {
