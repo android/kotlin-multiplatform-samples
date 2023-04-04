@@ -13,16 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-buildscript {
-    repositories {
-        gradlePluginPortal()
-        google()
-        mavenCentral()
-    }
-    dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.0")
-        classpath("com.android.tools.build:gradle:7.3.0")
-    }
+plugins {
+    kotlin("android") version "1.8.10" apply false
+    id("com.android.application") version "7.4.2" apply false
 }
 
 tasks.register("clean", Delete::class) {

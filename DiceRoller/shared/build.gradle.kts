@@ -38,6 +38,14 @@ kotlin {
         }
     }
 
+    android {
+        compilations.all {
+            kotlinOptions {
+                jvmTarget = "1.8"
+            }
+        }
+    }
+
     val dataStoreVersion = "1.1.0-alpha03"
 
     sourceSets {
@@ -73,16 +81,21 @@ kotlin {
             iosSimulatorArm64Test.dependsOn(this)
         }
     }
+
 }
 
 android {
     compileSdk = 33
+    namespace = "com.google.samples.apps.diceroller.shared"
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     buildFeatures {
         buildConfig = false
     }
     defaultConfig {
         minSdk = 26
-        targetSdk = 33
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
 }
