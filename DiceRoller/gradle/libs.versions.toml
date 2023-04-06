@@ -2,7 +2,8 @@
 agp = "7.4.2"
 dataStoreVersion = "1.1.0-alpha03"
 kotlin = "1.8.10"
-nativecoroutines = "0.13.3"
+nativecoroutines = "1.0.0-ALPHA-5"
+ksp = "1.8.10-1.0.9"
 compose = "1.4.2"
 compileSdk = "33"
 minSdk = "24"
@@ -15,6 +16,7 @@ androidxComposeBom = "2023.03.00"
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 nativecoroutines = { id = "com.rickclephas.kmp.nativecoroutines", version.ref = "nativecoroutines" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 
 [libraries]
 androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }

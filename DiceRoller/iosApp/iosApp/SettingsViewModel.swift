@@ -48,7 +48,7 @@ final class SettingsViewModel: ObservableObject {
 
     func startObservingSettings() async {
         do {
-            let stream = asyncStream(for: repository.settingsNative)
+            let stream = asyncSequence(for: repository.settings)
             for try await settings in stream {
                 self.diceCount = Int(settings.diceCount)
                 self.sideCount = Int(settings.sideCount)

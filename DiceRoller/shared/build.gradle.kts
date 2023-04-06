@@ -18,6 +18,8 @@ plugins {
     alias(libs.plugins.kotlin.multiplatform)
     @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
     alias(libs.plugins.nativecoroutines)
+    @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
+    alias(libs.plugins.ksp)
     id("org.jetbrains.kotlin.native.cocoapods")
     id("com.android.library")
 }
@@ -46,6 +48,10 @@ kotlin {
                 jvmTarget = "1.8"
             }
         }
+    }
+
+    sourceSets.all {
+        languageSettings.optIn("kotlin.experimental.ExperimentalObjCName")
     }
 
     sourceSets {
