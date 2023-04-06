@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 plugins {
-    kotlin("multiplatform")
-    kotlin("native.cocoapods")
+    @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
+    alias(libs.plugins.kotlin.multiplatform)
+    @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
+    alias(libs.plugins.nativecoroutines)
+    id("org.jetbrains.kotlin.native.cocoapods")
     id("com.android.library")
-    id("com.rickclephas.kmp.nativecoroutines") version "0.13.3"
 }
 
 version = "1.0"
@@ -46,18 +48,16 @@ kotlin {
         }
     }
 
-    val dataStoreVersion = "1.1.0-alpha03"
-
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api("androidx.datastore:datastore-preferences-core:$dataStoreVersion")
-                api("androidx.datastore:datastore-core-okio:$dataStoreVersion")
+                api(libs.androidx.datastore.preferences.core)
+                api(libs.androidx.datastore.core.okio)
             }
         }
         val commonTest by getting {
             dependencies {
-                implementation(kotlin("test"))
+                implementation(libs.kotlin.test)
             }
         }
         val androidMain by getting

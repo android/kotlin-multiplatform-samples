@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 plugins {
-    kotlin("android") version "1.8.10" apply false
-    id("com.android.application") version "7.4.2" apply false
+    @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
+    alias(libs.plugins.android.application) apply false
+    @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
+    alias(libs.plugins.kotlin.multiplatform) apply false
 }
 
-tasks.register("clean", Delete::class) {
+tasks.register<Delete>("clean") {
     delete(rootProject.buildDir)
 }
