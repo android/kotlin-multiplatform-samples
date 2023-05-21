@@ -14,12 +14,14 @@
  * limitations under the License.
  */
 plugins {
-    id("com.android.application")
-    kotlin("android")
+    @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
+    alias(libs.plugins.android.application)
+    id("org.jetbrains.kotlin.android")
 }
 
 android {
     compileSdk = 33
+    namespace = "com.google.samples.apps.diceroller"
     defaultConfig {
         applicationId = "com.google.samples.apps.diceroller"
         minSdk = 26
@@ -36,19 +38,23 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.0"
+        kotlinCompilerExtensionVersion = "1.4.4"
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
     }
 }
 
 dependencies {
     implementation(project(":shared"))
 
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1")
-    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.0-alpha05")
-    implementation("androidx.activity:activity-compose:1.6.1")
+    implementation(platform(libs.androidx.compose.bom))
 
-    implementation(platform("androidx.compose:compose-bom:2023.01.00"))
-    debugImplementation("androidx.compose.ui:ui-tooling")
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.compose.material:material")
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.compose.ui.tooling.preview)
+    implementation(libs.androidx.compose.material)
+
+    debugImplementation(libs.androidx.compose.ui.tooling)
 }
