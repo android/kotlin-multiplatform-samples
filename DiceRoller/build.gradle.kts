@@ -14,10 +14,13 @@
  * limitations under the License.
  */
 plugins {
-    @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
     alias(libs.plugins.android.application) apply false
-    @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
+    alias(libs.plugins.android.library) apply false
+    alias(libs.plugins.kotlin.android) apply false
+    alias(libs.plugins.kotlin.cocoapods) apply false
     alias(libs.plugins.kotlin.multiplatform) apply false
+    alias(libs.plugins.ksp) apply false
+    alias(libs.plugins.nativecoroutines) apply false
 }
 
 tasks.register<Delete>("clean") {
