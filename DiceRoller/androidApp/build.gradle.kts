@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 plugins {
-    @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
     alias(libs.plugins.android.application)
-    id("org.jetbrains.kotlin.android")
+    alias(libs.plugins.kotlin.android)
 }
 
 android {
@@ -38,7 +37,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.4"
+        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
     }
     kotlinOptions {
         jvmTarget = "1.8"
@@ -49,7 +48,6 @@ dependencies {
     implementation(project(":shared"))
 
     implementation(platform(libs.androidx.compose.bom))
-
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.activity.compose)

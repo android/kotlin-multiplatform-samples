@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 plugins {
-    @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
     alias(libs.plugins.kotlin.multiplatform)
-    @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
     alias(libs.plugins.nativecoroutines)
-    id("org.jetbrains.kotlin.native.cocoapods")
-    id("com.android.library")
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.kotlin.cocoapods)
+    alias(libs.plugins.android.library)
 }
 
 version = "1.0"
@@ -46,6 +45,10 @@ kotlin {
                 jvmTarget = "1.8"
             }
         }
+    }
+
+    sourceSets.all {
+        languageSettings.optIn("kotlin.experimental.ExperimentalObjCName")
     }
 
     sourceSets {

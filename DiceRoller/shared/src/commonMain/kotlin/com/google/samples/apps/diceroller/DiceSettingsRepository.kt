@@ -20,6 +20,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
+import com.rickclephas.kmp.nativecoroutines.NativeCoroutines
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -41,6 +42,7 @@ class DiceSettingsRepository(
     private val sideCountKey = intPreferencesKey("side_count")
     private val uniqueRollsOnlyKey = booleanPreferencesKey("unique_rolls_only")
 
+    @NativeCoroutines
     val settings: Flow<DiceSettings> = dataStore.data.map {
         DiceSettings(
             it[diceCountKey] ?: DEFAULT_DICE_COUNT,

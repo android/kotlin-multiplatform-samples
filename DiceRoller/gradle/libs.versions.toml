@@ -1,19 +1,24 @@
 [versions]
 agp = "7.4.2"
-dataStoreVersion = "1.1.0-alpha03"
-kotlin = "1.8.10"
-nativecoroutines = "0.13.3"
-compose = "1.4.2"
+compose-compiler = "1.4.7"
+compose-bom = "2023.06.00"
+dataStoreVersion = "1.1.0-alpha04"
+kotlin = "1.8.21"
+nativecoroutines = "1.0.0-ALPHA-10"
+ksp = "1.8.21-1.0.11"
 compileSdk = "33"
 minSdk = "24"
-androidx-core = "1.9.0"
+androidx-core = "1.10.1"
 androidx-lifecycle = "2.6.1"
-activityCompose = "1.7.0"
-androidxComposeBom = "2023.03.00"
+activityCompose = "1.7.2"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-cocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 nativecoroutines = { id = "com.rickclephas.kmp.nativecoroutines", version.ref = "nativecoroutines" }
 
 [libraries]
@@ -27,7 +32,7 @@ androidx-datastore-core-okio = { group = "androidx.datastore", name = "datastore
 androidx-datastore-preferences-core = { group = "androidx.datastore", name = "datastore-preferences-core", version.ref = "dataStoreVersion" }
 androidx-lifecycle-runtime-kts = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "androidx-lifecycle"}
 
-androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidxComposeBom" }
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
 androidx-compose-material = { group = "androidx.compose.material", name = "material" }
 androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
