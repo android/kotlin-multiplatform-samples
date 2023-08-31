@@ -19,12 +19,12 @@ plugins {
 }
 
 android {
-    compileSdk = 33
+    compileSdk = 34
     namespace = "com.google.samples.apps.diceroller"
     defaultConfig {
         applicationId = "com.google.samples.apps.diceroller"
         minSdk = 26
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0.0"
     }
