@@ -16,7 +16,7 @@
 
 import shared
 import Combine
-import KMPNativeCoroutinesAsync
+import UIKit
 
 @MainActor
 final class SettingsViewModel: ObservableObject {
@@ -47,22 +47,19 @@ final class SettingsViewModel: ObservableObject {
     private var currentSettings: DiceSettings? = nil
 
     func startObservingSettings() async {
-        do {
-            let stream = asyncSequence(for: repository.settings)
-            for try await settings in stream {
-                self.diceCount = Int(settings.diceCount)
-                self.sideCount = Int(settings.sideCount)
-                self.uniqueRollsOnly = settings.uniqueRollsOnly
-                self.rollButtonLabel = String.localizedStringWithFormat(NSLocalizedString("game_roll_button", comment: ""), settings.diceCount, settings.sideCount)
-                self.currentSettings = settings
-            }
-        } catch {
-            print("Failed with error: \(error)")
-        }
+         for try await settings in repository.settings {
+             self.diceCount = Int(settings.diceCount)
+             self.sideCount = Int(settings.sideCount)
+             self.uniqueRollsOnly = settings.uniqueRollsOnly
+             self.rollButtonLabel = String.localizedStringWithFormat(NSLocalizedString("game_roll_button", comment: ""), settings.diceCount, settings.sideCount)
+             self.currentSettings = settings
+         }
     }
 
     func saveSettings() {
-        repository.saveSettings(diceCount: Int32(diceCount), sideCount: Int32(sideCount), uniqueRollsOnly: uniqueRollsOnly)
+        Task {
+            try? await repository.saveSettings(diceCount: Int32(diceCount), sideCount: Int32(sideCount), uniqueRollsOnly: uniqueRollsOnly)
+        }
     }
 
     func rollDice() {

@@ -15,10 +15,10 @@
  */
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
-    alias(libs.plugins.nativecoroutines)
     alias(libs.plugins.ksp)
     alias(libs.plugins.kotlin.cocoapods)
     alias(libs.plugins.android.library)
+    alias(libs.plugins.skie)
 }
 
 version = "1.0"
