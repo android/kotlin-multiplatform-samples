@@ -22,6 +22,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
 class DiceViewModel(
     private val roller: DiceRoller,
@@ -42,7 +43,7 @@ class DiceViewModel(
         number: Int,
         sides: Int,
         unique: Boolean,
-    ) = settingsRepository.saveSettings(number, sides, unique)
+    ) = viewModelScope.launch { settingsRepository.saveSettings(number, sides, unique) }
 
     fun rollDice() {
         // Ignore attempted rolls before settings are available
