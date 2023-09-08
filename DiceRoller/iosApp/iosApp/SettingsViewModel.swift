@@ -16,7 +16,7 @@
 
 import shared
 import Combine
-import UIKit
+import Foundation
 
 @MainActor
 final class SettingsViewModel: ObservableObject {
@@ -47,7 +47,7 @@ final class SettingsViewModel: ObservableObject {
     private var currentSettings: DiceSettings? = nil
 
     func startObservingSettings() async {
-         for try await settings in repository.settings {
+         for await settings in repository.settings {
              self.diceCount = Int(settings.diceCount)
              self.sideCount = Int(settings.sideCount)
              self.uniqueRollsOnly = settings.uniqueRollsOnly
