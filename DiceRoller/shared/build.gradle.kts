@@ -28,7 +28,9 @@ kotlin {
     targetHierarchy.default()
 
     androidLibrary {
+        @Suppress("UnstableApiUsage")
         namespace = "com.google.samples.apps.diceroller.shared"
+        @Suppress("UnstableApiUsage")
         compileSdk = 34
     }
 
@@ -53,9 +55,10 @@ kotlin {
             dependencies {
                 api(libs.androidx.datastore.preferences.core)
                 api(libs.androidx.datastore.core.okio)
+                implementation(libs.kotlinx.atomicfu)
             }
         }
-        named("commonTest") {
+        getByName("commonTest") {
             dependencies {
                 implementation(libs.kotlin.test)
             }
