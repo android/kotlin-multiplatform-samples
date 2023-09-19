@@ -35,6 +35,7 @@ kotlin {
     }
 
     ios()
+    iosSimulatorArm64()
 
     cocoapods {
         summary = "Dice Roller data module"
