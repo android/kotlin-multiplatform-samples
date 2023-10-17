@@ -24,6 +24,8 @@ version = "1.0"
 
 @OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
 kotlin {
+    targetHierarchy.default()
+
     androidLibrary {
         @Suppress("UnstableApiUsage")
         namespace = "com.google.samples.apps.diceroller.shared"
@@ -31,7 +33,8 @@ kotlin {
         compileSdk = 34
     }
 
-    ios()
+    iosX64()
+    iosArm64()
     iosSimulatorArm64()
 
     cocoapods {
