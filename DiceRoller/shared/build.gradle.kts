@@ -15,7 +15,6 @@
  */
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
-    alias(libs.plugins.ksp)
     alias(libs.plugins.kotlin.cocoapods)
     alias(libs.plugins.skie)
     alias(libs.plugins.android.kotlin.multiplatform.library)
@@ -25,8 +24,6 @@ version = "1.0"
 
 @OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
 kotlin {
-    targetHierarchy.default()
-
     androidLibrary {
         @Suppress("UnstableApiUsage")
         namespace = "com.google.samples.apps.diceroller.shared"
@@ -52,14 +49,14 @@ kotlin {
     }
 
     sourceSets {
-        getByName("commonMain") {
+        commonMain {
             dependencies {
                 api(libs.androidx.datastore.preferences.core)
                 api(libs.androidx.datastore.core.okio)
                 implementation(libs.kotlinx.atomicfu)
             }
         }
-        getByName("commonTest") {
+        commonTest {
             dependencies {
                 implementation(libs.kotlin.test)
             }
