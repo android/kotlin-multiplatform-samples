@@ -19,12 +19,16 @@ plugins {
 }
 
 android {
-    compileSdk = 33
+    kotlin {
+        jvmToolchain(8)
+    }
+
+    compileSdk = 34
     namespace = "com.google.samples.apps.diceroller"
     defaultConfig {
         applicationId = "com.google.samples.apps.diceroller"
         minSdk = 26
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0.0"
     }
@@ -32,15 +36,8 @@ android {
         compose = true
         buildConfig = false
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
-    }
-    kotlinOptions {
-        jvmTarget = "1.8"
     }
 }
 

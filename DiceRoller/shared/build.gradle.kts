@@ -15,16 +15,22 @@
  */
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
-    alias(libs.plugins.ksp)
     alias(libs.plugins.kotlin.cocoapods)
-    alias(libs.plugins.android.library)
     alias(libs.plugins.skie)
+    alias(libs.plugins.android.kotlin.multiplatform.library)
 }
 
 version = "1.0"
 
+@OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
 kotlin {
-    android()
+    androidLibrary {
+        @Suppress("UnstableApiUsage")
+        namespace = "com.google.samples.apps.diceroller.shared"
+        @Suppress("UnstableApiUsage")
+        compileSdk = 34
+    }
+
     iosX64()
     iosArm64()
     iosSimulatorArm64()
@@ -39,66 +45,23 @@ kotlin {
         }
     }
 
-    android {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "1.8"
-            }
-        }
-    }
-
     sourceSets.all {
         languageSettings.optIn("kotlin.experimental.ExperimentalObjCName")
     }
 
     sourceSets {
-        val commonMain by getting {
+        commonMain {
             dependencies {
                 api(libs.androidx.datastore.preferences.core)
                 api(libs.androidx.datastore.core.okio)
+                implementation(libs.kotlinx.atomicfu)
             }
         }
-        val commonTest by getting {
+        commonTest {
             dependencies {
                 implementation(libs.kotlin.test)
             }
         }
-        val androidMain by getting
-        val androidUnitTest by getting
-        val iosX64Main by getting
-        val iosArm64Main by getting
-        val iosSimulatorArm64Main by getting
-        val iosMain by creating {
-            dependsOn(commonMain)
-            iosX64Main.dependsOn(this)
-            iosArm64Main.dependsOn(this)
-            iosSimulatorArm64Main.dependsOn(this)
-        }
-        val iosX64Test by getting
-        val iosArm64Test by getting
-        val iosSimulatorArm64Test by getting
-        val iosTest by creating {
-            dependsOn(commonTest)
-            iosX64Test.dependsOn(this)
-            iosArm64Test.dependsOn(this)
-            iosSimulatorArm64Test.dependsOn(this)
-        }
     }
 
-}
-
-android {
-    compileSdk = 33
-    namespace = "com.google.samples.apps.diceroller.shared"
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-    buildFeatures {
-        buildConfig = false
-    }
-    defaultConfig {
-        minSdk = 26
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
 }
