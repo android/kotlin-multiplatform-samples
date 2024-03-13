@@ -24,8 +24,6 @@ version = "1.0"
 
 @OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
 kotlin {
-    targetHierarchy.default()
-
     androidLibrary {
         @Suppress("UnstableApiUsage")
         namespace = "com.google.samples.apps.diceroller.shared"
