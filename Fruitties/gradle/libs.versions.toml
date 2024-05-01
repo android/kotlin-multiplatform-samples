@@ -1,0 +1,67 @@
+[versions]
+agp = "8.4.0"
+androidx-activityCompose = "1.8.2"
+androidx-paging = "3.3.0-rc01"
+androidx-room = "2.7.0-alpha01"
+androidx-viewmodelCompose = "2.7.0"
+atomicfu = "0.23.1"
+compose = "1.6.5"
+compose-compiler = "1.5.11"
+compose-material3 = "1.2.1"
+compose-plugin = "1.6.0"
+dataStoreVersion = "1.1.1"
+kotlin = "1.9.23"
+kotlinx-coroutines = "1.8.0"
+kotlinxDatetime = "0.6.0-RC.2"
+ksp = "1.9.23-1.0.19"
+ktorVersion = "2.3.8"
+material3Android = "1.2.1"
+pagingComposeAndroid = "3.3.0-beta01"
+roomKtx = "2.6.1"
+skie = "0.6.2"
+sqlite = "2.5.0-SNAPSHOT"
+spotless = "6.19.0"
+
+[libraries]
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
+androidx-datastore-core-okio = { group = "androidx.datastore", name = "datastore-core-okio", version.ref = "dataStoreVersion" }
+androidx-datastore-preferences-core = { group = "androidx.datastore", name = "datastore-preferences-core", version.ref = "dataStoreVersion" }
+androidx-paging-common = { module = "androidx.paging:paging-common", version.ref = "androidx-paging" }
+androidx-paging-compose-android = { group = "androidx.paging", name = "paging-compose-android", version.ref = "pagingComposeAndroid" }
+androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "androidx-room" }
+androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "androidx-room" }
+androidx-room-paging = { group = "androidx.room", name = "room-paging", version.ref = "androidx-room" }
+androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "androidx-room" }
+androidx-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidx-viewmodelCompose" }
+compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose" }
+compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
+compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
+compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
+compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+kotlinx-atomicfu = { module = "org.jetbrains.kotlinx:atomicfu", version.ref = "atomicfu" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-core-iosarm64 = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core-iossimulatorarm64", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-core-iossimulatorarm64 = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core-iossimulatorarm64", version.ref = "kotlinx-coroutines" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
+ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "ktorVersion" }
+ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktorVersion" }
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktorVersion" }
+ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktorVersion" }
+ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktorVersion" }
+ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktorVersion" }
+okio = "com.squareup.okio:okio:3.9.0"
+skie-annotations = { module = "co.touchlab.skie:configuration-annotations", version.ref = "skie" }
+sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite" }
+
+[plugins]
+androidApplication = { id = "com.android.application", version.ref = "agp" }
+androidLibrary = { id = "com.android.library", version.ref = "agp" }
+kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlinCocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
+kotlinxSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+skie = { id = "co.touchlab.skie", version.ref = "skie" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+room = { id = "androidx.room", version.ref = "androidx-room" }
+spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
