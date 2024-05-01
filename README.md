@@ -4,6 +4,10 @@
 
 DiceRoller is a sample app using the Kotlin Multiplatform DataStore library to store and observe preferences.
 
+## [Fruitties](./Fruitties)
+
+Fruitties is a sample app using the Kotlin Multiplatform Room, DataStore and Ktor libraries to fetch, store and display data.
+
 ## License
 
 ```
