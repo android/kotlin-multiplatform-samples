@@ -19,7 +19,6 @@ plugins {
     alias(libs.plugins.kotlinxSerialization)
     alias(libs.plugins.skie)
     alias(libs.plugins.ksp)
-    alias(libs.plugins.room)
 }
 
 kotlin {
@@ -46,7 +45,6 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             // put your multiplatform dependencies here
-            implementation(project(":model"))
             implementation(libs.kotlinx.datetime)
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.ktor.client.core)
@@ -75,7 +73,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.example.fruitties"
+    namespace = "com.example.fruitties.model"
     compileSdk = 34
     defaultConfig {
         minSdk = 26
@@ -84,15 +82,4 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
-}
-
-dependencies {
-    add("kspAndroid", libs.androidx.room.compiler)
-    add("kspIosSimulatorArm64", libs.androidx.room.compiler)
-    add("kspIosX64", libs.androidx.room.compiler)
-    add("kspIosArm64", libs.androidx.room.compiler)
-}
-
-room {
-    schemaDirectory("$projectDir/schemas")
 }

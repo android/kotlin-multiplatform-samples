@@ -32,3 +32,4 @@ dependencyResolutionManagement {
 rootProject.name = "Fruitties"
 include(":androidApp")
 include(":shared")
+include(":model")
