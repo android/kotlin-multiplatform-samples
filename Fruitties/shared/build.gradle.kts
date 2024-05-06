@@ -61,7 +61,7 @@ kotlin {
             implementation(libs.okio)
         }
         commonTest.dependencies {
-            implementation(libs.kotlin.test)
+            
         }
         androidMain.dependencies {
             implementation(libs.ktor.client.okhttp)
