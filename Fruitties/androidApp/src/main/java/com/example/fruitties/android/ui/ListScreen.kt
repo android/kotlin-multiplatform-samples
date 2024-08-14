@@ -21,12 +21,12 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
@@ -100,7 +100,7 @@ fun ListScreen(viewModel: MainViewModel = viewModel(factory = MainViewModel.Fact
                 enter = fadeIn(animationSpec = tween(1000)),
                 exit = fadeOut(animationSpec = tween(1000))
             ) {
-                CardDetailsView(cartState.itemList)
+                CartDetailsView(cartState.itemList)
             }
 
             LazyColumn {
@@ -133,19 +133,25 @@ fun FruittieItem(
             defaultElevation = 8.dp,
         ),
     ) {
-        Column {
-            Text(
-                text = item.name,
-                color = MaterialTheme.colorScheme.onBackground,
-                style = MaterialTheme.typography.titleMedium,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-                    .padding(top = 8.dp),
-            )
-            Row {
+                    .heightIn(min = 96.dp),
+                verticalArrangement = Arrangement.Center,
+            ) {
+                Text(
+                    text = item.name,
+                    color = MaterialTheme.colorScheme.onBackground,
+                    style = MaterialTheme.typography.titleMedium,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .padding(top = 8.dp),
+                )
                 Text(
                     text = item.fullName,
                     modifier = Modifier
@@ -155,22 +161,15 @@ fun FruittieItem(
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
                 )
-                Spacer(modifier = Modifier.padding(vertical = 4.dp))
-                Box(
-                    modifier = Modifier
-                        .height(50.dp)
-                        .fillMaxWidth(),
-                ) {
-                    Row(
-                        modifier = Modifier
-                            .padding(horizontal = 16.dp, vertical = 8.dp)
-                            .align(Alignment.TopEnd),
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        Button(onClick = { onAddToCart(item) }) {
-                            Text(stringResource(R.string.add))
-                        }
-                    }
+            }
+            Spacer(modifier = Modifier.weight(1f))
+            Row(
+                modifier = Modifier
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Button(onClick = { onAddToCart(item) }) {
+                    Text(stringResource(R.string.add))
                 }
             }
         }
@@ -178,10 +177,10 @@ fun FruittieItem(
 }
 
 @Composable
-fun CardDetailsView(cart: List<CartItemDetails>, modifier: Modifier = Modifier) {
+fun CartDetailsView(cart: List<CartItemDetails>, modifier: Modifier = Modifier) {
     Column (
         modifier.padding(horizontal = 32.dp)
-    ){
+    ) {
         cart.forEach { item ->
             Text(text = "${item.fruittie.name} : ${item.count}")
         }
