@@ -1,24 +1,34 @@
+# Copyright 2024 The Android Open Source Project
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     https://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 [versions]
-agp = "8.2.0"
-androidx-activityCompose = "1.8.2"
-androidx-paging = "3.3.0-rc01"
-androidx-room = "2.7.0-alpha01"
-androidx-viewmodelCompose = "2.7.0"
+agp = "8.5.2"
+androidx-activityCompose = "1.9.1"
+androidx-paging = "3.3.2"
+androidx-room = "2.7.0-alpha06"
+androidx-viewmodelCompose = "2.8.4"
 atomicfu = "0.23.1"
-compose = "1.6.5"
-compose-compiler = "1.5.11"
+compose = "1.6.8"
 compose-material3 = "1.2.1"
-compose-plugin = "1.6.0"
 dataStoreVersion = "1.1.1"
-kotlin = "1.9.23"
+kotlin = "2.0.0"
 kotlinx-coroutines = "1.8.0"
 kotlinxDatetime = "0.6.0-RC.2"
-ksp = "1.9.23-1.0.19"
+ksp = "2.0.10-1.0.24"
 ktorVersion = "2.3.8"
-material3Android = "1.2.1"
-pagingComposeAndroid = "3.3.0-beta01"
-roomKtx = "2.6.1"
-skie = "0.6.2"
+pagingComposeAndroid = "3.3.2"
+skie = "0.8.4"
 sqlite = "2.5.0-SNAPSHOT"
 spotless = "6.19.0"
 
@@ -61,6 +71,8 @@ kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlinCocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
 kotlinxSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 skie = { id = "co.touchlab.skie", version.ref = "skie" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 room = { id = "androidx.room", version.ref = "androidx-room" }
