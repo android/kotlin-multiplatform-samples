@@ -51,14 +51,6 @@ android {
     }
 }
 
-composeCompiler {
-    enableStrongSkippingMode = true
-
-    reportsDestination = layout.buildDirectory.dir("compose_compiler")
-    // Requires stability_config.conf to exist (empty file is ok as placeholder)
-    stabilityConfigurationFile = rootProject.layout.projectDirectory.file("stability_config.conf")
-}
-
 dependencies {
     implementation(projects.shared)
     implementation(libs.compose.ui)
