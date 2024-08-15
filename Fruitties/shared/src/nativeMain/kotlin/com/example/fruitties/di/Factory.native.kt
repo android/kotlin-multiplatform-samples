@@ -20,7 +20,6 @@ import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import com.example.fruitties.database.AppDatabase
 import com.example.fruitties.database.CartDataStore
 import com.example.fruitties.database.dbFileName
-import com.example.fruitties.database.instantiateImpl
 import com.example.fruitties.network.FruittieApi
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.coroutines.Dispatchers
@@ -35,8 +34,8 @@ actual class Factory {
         val dbFile = "${fileDirectory()}/$dbFileName"
         return Room.databaseBuilder<AppDatabase>(
             name = dbFile,
-            factory =  { AppDatabase::class.instantiateImpl() }
-        ).setDriver(BundledSQLiteDriver())
+        )
+            .setDriver(BundledSQLiteDriver())
             .setQueryCoroutineContext(Dispatchers.IO)
             .build()
     }

@@ -15,13 +15,18 @@
  */
 package com.example.fruitties.database
 
+import androidx.room.ConstructedBy
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import androidx.room.RoomDatabaseConstructor
 import com.example.fruitties.model.Fruittie
 
 @Database(entities = [Fruittie::class], version = 1)
+@ConstructedBy(AppDatabaseConstructor::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun fruittieDao(): FruittieDao
 }
+
+expect object AppDatabaseConstructor : RoomDatabaseConstructor<AppDatabase>
 
 internal const val dbFileName = "fruits.db"

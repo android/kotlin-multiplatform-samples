@@ -27,7 +27,10 @@ import kotlinx.coroutines.Dispatchers
 actual class Factory(private val app: Application) {
     actual fun createRoomDatabase(): AppDatabase {
         val dbFile = app.getDatabasePath(dbFileName)
-        return Room.databaseBuilder<AppDatabase>(app, dbFile.absolutePath)
+        return Room.databaseBuilder<AppDatabase>(
+            context = app,
+            name = dbFile.absolutePath,
+        )
             .setDriver(BundledSQLiteDriver())
             .setQueryCoroutineContext(Dispatchers.IO)
             .build()
