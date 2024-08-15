@@ -29,7 +29,7 @@ ksp = "2.0.10-1.0.24"
 ktorVersion = "2.3.8"
 pagingComposeAndroid = "3.3.2"
 skie = "0.8.4"
-sqlite = "2.5.0-SNAPSHOT"
+sqlite = "2.5.0-alpha06"
 spotless = "6.19.0"
 
 [libraries]
