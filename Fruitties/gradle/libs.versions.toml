@@ -17,7 +17,7 @@ agp = "8.5.2"
 androidx-activityCompose = "1.9.1"
 androidx-paging = "3.3.2"
 androidx-room = "2.7.0-alpha06"
-androidx-viewmodelCompose = "2.8.4"
+androidx-lifecycle = "2.8.4"
 atomicfu = "0.23.1"
 compose = "1.6.8"
 compose-material3 = "1.2.1"
@@ -41,8 +41,8 @@ androidx-paging-compose-android = { group = "androidx.paging", name = "paging-co
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "androidx-room" }
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "androidx-room" }
 androidx-room-paging = { group = "androidx.room", name = "room-paging", version.ref = "androidx-room" }
-androidx-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidx-viewmodelCompose" }
-compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose" }
+androidx-lifecycle-common = { module = "androidx.lifecycle:lifecycle-common", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidx-lifecycle" }
 compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
 compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
