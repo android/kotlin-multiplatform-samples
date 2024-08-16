@@ -1,3 +1,6 @@
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 /*
  * Copyright 2024 The Android Open Source Project
  *
@@ -23,11 +26,11 @@ plugins {
 }
 
 kotlin {
-    androidTarget {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "1.8"
-            }
+    @OptIn(ExperimentalKotlinGradlePluginApi::class)
+    compilerOptions {
+        androidTarget {
+            // compilerOptions DSL: https://kotl.in/u1r8ln
+            compilerOptions.jvmTarget.set(JvmTarget.JVM_1_8)
         }
     }
     listOf(
@@ -61,7 +64,7 @@ kotlin {
             implementation(libs.okio)
         }
         commonTest.dependencies {
-            
+
         }
         androidMain.dependencies {
             implementation(libs.ktor.client.okhttp)

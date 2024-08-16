@@ -15,11 +15,12 @@
  */
 plugins {
     //trick: for the same plugin versions in all sub-modules
-    alias(libs.plugins.androidApplication).apply(false)
-    alias(libs.plugins.androidLibrary).apply(false)
-    alias(libs.plugins.kotlinAndroid).apply(false)
-    alias(libs.plugins.kotlinMultiplatform).apply(false)
-    alias(libs.plugins.spotless).apply(false)
+    alias(libs.plugins.androidApplication) apply false
+    alias(libs.plugins.androidLibrary) apply false
+    alias(libs.plugins.kotlinAndroid) apply false
+    alias(libs.plugins.kotlinMultiplatform) apply false
+    alias(libs.plugins.compose.compiler) apply false
+    alias(libs.plugins.spotless) apply false
 }
 
 subprojects {
@@ -27,7 +28,7 @@ subprojects {
     configure<com.diffplug.gradle.spotless.SpotlessExtension> {
         kotlin {
             target("**/*.kt")
-            targetExclude("$buildDir/**/*.kt")
+            targetExclude("${layout.buildDirectory}/**/*.kt")
 
             ktlint()
             //licenseHeaderFile(rootProject.file("spotless/copyright.kt"))
