@@ -27,7 +27,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun fruittieDao(): FruittieDao
 }
 
-// The Room compiler will generate the `actual` implementations.
+// The Room compiler generates the `actual` implementations.
 @Suppress("NO_ACTUAL_FOR_EXPECT")
 expect object AppDatabaseConstructor : RoomDatabaseConstructor<AppDatabase>
 
