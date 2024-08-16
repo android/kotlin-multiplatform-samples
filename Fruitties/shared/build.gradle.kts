@@ -56,6 +56,7 @@ kotlin {
             implementation(libs.ktor.serialization.kotlinx.json)
             implementation(libs.skie.annotations)
             implementation(libs.androidx.lifecycle.common)
+            implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.paging.common)
             implementation(libs.androidx.room.runtime)
             implementation(libs.sqlite.bundled)

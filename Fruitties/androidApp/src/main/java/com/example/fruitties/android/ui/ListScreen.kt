@@ -56,6 +56,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.fruitties.android.R
 import com.example.fruitties.database.CartItemDetails
 import com.example.fruitties.model.Fruittie
+import com.example.fruitties.viewmodel.MainViewModel
 
 @Composable
 fun ListScreen(viewModel: MainViewModel = viewModel(factory = MainViewModel.Factory)) {
