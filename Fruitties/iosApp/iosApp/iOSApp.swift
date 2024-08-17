@@ -19,6 +19,7 @@ import shared
 @main
 struct iOSApp: App {
     let appContainer = AppContainer(factory: Factory())
+    let a = APP_CONTAINER_INSTANCE
     var body: some Scene {
         WindowGroup {
             ContentView(appContainer: appContainer)
