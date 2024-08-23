@@ -71,7 +71,7 @@ fun ListScreen() {
     val app = LocalContext.current.applicationContext as App
     val extras = remember(app) {
         MutableCreationExtras().apply {
-            set(MainViewModel.Companion.AppContainerKey, app.container)
+            set(MainViewModel.APP_CONTAINER_KEY, app.container)
         }
     }
     val viewModel: MainViewModel = viewModel(
