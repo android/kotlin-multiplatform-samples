@@ -29,7 +29,7 @@ ksp = "2.0.10-1.0.24"
 ktorVersion = "2.3.8"
 pagingComposeAndroid = "3.3.2"
 skie = "0.8.4"
-sqlite = "2.5.0-alpha06"
+sqlite = "2.5.0-alpha07"
 spotless = "6.19.0"
 
 [libraries]
@@ -41,7 +41,6 @@ androidx-paging-compose-android = { group = "androidx.paging", name = "paging-co
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "androidx-room" }
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "androidx-room" }
 androidx-room-paging = { group = "androidx.room", name = "room-paging", version.ref = "androidx-room" }
-androidx-lifecycle-common = { module = "androidx.lifecycle:lifecycle-common", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidx-lifecycle" }
 compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }

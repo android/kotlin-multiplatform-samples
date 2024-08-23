@@ -19,7 +19,6 @@ import com.example.fruitties.DataRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
-import kotlin.concurrent.Volatile
 
 class AppContainer(
     private val factory: Factory,
@@ -32,15 +31,4 @@ class AppContainer(
             scope = CoroutineScope(Dispatchers.Default + SupervisorJob()),
         )
     }
-
-    init {
-        // Need a way to access the container from Kotlin Multiplatform module.
-        // Create a global reference to the instantiated object.
-        // This should be created once per Application, so there should only be 1 instance.
-        // TODO(cartland): Check to see if there is a better way to access app global state.
-        APP_CONTAINER_INSTANCE = this
-    }
 }
-
-@Volatile
-var APP_CONTAINER_INSTANCE: AppContainer? = null

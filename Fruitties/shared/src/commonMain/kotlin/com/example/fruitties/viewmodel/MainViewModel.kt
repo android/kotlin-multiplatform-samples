@@ -19,11 +19,12 @@ package com.example.fruitties.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.fruitties.DataRepository
 import com.example.fruitties.database.CartItemDetails
-import com.example.fruitties.di.APP_CONTAINER_INSTANCE
+import com.example.fruitties.di.AppContainer
 import com.example.fruitties.model.Fruittie
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -56,9 +57,14 @@ class MainViewModel(private val repository: DataRepository) : ViewModel() {
     }
 
     companion object {
+
+        object AppContainerKey : CreationExtras.Key<AppContainer>
+
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
-                MainViewModel(repository = APP_CONTAINER_INSTANCE!!.dataRepository)
+                val appContainer = this[AppContainerKey] as AppContainer
+                val repository = appContainer.dataRepository
+                MainViewModel(repository = repository)
             }
         }
     }
