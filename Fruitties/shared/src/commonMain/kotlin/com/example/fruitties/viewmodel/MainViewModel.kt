@@ -58,7 +58,7 @@ class MainViewModel(private val repository: DataRepository) : ViewModel() {
 
     companion object {
 
-        val APP_CONTAINER_KEY = object : CreationExtras.Key<AppContainer> {}
+        val APP_CONTAINER_KEY = CreationExtras.Key<AppContainer>()
 
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
