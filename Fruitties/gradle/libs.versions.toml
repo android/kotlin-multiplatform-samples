@@ -16,10 +16,10 @@
 agp = "8.5.2"
 androidx-activityCompose = "1.9.1"
 androidx-paging = "3.3.2"
-androidx-room = "2.7.0-alpha06"
+androidx-room = "2.7.0-alpha07"
 androidx-lifecycle = "2.9.0-alpha01"
 atomicfu = "0.23.1"
-compose = "1.7.0-beta07"
+compose = "1.7.0-rc01"
 compose-material3 = "1.2.1"
 dataStoreVersion = "1.1.1"
 kotlin = "2.0.10"
@@ -70,7 +70,6 @@ kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlinCocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
 kotlinxSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 skie = { id = "co.touchlab.skie", version.ref = "skie" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
