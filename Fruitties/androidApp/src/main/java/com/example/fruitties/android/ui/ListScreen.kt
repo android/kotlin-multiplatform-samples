@@ -106,19 +106,19 @@ fun ListScreen() {
             modifier = Modifier.padding(it),
         ) {
             var expanded by remember { mutableStateOf(false) }
-            Row (modifier = Modifier.padding(16.dp)) {
+            Row(modifier = Modifier.padding(16.dp)) {
                 Text(
                     text = "Cart has ${cartState.itemList.count()} items",
-                    modifier = Modifier.weight(1f).padding(12.dp)
+                    modifier = Modifier.weight(1f).padding(12.dp),
                 )
-                Button(onClick = { expanded = !expanded } ) {
+                Button(onClick = { expanded = !expanded }) {
                     Text(text = if (expanded) "collapse" else "expand")
                 }
             }
             AnimatedVisibility(
                 visible = expanded,
                 enter = fadeIn(animationSpec = tween(1000)),
-                exit = fadeOut(animationSpec = tween(1000))
+                exit = fadeOut(animationSpec = tween(1000)),
             ) {
                 CartDetailsView(cartState.itemList)
             }
@@ -139,7 +139,7 @@ fun ListScreen() {
 fun FruittieItem(
     item: Fruittie,
     onAddToCart: (fruittie: Fruittie) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Card(
         modifier = modifier
@@ -198,8 +198,8 @@ fun FruittieItem(
 
 @Composable
 fun CartDetailsView(cart: List<CartItemDetails>, modifier: Modifier = Modifier) {
-    Column (
-        modifier.padding(horizontal = 32.dp)
+    Column(
+        modifier.padding(horizontal = 32.dp),
     ) {
         cart.forEach { item ->
             Text(text = "${item.fruittie.name} : ${item.count}")

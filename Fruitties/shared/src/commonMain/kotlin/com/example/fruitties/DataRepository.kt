@@ -22,14 +22,11 @@ import com.example.fruitties.database.CartDetails
 import com.example.fruitties.database.CartItemDetails
 import com.example.fruitties.model.Fruittie
 import com.example.fruitties.network.FruittieApi
-import io.ktor.utils.io.errors.IOException
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.count
 import kotlinx.coroutines.flow.mapLatest
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class DataRepository(
@@ -73,10 +70,8 @@ class DataRepository(
         return database.fruittieDao().getAllAsFlow()
     }
 
-    suspend fun refreshData(){
+    suspend fun refreshData() {
         val response = api.getData()
         database.fruittieDao().insert(response.feed)
     }
-
 }
-

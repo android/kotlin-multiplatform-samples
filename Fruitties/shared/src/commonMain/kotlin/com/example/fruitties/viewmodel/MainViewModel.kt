@@ -39,7 +39,7 @@ class MainViewModel(private val repository: DataRepository) : ViewModel() {
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
-                initialValue = HomeUiState()
+                initialValue = HomeUiState(),
             )
 
     val cartUiState: StateFlow<CartUiState> =
@@ -47,7 +47,7 @@ class MainViewModel(private val repository: DataRepository) : ViewModel() {
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
-                initialValue = CartUiState()
+                initialValue = CartUiState(),
             )
 
     fun addItemToCart(fruittie: Fruittie) {

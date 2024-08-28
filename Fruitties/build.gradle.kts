@@ -31,7 +31,6 @@ subprojects {
             targetExclude("${layout.buildDirectory}/**/*.kt")
 
             ktlint()
-            //licenseHeaderFile(rootProject.file("spotless/copyright.kt"))
         }
 
         kotlinGradle {
