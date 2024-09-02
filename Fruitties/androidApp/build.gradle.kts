@@ -21,7 +21,7 @@ plugins {
 
 android {
     namespace = "com.example.fruitties.android"
-    compileSdk = 34
+    compileSdk = 35
     defaultConfig {
         applicationId = "com.example.fruitties.android"
         minSdk = 26
