@@ -33,17 +33,9 @@ import okio.use
 data class Cart(
     val items: List<CartItem>,
 )
-class CartDetails(
-    val items: List<CartItemDetails>,
-)
-
 @Serializable
 data class CartItem(
     val id: Long,
-    val count: Int,
-)
-data class CartItemDetails(
-    val fruittie: Fruittie,
     val count: Int,
 )
 internal object CartJsonSerializer : OkioSerializer<Cart> {

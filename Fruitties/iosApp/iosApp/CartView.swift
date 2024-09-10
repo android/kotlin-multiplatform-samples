@@ -19,17 +19,17 @@ import SwiftUI
 import shared
 
 struct CartView : View {
-    let cart: [CartItemDetails]
+    let cartDetails: [CartItemDetails]
     let mainViewModel: MainViewModel
     @State
     private var expanded = false
 
     var body: some View {
-        if (cart.isEmpty) {
+        if (cartDetails.isEmpty) {
             Text("Cart is empty, add some items").padding()
         } else {
             HStack {
-                Text("Cart has \(cart.count) items").padding()
+                Text("Item types in cart: \(cartDetails.count)").padding()
                 Spacer()
                 Button {
                     expanded.toggle()
@@ -51,11 +51,11 @@ struct CartView : View {
 struct CartDetailsView: View {
     let mainViewModel: MainViewModel
     @State
-    private var cartUiState: CartUiState = CartUiState(itemList: [])
+    private var cartUiState: CartUiState = CartUiState(cartDetails: [])
 
     var body: some View {
         VStack {
-            ForEach(cartUiState.itemList, id: \.fruittie.id) { item in
+            ForEach(cartUiState.cartDetails, id: \.fruittie.id) { item in
                 Text("\(item.fruittie.name): \(item.count)")
             }
         }.collectWithLifecycle(mainViewModel.cartUiState, binding: $cartUiState)

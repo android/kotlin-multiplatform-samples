@@ -57,7 +57,7 @@ import androidx.lifecycle.viewmodel.MutableCreationExtras
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.fruitties.android.R
 import com.example.fruitties.android.di.App
-import com.example.fruitties.database.CartItemDetails
+import com.example.fruitties.model.CartItemDetails
 import com.example.fruitties.model.Fruittie
 import com.example.fruitties.viewmodel.MainViewModel
 
@@ -79,7 +79,7 @@ fun ListScreen() {
         extras = extras,
     )
 
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.homeUiState.collectAsState()
     val cartState by viewModel.cartUiState.collectAsState()
 
     Scaffold(
@@ -108,7 +108,7 @@ fun ListScreen() {
             var expanded by remember { mutableStateOf(false) }
             Row(modifier = Modifier.padding(16.dp)) {
                 Text(
-                    text = "Cart has ${cartState.itemList.count()} items",
+                    text = "Item types in cart: ${cartState.cartDetails.count()}",
                     modifier = Modifier.weight(1f).padding(12.dp),
                 )
                 Button(onClick = { expanded = !expanded }) {
@@ -120,11 +120,11 @@ fun ListScreen() {
                 enter = fadeIn(animationSpec = tween(1000)),
                 exit = fadeOut(animationSpec = tween(1000)),
             ) {
-                CartDetailsView(cartState.itemList)
+                CartDetailsView(cartState.cartDetails)
             }
 
             LazyColumn {
-                items(items = uiState.itemList, key = { it.id }) { item ->
+                items(items = uiState.fruitties, key = { it.id }) { item ->
                     FruittieItem(
                         item = item,
                         onAddToCart = viewModel::addItemToCart,

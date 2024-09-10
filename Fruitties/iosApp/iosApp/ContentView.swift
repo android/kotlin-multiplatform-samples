@@ -26,7 +26,7 @@ struct ContentView: View {
 
     var body: some View {
         Text("Fruitties").font(.largeTitle).fontWeight(.bold)
-        CartView(cart: uiModel.cart, mainViewModel: uiModel.mainViewModel)
+        CartView(cartDetails: uiModel.cartDetails, mainViewModel: uiModel.mainViewModel)
         ScrollView {
             LazyVStack {
                 ForEach(uiModel.fruitties, id: \.self) { value in
@@ -74,19 +74,19 @@ class UIModel: ObservableObject {
     @Published
     private(set) var fruitties: [Fruittie] = []
     @Published
-    private(set) var cart: [CartItemDetails] = []
+    private(set) var cartDetails: [CartItemDetails] = []
 
     @MainActor
     func observeDatabase() async {
-        for await uiState in mainViewModel.uiState {
-            self.fruitties = uiState.itemList
+        for await homeUiState in mainViewModel.homeUiState {
+            self.fruitties = homeUiState.fruitties
         }
     }
     
     @MainActor
     func watchCart() async {
         for await cartUiState in mainViewModel.cartUiState {
-            self.cart = cartUiState.itemList
+            self.cartDetails = cartUiState.cartDetails
         }
     }
     
