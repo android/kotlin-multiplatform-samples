@@ -20,13 +20,13 @@ import Foundation
 
 struct ContentView: View {
     @ObservedObject var uiModel: UIModel
-    init(appContainer: AppContainer) {
-        self.uiModel = UIModel(dataRepository: appContainer.dataRepository)
+    init(mainViewModel: MainViewModel) {
+        self.uiModel = UIModel(mainViewModel: mainViewModel)
     }
 
     var body: some View {
         Text("Fruitties").font(.largeTitle).fontWeight(.bold)
-        CartView(cart: uiModel.cart, dataRepository: uiModel.dataRepository)
+        CartView(cart: uiModel.cart, mainViewModel: uiModel.mainViewModel)
         ScrollView {
             LazyVStack {
                 ForEach(uiModel.fruitties, id: \.self) { value in
@@ -67,31 +67,31 @@ struct FruittieView: View {
 }
 
 class UIModel: ObservableObject {
-    let dataRepository : DataRepository
-    init(dataRepository: DataRepository) {
-        self.dataRepository = dataRepository
+    let mainViewModel: MainViewModel
+    init(mainViewModel: MainViewModel) {
+        self.mainViewModel = mainViewModel
     }
     @Published
     private(set) var fruitties: [Fruittie] = []
     @Published
-    private(set) var cart: Cart = Cart(items: [])
+    private(set) var cart: [CartItemDetails] = []
 
     @MainActor
     func observeDatabase() async {
-        for await fruitties in dataRepository.getData() {
-            self.fruitties = fruitties
+        for await uiState in mainViewModel.uiState {
+            self.fruitties = uiState.itemList
         }
     }
     
     @MainActor
     func watchCart() async {
-        for await cart in dataRepository.getCart() {
-            self.cart = cart
+        for await cartUiState in mainViewModel.cartUiState {
+            self.cart = cartUiState.itemList
         }
     }
     
     func addToCart(fruittie: Fruittie) async {
-        try? await dataRepository.addToCart(fruittie: fruittie)
+        mainViewModel.addItemToCart(fruittie: fruittie)
     }
 
     @MainActor

@@ -21,7 +21,9 @@ struct iOSApp: App {
     let appContainer = AppContainer(factory: Factory())
     var body: some Scene {
         WindowGroup {
-            ContentView(appContainer: appContainer)
+            // TODO: Find a better owner for the ViewModelStore.
+            let iosViewModelContainer = IOSViewModelContainer(appContainer: appContainer)
+            ContentView(mainViewModel: iosViewModelContainer.mainViewModel)
         }
     }
 }

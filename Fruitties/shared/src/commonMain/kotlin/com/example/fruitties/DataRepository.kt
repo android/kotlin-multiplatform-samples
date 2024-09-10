@@ -16,7 +16,6 @@
 package com.example.fruitties
 
 import com.example.fruitties.database.AppDatabase
-import com.example.fruitties.database.Cart
 import com.example.fruitties.database.CartDataStore
 import com.example.fruitties.database.CartDetails
 import com.example.fruitties.database.CartItemDetails
@@ -25,7 +24,6 @@ import com.example.fruitties.network.FruittieApi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.count
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.launch
 
@@ -51,10 +49,6 @@ class DataRepository(
 
     suspend fun addToCart(fruittie: Fruittie) {
         cartDataStore.add(fruittie)
-    }
-
-    fun getCart(): Flow<Cart> {
-        return cartDataStore.cart
     }
 
     fun getData(): Flow<List<Fruittie>> {
