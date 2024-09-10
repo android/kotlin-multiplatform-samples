@@ -1,11 +1,14 @@
-package com.example.fruitties.di
+package com.example.fruitties.di.viewmodel
 
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStore
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.MutableCreationExtras
+import com.example.fruitties.di.AppContainer
 import com.example.fruitties.viewmodel.MainViewModel
-import com.example.fruitties.viewmodel.viewModel
+import kotlin.reflect.KClass
 
 // TODO: Find a better ViewModelStoreOwner for iOS.
 class IOSViewModelContainer(private val appContainer: AppContainer) : ViewModelStoreOwner {
@@ -28,5 +31,25 @@ class IOSViewModelContainer(private val appContainer: AppContainer) : ViewModelS
     // TODO: Clear the ViewModelStore.
     fun clearViewModelStore() {
         viewModelStore.clear()
+    }
+}
+
+fun <VM : ViewModel> viewModel(
+    modelClass: KClass<VM>,
+    viewModelStoreOwner: ViewModelStoreOwner,
+    key: String? = null,
+    factory: ViewModelProvider.Factory? = null,
+    extras: CreationExtras = CreationExtras.Empty
+): VM {
+    val provider =
+        if (factory != null) {
+            ViewModelProvider.create(viewModelStoreOwner.viewModelStore, factory, extras)
+        } else {
+            ViewModelProvider.create(viewModelStoreOwner)
+        }
+    return if (key != null) {
+        provider[key, modelClass]
+    } else {
+        provider[modelClass]
     }
 }

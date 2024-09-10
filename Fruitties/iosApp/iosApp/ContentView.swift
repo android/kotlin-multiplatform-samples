@@ -77,14 +77,14 @@ class UIModel: ObservableObject {
     private(set) var cartDetails: [CartItemDetails] = []
 
     @MainActor
-    func observeDatabase() async {
+    func observeHomeUiState() async {
         for await homeUiState in mainViewModel.homeUiState {
             self.fruitties = homeUiState.fruitties
         }
     }
     
     @MainActor
-    func watchCart() async {
+    func observeCartUiState() async {
         for await cartUiState in mainViewModel.cartUiState {
             self.cartDetails = cartUiState.cartDetails
         }
@@ -96,8 +96,8 @@ class UIModel: ObservableObject {
 
     @MainActor
     func activate() async {
-        async let db: () = observeDatabase()
-        async let cartUpdate: () = watchCart()
-        await (db, cartUpdate)
+        async let home: () = observeHomeUiState()
+        async let cart: () = observeCartUiState()
+        await (home, cart)
     }
 }
