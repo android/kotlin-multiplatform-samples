@@ -19,7 +19,7 @@ import shared
 import Foundation
 
 struct ContentView: View {
-    @ObservedObject var uiModel: UIModel
+    var uiModel: UIModel
     init(mainViewModel: MainViewModel) {
         self.uiModel = UIModel(mainViewModel: mainViewModel)
     }
@@ -66,14 +66,12 @@ struct FruittieView: View {
     }
 }
 
-class UIModel: ObservableObject {
+@Observable class UIModel {
     let mainViewModel: MainViewModel
     init(mainViewModel: MainViewModel) {
         self.mainViewModel = mainViewModel
     }
-    @Published
     private(set) var fruitties: [Fruittie] = []
-    @Published
     private(set) var cartDetails: [CartItemDetails] = []
 
     @MainActor
