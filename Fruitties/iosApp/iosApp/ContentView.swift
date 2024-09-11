@@ -32,7 +32,7 @@ struct ContentView: View {
                 ForEach(uiModel.fruitties, id: \.self) { value in
                     FruittieView(fruittie: value, addToCart: { fruittie in
                         Task {
-                            await uiModel.addToCart(fruittie: fruittie)
+                            uiModel.addToCart(fruittie: fruittie)
                         }
                     })
                 }
@@ -90,7 +90,7 @@ class UIModel: ObservableObject {
         }
     }
     
-    func addToCart(fruittie: Fruittie) async {
+    func addToCart(fruittie: Fruittie) {
         mainViewModel.addItemToCart(fruittie: fruittie)
     }
 
@@ -98,6 +98,6 @@ class UIModel: ObservableObject {
     func activate() async {
         async let home: () = observeHomeUiState()
         async let cart: () = observeCartUiState()
-        await (home, cart)
+        _ = await (home, cart)
     }
 }
