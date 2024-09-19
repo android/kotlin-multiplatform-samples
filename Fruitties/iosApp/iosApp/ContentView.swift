@@ -19,14 +19,17 @@ import shared
 import Foundation
 
 struct ContentView: View {
-    var uiModel: UIModel
+    private var uiModel: UIModel
+    private var mainViewModel: MainViewModel
+
     init(mainViewModel: MainViewModel) {
+        self.mainViewModel = mainViewModel
         self.uiModel = UIModel(mainViewModel: mainViewModel)
     }
 
     var body: some View {
         Text("Fruitties").font(.largeTitle).fontWeight(.bold)
-        CartView(cartDetails: uiModel.cartDetails, mainViewModel: uiModel.mainViewModel)
+        CartView(cartDetails: uiModel.cartDetails, mainViewModel: mainViewModel)
         ScrollView {
             LazyVStack {
                 ForEach(uiModel.fruitties, id: \.self) { value in
@@ -67,7 +70,7 @@ struct FruittieView: View {
 }
 
 @Observable class UIModel {
-    let mainViewModel: MainViewModel
+    private let mainViewModel: MainViewModel
     init(mainViewModel: MainViewModel) {
         self.mainViewModel = mainViewModel
     }
@@ -80,14 +83,14 @@ struct FruittieView: View {
             self.fruitties = homeUiState.fruitties
         }
     }
-    
+
     @MainActor
     func observeCartUiState() async {
         for await cartUiState in mainViewModel.cartUiState {
             self.cartDetails = cartUiState.cartDetails
         }
     }
-    
+
     func addToCart(fruittie: Fruittie) {
         mainViewModel.addItemToCart(fruittie: fruittie)
     }
