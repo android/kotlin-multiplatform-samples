@@ -78,14 +78,14 @@ struct FruittieView: View {
     private(set) var cartDetails: [CartItemDetails] = []
 
     @MainActor
-    func observeHomeUiState() async {
+    func observeHomeUIState() async {
         for await homeUiState in mainViewModel.homeUiState {
             self.fruitties = homeUiState.fruitties
         }
     }
 
     @MainActor
-    func observeCartUiState() async {
+    func observeCartUIState() async {
         for await cartUiState in mainViewModel.cartUiState {
             self.cartDetails = cartUiState.cartDetails
         }
@@ -97,8 +97,8 @@ struct FruittieView: View {
 
     @MainActor
     func activate() async {
-        async let home: () = observeHomeUiState()
-        async let cart: () = observeCartUiState()
+        async let home: () = observeHomeUIState()
+        async let cart: () = observeCartUIState()
         _ = await (home, cart)
     }
 }

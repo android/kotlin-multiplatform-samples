@@ -29,7 +29,8 @@ struct CartView : View {
             Text("Cart is empty, add some items").padding()
         } else {
             HStack {
-                Text("Item types in cart: \(cartDetails.count)").padding()
+                let total = cartDetails.reduce(0) { $0 + ($1.count) }
+                Text("Cart has \(total) items").padding()
                 Spacer()
                 Button {
                     expanded.toggle()
@@ -51,13 +52,13 @@ struct CartView : View {
 struct CartDetailsView: View {
     let mainViewModel: MainViewModel
     @State
-    private var cartUiState: CartUiState = CartUiState(cartDetails: [])
+    private var cartUIState = CartUiState(cartDetails: [])
 
     var body: some View {
         VStack {
-            ForEach(cartUiState.cartDetails, id: \.fruittie.id) { item in
+            ForEach(cartUIState.cartDetails, id: \.fruittie.id) { item in
                 Text("\(item.fruittie.name): \(item.count)")
             }
-        }.collectWithLifecycle(mainViewModel.cartUiState, binding: $cartUiState)
+        }.collectWithLifecycle(mainViewModel.cartUiState, binding: $cartUIState)
     }
 }

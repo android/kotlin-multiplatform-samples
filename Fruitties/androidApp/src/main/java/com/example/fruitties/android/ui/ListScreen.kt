@@ -107,8 +107,9 @@ fun ListScreen() {
         ) {
             var expanded by remember { mutableStateOf(false) }
             Row(modifier = Modifier.padding(16.dp)) {
+                val total = cartState.cartDetails.sumOf { item -> item.count }
                 Text(
-                    text = "Item types in cart: ${cartState.cartDetails.count()}",
+                    text = "Cart has $total items",
                     modifier = Modifier.weight(1f).padding(12.dp),
                 )
                 Button(onClick = { expanded = !expanded }) {
@@ -202,7 +203,7 @@ fun CartDetailsView(cart: List<CartItemDetails>, modifier: Modifier = Modifier) 
         modifier.padding(horizontal = 32.dp),
     ) {
         cart.forEach { item ->
-            Text(text = "${item.fruittie.name} : ${item.count}")
+            Text(text = "${item.fruittie.name}: ${item.count}")
         }
     }
 }
