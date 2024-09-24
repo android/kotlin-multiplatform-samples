@@ -76,13 +76,6 @@ kotlin {
     }
 }
 
-// https://skie.touchlab.co/features/flows-in-swiftui
-skie {
-    features {
-        enableSwiftUIObservingPreview = true
-    }
-}
-
 android {
     namespace = "com.example.fruitties"
     compileSdk = 34
@@ -104,4 +97,11 @@ dependencies {
 
 room {
     schemaDirectory("$projectDir/schemas")
+}
+
+skie {
+    features {
+        // https://skie.touchlab.co/features/flows-in-swiftui
+        enableSwiftUIObservingPreview = true
+    }
 }

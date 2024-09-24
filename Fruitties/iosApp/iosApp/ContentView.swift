@@ -21,6 +21,9 @@ import Foundation
 struct ContentView: View {
     var mainViewModel: MainViewModel
 
+    // The ViewModel exposes a StateFlow.
+    // We collect() the StateFlow into State, which can be used in SwiftUI.
+    // https://skie.touchlab.co/features/flows-in-swiftui
     @State
     var homeUIState: HomeUiState = HomeUiState(fruitties: [])
 

@@ -21,6 +21,9 @@ import shared
 struct CartView : View {
     let mainViewModel: MainViewModel
 
+    // The ViewModel exposes a StateFlow.
+    // We collect() the StateFlow into State, which can be used in SwiftUI.
+    // https://skie.touchlab.co/features/flows-in-swiftui
     @State
     var cartUIState: CartUiState = CartUiState(cartDetails: [])
 
@@ -59,6 +62,9 @@ struct CartView : View {
 struct CartDetailsView: View {
     let mainViewModel: MainViewModel
 
+    // The ViewModel exposes a StateFlow.
+    // We collect() the StateFlow into State, which can be used in SwiftUI.
+    // https://skie.touchlab.co/features/flows-in-swiftui
     @State
     var cartUIState: CartUiState = CartUiState(cartDetails: [])
 
