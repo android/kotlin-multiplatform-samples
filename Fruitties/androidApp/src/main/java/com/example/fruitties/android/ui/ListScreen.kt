@@ -53,7 +53,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.MutableCreationExtras
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.fruitties.android.R
 import com.example.fruitties.android.di.App
@@ -70,9 +69,7 @@ fun ListScreen() {
     // so it can be passed to the ViewModel factory.
     val app = LocalContext.current.applicationContext as App
     val extras = remember(app) {
-        MutableCreationExtras().apply {
-            set(MainViewModel.APP_CONTAINER_KEY, app.container)
-        }
+        MainViewModel.newCreationExtras(app.container)
     }
     val viewModel: MainViewModel = viewModel(
         factory = MainViewModel.Factory,

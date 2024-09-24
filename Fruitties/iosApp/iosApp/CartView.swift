@@ -19,46 +19,56 @@ import SwiftUI
 import shared
 
 struct CartView : View {
-    let cartDetails: [CartItemDetails]
     let mainViewModel: MainViewModel
+
+    @State
+    var cartUIState: CartUiState = CartUiState(cartDetails: [])
+
     @State
     private var expanded = false
 
     var body: some View {
-        if (cartDetails.isEmpty) {
-            Text("Cart is empty, add some items").padding()
-        } else {
-            HStack {
-                let total = cartDetails.reduce(0) { $0 + ($1.count) }
-                Text("Cart has \(total) items").padding()
-                Spacer()
-                Button {
-                    expanded.toggle()
-                } label: {
-                    if (expanded) {
-                        Text("collapse")
-                    } else {
-                        Text("expand")
-                    }
-                }.padding()
-            }
-            if (expanded) {
-                CartDetailsView(mainViewModel: mainViewModel)
+        VStack {
+            if (cartUIState.cartDetails.isEmpty) {
+                Text("Cart is empty, add some items").padding()
+            } else {
+                HStack {
+                    let total = cartUIState.cartDetails.reduce(0) { $0 + ($1.count) }
+                    Text("Cart has \(total) items").padding()
+                    Spacer()
+                    Button {
+                        expanded.toggle()
+                    } label: {
+                        if (expanded) {
+                            Text("collapse")
+                        } else {
+                            Text("expand")
+                        }
+                    }.padding()
+                }
+                if (expanded) {
+                    CartDetailsView(mainViewModel: mainViewModel)
+                }
             }
         }
+        // https://skie.touchlab.co/features/flows-in-swiftui
+        .collect(flow: self.mainViewModel.cartUiState, into: $cartUIState)
     }
 }
 
 struct CartDetailsView: View {
     let mainViewModel: MainViewModel
+
     @State
-    private var cartUIState = CartUiState(cartDetails: [])
+    var cartUIState: CartUiState = CartUiState(cartDetails: [])
 
     var body: some View {
         VStack {
             ForEach(cartUIState.cartDetails, id: \.fruittie.id) { item in
                 Text("\(item.fruittie.name): \(item.count)")
             }
-        }.collectWithLifecycle(mainViewModel.cartUiState, binding: $cartUIState)
+        }
+        // https://skie.touchlab.co/features/flows-in-swiftui
+        .collect(flow: mainViewModel.cartUiState, into: $cartUIState)
     }
 }

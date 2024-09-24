@@ -19,29 +19,26 @@ import shared
 import Foundation
 
 struct ContentView: View {
-    private var uiModel: UIModel
-    private var mainViewModel: MainViewModel
+    var mainViewModel: MainViewModel
 
-    init(mainViewModel: MainViewModel) {
-        self.mainViewModel = mainViewModel
-        self.uiModel = UIModel(mainViewModel: mainViewModel)
-    }
+    @State
+    var homeUIState: HomeUiState = HomeUiState(fruitties: [])
 
     var body: some View {
         Text("Fruitties").font(.largeTitle).fontWeight(.bold)
-        CartView(cartDetails: uiModel.cartDetails, mainViewModel: mainViewModel)
+        CartView(mainViewModel: mainViewModel)
         ScrollView {
             LazyVStack {
-                ForEach(uiModel.fruitties, id: \.self) { value in
+                ForEach(homeUIState.fruitties, id: \.self) { value in
                     FruittieView(fruittie: value, addToCart: { fruittie in
                         Task {
-                            uiModel.addToCart(fruittie: fruittie)
+                            self.mainViewModel.addItemToCart(fruittie: fruittie)
                         }
                     })
                 }
             }
-        }.task {
-            await uiModel.activate()
+            // https://skie.touchlab.co/features/flows-in-swiftui
+            .collect(flow: self.mainViewModel.homeUiState, into: $homeUIState)
         }
     }
 }
@@ -66,39 +63,5 @@ struct FruittieView: View {
                 }).padding().frame(maxWidth: .infinity, alignment: .trailing)
             }.padding([.leading, .trailing])
         }
-    }
-}
-
-@Observable class UIModel {
-    private let mainViewModel: MainViewModel
-    init(mainViewModel: MainViewModel) {
-        self.mainViewModel = mainViewModel
-    }
-    private(set) var fruitties: [Fruittie] = []
-    private(set) var cartDetails: [CartItemDetails] = []
-
-    @MainActor
-    func observeHomeUIState() async {
-        for await homeUiState in mainViewModel.homeUiState {
-            self.fruitties = homeUiState.fruitties
-        }
-    }
-
-    @MainActor
-    func observeCartUIState() async {
-        for await cartUiState in mainViewModel.cartUiState {
-            self.cartDetails = cartUiState.cartDetails
-        }
-    }
-
-    func addToCart(fruittie: Fruittie) {
-        mainViewModel.addItemToCart(fruittie: fruittie)
-    }
-
-    @MainActor
-    func activate() async {
-        async let home: () = observeHomeUIState()
-        async let cart: () = observeCartUIState()
-        _ = await (home, cart)
     }
 }
