@@ -32,26 +32,22 @@ struct CartView : View {
 
     var body: some View {
         VStack {
-            if (cartUIState.cartDetails.isEmpty) {
-                Text("Cart is empty, add some items").padding()
-            } else {
-                HStack {
-                    let total = cartUIState.cartDetails.reduce(0) { $0 + ($1.count) }
-                    Text("Cart has \(total) items").padding()
-                    Spacer()
-                    Button {
-                        expanded.toggle()
-                    } label: {
-                        if (expanded) {
-                            Text("collapse")
-                        } else {
-                            Text("expand")
-                        }
-                    }.padding()
-                }
-                if (expanded) {
-                    CartDetailsView(mainViewModel: mainViewModel)
-                }
+            HStack {
+                let total = cartUIState.cartDetails.reduce(0) { $0 + ($1.count) }
+                Text("Cart has \(total) items").padding()
+                Spacer()
+                Button {
+                    expanded.toggle()
+                } label: {
+                    if (expanded) {
+                        Text("collapse")
+                    } else {
+                        Text("expand")
+                    }
+                }.padding()
+            }
+            if (expanded) {
+                CartDetailsView(mainViewModel: mainViewModel)
             }
         }
         // https://skie.touchlab.co/features/flows-in-swiftui

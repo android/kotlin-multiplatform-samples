@@ -23,7 +23,6 @@ import kotlinx.coroutines.SupervisorJob
 class AppContainer(
     private val factory: Factory,
 ) {
-
     val dataRepository: DataRepository by lazy {
         DataRepository(
             api = factory.createApi(),
