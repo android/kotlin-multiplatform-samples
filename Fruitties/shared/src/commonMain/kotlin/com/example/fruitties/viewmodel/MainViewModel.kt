@@ -69,7 +69,17 @@ class MainViewModel(private val repository: DataRepository) : ViewModel() {
             }
         }
 
-        // Helper function to prepare CreationExtras.
+        /**
+         * Helper function to prepare CreationExtras.
+         *
+         * USAGE:
+         *
+         * val mainViewModel: MainViewModel = ViewModelProvider.create(
+         *  owner = this as ViewModelStoreOwner,
+         *  factory = MainViewModel.Factory,
+         *  extras = MainViewModel.newCreationExtras(appContainer),
+         * )[MainViewModel::class]
+         */
         fun newCreationExtras(appContainer: AppContainer): CreationExtras =
             MutableCreationExtras().apply {
                 set(APP_CONTAINER_KEY, appContainer)
@@ -78,12 +88,12 @@ class MainViewModel(private val repository: DataRepository) : ViewModel() {
 }
 
 /**
- * Ui State for ListScreen
+ * Ui State for the home screen
  */
 data class HomeUiState(val fruitties: List<Fruittie> = listOf())
 
 /**
- * Ui State for Cart
+ * Ui State for the cart
  */
 data class CartUiState(val cartDetails: List<CartItemDetails> = listOf())
 
