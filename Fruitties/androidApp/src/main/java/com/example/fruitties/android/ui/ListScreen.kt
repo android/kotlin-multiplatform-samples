@@ -108,7 +108,10 @@ fun ListScreen() {
         },
     ) { paddingValues ->
         Column(
-            modifier = Modifier.padding(top = paddingValues.calculateTopPadding()),
+            modifier = Modifier
+                // Support edge-to-edge (required on Android 15)
+                // https://developer.android.com/develop/ui/compose/layouts/insets#inset-size
+                .padding(top = paddingValues.calculateTopPadding()),
         ) {
             var expanded by remember { mutableStateOf(false) }
             Row(modifier = Modifier.padding(16.dp)) {
@@ -136,6 +139,8 @@ fun ListScreen() {
                         onAddToCart = viewModel::addItemToCart,
                     )
                 }
+                // Support edge-to-edge (required on Android 15)
+                // https://developer.android.com/develop/ui/compose/layouts/insets#inset-size
                 item {
                     Spacer(
                         Modifier.windowInsetsBottomHeight(
