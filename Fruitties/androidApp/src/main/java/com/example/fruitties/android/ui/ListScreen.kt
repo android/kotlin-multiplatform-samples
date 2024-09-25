@@ -108,7 +108,7 @@ fun ListScreen() {
         },
     ) { paddingValues ->
         Column(
-            modifier = Modifier.padding(top =  paddingValues.calculateTopPadding()),
+            modifier = Modifier.padding(top = paddingValues.calculateTopPadding()),
         ) {
             var expanded by remember { mutableStateOf(false) }
             Row(modifier = Modifier.padding(16.dp)) {

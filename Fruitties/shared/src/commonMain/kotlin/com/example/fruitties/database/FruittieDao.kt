@@ -30,7 +30,7 @@ interface FruittieDao {
     suspend fun insert(fruittie: Fruittie)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(fruggie: List<Fruittie>)
+    suspend fun insert(fruitties: List<Fruittie>)
 
     @Query("SELECT * FROM Fruittie")
     fun getAllAsFlow(): Flow<List<Fruittie>>
