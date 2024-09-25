@@ -25,9 +25,14 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeContent
+import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.windowInsetsBottomHeight
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -90,17 +95,19 @@ fun ListScreen() {
             ) {
                 Text(
                     text = stringResource(R.string.frutties),
+                    style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onPrimary,
                     modifier = Modifier
-                        .padding(vertical = 16.dp, horizontal = 16.dp)
+                        .padding(top = 16.dp)
+                        .windowInsetsPadding(WindowInsets.safeContent)
                         .weight(1.0f),
                     textAlign = TextAlign.Center,
                 )
             }
         },
-    ) {
+    ) { paddingValues ->
         Column(
-            modifier = Modifier.padding(it),
+            modifier = Modifier.padding(top =  paddingValues.calculateTopPadding()),
         ) {
             var expanded by remember { mutableStateOf(false) }
             Row(modifier = Modifier.padding(16.dp)) {
@@ -126,6 +133,13 @@ fun ListScreen() {
                     FruittieItem(
                         item = item,
                         onAddToCart = viewModel::addItemToCart,
+                    )
+                }
+                item {
+                    Spacer(
+                        Modifier.windowInsetsBottomHeight(
+                            WindowInsets.systemBars
+                        )
                     )
                 }
             }
