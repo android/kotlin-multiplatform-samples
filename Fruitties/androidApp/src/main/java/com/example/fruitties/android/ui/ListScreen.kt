@@ -74,7 +74,8 @@ fun ListScreen() {
     // so it can be passed to the ViewModel factory.
     val app = LocalContext.current.applicationContext as App
     val extras = remember(app) {
-        MainViewModel.newCreationExtras(app.container)
+        val container = app.container
+        MainViewModel.newCreationExtras(container)
     }
     val viewModel: MainViewModel = viewModel(
         factory = MainViewModel.Factory,
