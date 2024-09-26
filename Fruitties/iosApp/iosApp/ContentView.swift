@@ -19,26 +19,29 @@ import shared
 import Foundation
 
 struct ContentView: View {
-    @ObservedObject var uiModel: UIModel
-    init(appContainer: AppContainer) {
-        self.uiModel = UIModel(dataRepository: appContainer.dataRepository)
-    }
+    var mainViewModel: MainViewModel
+
+    // The ViewModel exposes a StateFlow.
+    // We collect() the StateFlow into State, which can be used in SwiftUI.
+    // https://skie.touchlab.co/features/flows-in-swiftui
+    @State
+    var homeUIState: HomeUiState = HomeUiState(fruitties: [])
 
     var body: some View {
         Text("Fruitties").font(.largeTitle).fontWeight(.bold)
-        CartView(cart: uiModel.cart, dataRepository: uiModel.dataRepository)
+        CartView(mainViewModel: mainViewModel)
         ScrollView {
             LazyVStack {
-                ForEach(uiModel.fruitties, id: \.self) { value in
+                ForEach(homeUIState.fruitties, id: \.self) { value in
                     FruittieView(fruittie: value, addToCart: { fruittie in
                         Task {
-                            await uiModel.addToCart(fruittie: fruittie)
+                            self.mainViewModel.addItemToCart(fruittie: fruittie)
                         }
                     })
                 }
             }
-        }.task {
-            await uiModel.activate()
+            // https://skie.touchlab.co/features/flows-in-swiftui
+            .collect(flow: self.mainViewModel.homeUiState, into: $homeUIState)
         }
     }
 }
@@ -63,41 +66,5 @@ struct FruittieView: View {
                 }).padding().frame(maxWidth: .infinity, alignment: .trailing)
             }.padding([.leading, .trailing])
         }
-    }
-}
-
-class UIModel: ObservableObject {
-    let dataRepository : DataRepository
-    init(dataRepository: DataRepository) {
-        self.dataRepository = dataRepository
-    }
-    @Published
-    private(set) var fruitties: [Fruittie] = []
-    @Published
-    private(set) var cart: Cart = Cart(items: [])
-
-    @MainActor
-    func observeDatabase() async {
-        for await fruitties in dataRepository.getData() {
-            self.fruitties = fruitties
-        }
-    }
-    
-    @MainActor
-    func watchCart() async {
-        for await cart in dataRepository.getCart() {
-            self.cart = cart
-        }
-    }
-    
-    func addToCart(fruittie: Fruittie) async {
-        try? await dataRepository.addToCart(fruittie: fruittie)
-    }
-
-    @MainActor
-    func activate() async {
-        async let db: () = observeDatabase()
-        async let cartUpdate: () = watchCart()
-        await (db, cartUpdate)
     }
 }

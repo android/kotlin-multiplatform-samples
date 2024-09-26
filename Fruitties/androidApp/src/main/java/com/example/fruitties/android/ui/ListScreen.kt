@@ -20,24 +20,31 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -49,18 +56,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.MutableCreationExtras
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.fruitties.android.R
 import com.example.fruitties.android.di.App
-import com.example.fruitties.database.CartItemDetails
+import com.example.fruitties.model.CartItemDetails
 import com.example.fruitties.model.Fruittie
 import com.example.fruitties.viewmodel.MainViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ListScreen() {
     // Instantiate a ViewModel with a dependency on the AppContainer.
@@ -70,45 +76,49 @@ fun ListScreen() {
     // so it can be passed to the ViewModel factory.
     val app = LocalContext.current.applicationContext as App
     val extras = remember(app) {
-        MutableCreationExtras().apply {
-            set(MainViewModel.APP_CONTAINER_KEY, app.container)
-        }
+        val container = app.container
+        MainViewModel.newCreationExtras(container)
     }
     val viewModel: MainViewModel = viewModel(
         factory = MainViewModel.Factory,
         extras = extras,
     )
 
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.homeUiState.collectAsState()
     val cartState by viewModel.cartUiState.collectAsState()
 
     Scaffold(
         topBar = {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight()
-                    .background(MaterialTheme.colorScheme.primary),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Text(
-                    text = stringResource(R.string.frutties),
-                    color = MaterialTheme.colorScheme.onPrimary,
-                    modifier = Modifier
-                        .padding(vertical = 16.dp, horizontal = 16.dp)
-                        .weight(1.0f),
-                    textAlign = TextAlign.Center,
-                )
-            }
+            CenterAlignedTopAppBar(
+                title = {
+                    Text(text = stringResource(R.string.frutties),)
+                },
+                colors = TopAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    scrolledContainerColor = MaterialTheme.colorScheme.primary,
+                    navigationIconContentColor = MaterialTheme.colorScheme.onPrimary,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimary,
+                    actionIconContentColor = MaterialTheme.colorScheme.onPrimary,
+                ),
+            )
         },
-    ) {
+        contentWindowInsets = WindowInsets.safeDrawing.only(
+            // Do not include Bottom so scrolled content is drawn below system bars.
+            // Include Horizontal because some devices have camera cutouts on the side.
+            WindowInsetsSides.Top + WindowInsetsSides.Horizontal
+        ),
+    ) { paddingValues ->
         Column(
-            modifier = Modifier.padding(it),
+            modifier = Modifier
+                // Support edge-to-edge (required on Android 15)
+                // https://developer.android.com/develop/ui/compose/layouts/insets#inset-size
+                .padding(paddingValues),
         ) {
             var expanded by remember { mutableStateOf(false) }
             Row(modifier = Modifier.padding(16.dp)) {
+                val total = cartState.cartDetails.sumOf { item -> item.count }
                 Text(
-                    text = "Cart has ${cartState.itemList.count()} items",
+                    text = "Cart has $total items",
                     modifier = Modifier.weight(1f).padding(12.dp),
                 )
                 Button(onClick = { expanded = !expanded }) {
@@ -120,14 +130,23 @@ fun ListScreen() {
                 enter = fadeIn(animationSpec = tween(1000)),
                 exit = fadeOut(animationSpec = tween(1000)),
             ) {
-                CartDetailsView(cartState.itemList)
+                CartDetailsView(cartState.cartDetails)
             }
 
             LazyColumn {
-                items(items = uiState.itemList, key = { it.id }) { item ->
+                items(items = uiState.fruitties, key = { it.id }) { item ->
                     FruittieItem(
                         item = item,
                         onAddToCart = viewModel::addItemToCart,
+                    )
+                }
+                // Support edge-to-edge (required on Android 15)
+                // https://developer.android.com/develop/ui/compose/layouts/insets#inset-size
+                item {
+                    Spacer(
+                        Modifier.windowInsetsBottomHeight(
+                            WindowInsets.systemBars
+                        )
                     )
                 }
             }
@@ -202,7 +221,7 @@ fun CartDetailsView(cart: List<CartItemDetails>, modifier: Modifier = Modifier) 
         modifier.padding(horizontal = 32.dp),
     ) {
         cart.forEach { item ->
-            Text(text = "${item.fruittie.name} : ${item.count}")
+            Text(text = "${item.fruittie.name}: ${item.count}")
         }
     }
 }

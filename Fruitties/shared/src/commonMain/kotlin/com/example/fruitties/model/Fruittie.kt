@@ -31,3 +31,8 @@ data class Fruittie(
     @SerialName("calories")
     val calories: String,
 )
+
+data class CartItemDetails(
+    val fruittie: Fruittie,
+    val count: Int,
+)

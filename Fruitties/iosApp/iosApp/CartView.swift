@@ -19,17 +19,22 @@ import SwiftUI
 import shared
 
 struct CartView : View {
-    let cart: Cart
-    let dataRepository: DataRepository
+    let mainViewModel: MainViewModel
+
+    // The ViewModel exposes a StateFlow.
+    // We collect() the StateFlow into State, which can be used in SwiftUI.
+    // https://skie.touchlab.co/features/flows-in-swiftui
+    @State
+    var cartUIState: CartUiState = CartUiState(cartDetails: [])
+
     @State
     private var expanded = false
 
     var body: some View {
-        if (cart.items.isEmpty) {
-            Text("Cart is empty, add some items").padding()
-        } else {
+        VStack {
             HStack {
-                Text("Cart has \(cart.items.count) items").padding()
+                let total = cartUIState.cartDetails.reduce(0) { $0 + ($1.count) }
+                Text("Cart has \(total) items").padding()
                 Spacer()
                 Button {
                     expanded.toggle()
@@ -42,22 +47,30 @@ struct CartView : View {
                 }.padding()
             }
             if (expanded) {
-                CartDetailsView(dataRepository: dataRepository)
+                CartDetailsView(mainViewModel: mainViewModel)
             }
         }
+        // https://skie.touchlab.co/features/flows-in-swiftui
+        .collect(flow: self.mainViewModel.cartUiState, into: $cartUIState)
     }
 }
 
 struct CartDetailsView: View {
-    let dataRepository: DataRepository
+    let mainViewModel: MainViewModel
+
+    // The ViewModel exposes a StateFlow.
+    // We collect() the StateFlow into State, which can be used in SwiftUI.
+    // https://skie.touchlab.co/features/flows-in-swiftui
     @State
-    private var details: CartDetails = CartDetails(items: [])
+    var cartUIState: CartUiState = CartUiState(cartDetails: [])
 
     var body: some View {
         VStack {
-            ForEach(details.items, id: \.fruittie.id) { item in
+            ForEach(cartUIState.cartDetails, id: \.fruittie.id) { item in
                 Text("\(item.fruittie.name): \(item.count)")
             }
-        }.collectWithLifecycle(dataRepository.cartDetails, binding: $details)
+        }
+        // https://skie.touchlab.co/features/flows-in-swiftui
+        .collect(flow: mainViewModel.cartUiState, into: $cartUIState)
     }
 }

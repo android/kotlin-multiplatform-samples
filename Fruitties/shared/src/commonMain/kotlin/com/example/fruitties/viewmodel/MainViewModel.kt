@@ -20,11 +20,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
+import androidx.lifecycle.viewmodel.MutableCreationExtras
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.fruitties.DataRepository
-import com.example.fruitties.database.CartItemDetails
 import com.example.fruitties.di.AppContainer
+import com.example.fruitties.model.CartItemDetails
 import com.example.fruitties.model.Fruittie
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -34,7 +35,7 @@ import kotlinx.coroutines.launch
 
 class MainViewModel(private val repository: DataRepository) : ViewModel() {
 
-    val uiState: StateFlow<HomeUiState> =
+    val homeUiState: StateFlow<HomeUiState> =
         repository.getData().map { HomeUiState(it) }
             .stateIn(
                 scope = viewModelScope,
@@ -43,7 +44,7 @@ class MainViewModel(private val repository: DataRepository) : ViewModel() {
             )
 
     val cartUiState: StateFlow<CartUiState> =
-        repository.cartDetails.map { CartUiState(it.items) }
+        repository.cartDetails.map { CartUiState(it) }
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
@@ -67,17 +68,33 @@ class MainViewModel(private val repository: DataRepository) : ViewModel() {
                 MainViewModel(repository = repository)
             }
         }
+
+        /**
+         * Helper function to prepare CreationExtras.
+         *
+         * USAGE:
+         *
+         * val mainViewModel: MainViewModel = ViewModelProvider.create(
+         *  owner = this as ViewModelStoreOwner,
+         *  factory = MainViewModel.Factory,
+         *  extras = MainViewModel.newCreationExtras(appContainer),
+         * )[MainViewModel::class]
+         */
+        fun newCreationExtras(appContainer: AppContainer): CreationExtras =
+            MutableCreationExtras().apply {
+                set(APP_CONTAINER_KEY, appContainer)
+            }
     }
 }
 
 /**
- * Ui State for ListScreen
+ * Ui State for the home screen
  */
-data class HomeUiState(val itemList: List<Fruittie> = listOf())
+data class HomeUiState(val fruitties: List<Fruittie> = listOf())
 
 /**
- * Ui State for Cart
+ * Ui State for the cart
  */
-data class CartUiState(val itemList: List<CartItemDetails> = listOf())
+data class CartUiState(val cartDetails: List<CartItemDetails> = listOf())
 
 private const val TIMEOUT_MILLIS = 5_000L
