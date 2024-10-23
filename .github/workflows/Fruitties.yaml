@@ -1,4 +1,4 @@
-name: Build DiceRoller sample
+name: Build Fruitties sample
 
 on:
   push:
