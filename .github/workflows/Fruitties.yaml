@@ -1,0 +1,59 @@
+name: Build Fruitties sample
+
+on:
+  push:
+    branches:
+      - main
+      - feature/*
+  pull_request:
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build_android:
+    name: Build Android app
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Validate Gradle Wrapper
+        uses: gradle/wrapper-validation-action@v1
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: 17
+
+      - name: Build app
+        working-directory: ./Fruitties
+        run: ./gradlew assemble --stacktrace
+
+  build_ios:
+    name: Build iOS app
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Validate Gradle Wrapper
+        uses: gradle/wrapper-validation-action@v1
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: 17
+
+      - name: Initialize pods
+        working-directory: ./Fruitties
+        run: |
+          cd iosApp
+          pod install --verbose
+
+      - name: Build app
+        working-directory: ./Fruitties
+        run: xcodebuild -workspace iosApp/iosApp.xcworkspace -configuration Debug -scheme iosApp -sdk iphonesimulator
