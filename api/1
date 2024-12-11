@@ -1,0 +1,46 @@
+{
+  "currentPage": 1,
+  "totalPages": 4,
+  "feed": [
+    {
+      "name": "Kiwi",
+      "full_name": "Actinidia deliciosa",
+      "calories": "61 calories"
+    },
+    {
+      "name": "Pear",
+      "full_name": "Pyrus communis",
+      "calories": "102 calories"
+    },
+    {
+      "name": "Peach",
+      "full_name": "Prunus persica",
+      "calories": "59 calories"
+    },
+    {
+      "name": "Plum",
+      "full_name": "Prunus domestica",
+      "calories": "46 calories"
+    },
+    {
+      "name": "Cherry",
+      "full_name": "Prunus avium",
+      "calories": "50 calories"
+    },
+    {
+      "name": "Blueberry",
+      "full_name": "Vaccinium corymbosum",
+      "calories": "57 calories"
+    },
+    {
+      "name": "Raspberry",
+      "full_name": "Rubus idaeus",
+      "calories": "53 calories"
+    },
+    {
+      "name": "Lemon",
+      "full_name": "Citrus limon",
+      "calories": "29 calories"
+    }
+  ]
+}

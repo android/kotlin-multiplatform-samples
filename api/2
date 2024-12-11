@@ -1,0 +1,46 @@
+{
+    "currentPage": 2,
+    "totalPages": 4,
+    "feed": [
+        {
+            "name": "Lime",
+            "full_name": "Citrus aurantiifolia",
+            "calories": "30 calories"
+        },
+        {
+            "name": "Papaya",
+            "full_name": "Carica papaya",
+            "calories": "59 calories"
+        },
+        {
+            "name": "Avocado",
+            "full_name": "Persea americana",
+            "calories": "160 calories"
+        },
+        {
+            "name": "Pomegranate",
+            "full_name": "Punica granatum",
+            "calories": "83 calories"
+        },
+        {
+            "name": "Cranberry",
+            "full_name": "Vaccinium macrocarpon",
+            "calories": "46 calories"
+        },
+        {
+            "name": "Apricot",
+            "full_name": "Prunus armeniaca",
+            "calories": "15 calories"
+        },
+        {
+            "name": "Fig",
+            "full_name": "Ficus carica",
+            "calories": "74 calories"
+        },
+        {
+            "name": "Guava",
+            "full_name": "Psidium guajava",
+            "calories": "68 calories"
+        }
+    ]
+}

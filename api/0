@@ -1,0 +1,46 @@
+{
+  "currentPage": 0,
+  "totalPages": 4,
+  "feed": [
+    {
+      "name": "Apple",
+      "full_name": "Malus domestica",
+      "calories": "95 calories"
+    },
+    {
+      "name": "Banana",
+      "full_name": "Musa acuminata",
+      "calories": "105 calories"
+    },
+    {
+      "name": "Orange",
+      "full_name": "Citrus × sinensis",
+      "calories": "62 calories"
+    },
+    {
+      "name": "Grapes",
+      "full_name": "Vitis vinifera",
+      "calories": "69 calories"
+    },
+    {
+      "name": "Strawberry",
+      "full_name": "Fragaria × ananassa",
+      "calories": "4 calories"
+    },
+    {
+      "name": "Watermelon",
+      "full_name": "Citrullus lanatus",
+      "calories": "30 calories"
+    },
+    {
+      "name": "Pineapple",
+      "full_name": "Ananas comosus",
+      "calories": "50 calories"
+    },
+    {
+      "name": "Mango",
+      "full_name": "Mangifera indica",
+      "calories": "60 calories"
+    }
+  ]
+}
