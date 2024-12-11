@@ -24,10 +24,11 @@ import kotlin.coroutines.cancellation.CancellationException
 interface FruittieApi {
     suspend fun getData(pageNumber: Int = 0): FruittiesResponse
 }
+
 class FruittieNetworkApi(private val client: HttpClient, private val apiUrl: String) : FruittieApi {
 
     override suspend fun getData(pageNumber: Int): FruittiesResponse {
-        val url = apiUrl + "api/$pageNumber"
+        val url = "$apiUrl/$pageNumber.json"
         return try {
             client.get(url).body()
         } catch (e: Exception) {
