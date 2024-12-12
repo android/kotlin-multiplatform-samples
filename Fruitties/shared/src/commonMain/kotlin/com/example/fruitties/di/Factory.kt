@@ -37,7 +37,7 @@ internal fun commonCreateApi(): FruittieApi = FruittieNetworkApi(
             json(json, contentType = ContentType.Any)
         }
     },
-    apiUrl = "https://yenerm.github.io/frutties/",
+    apiUrl = "https://android.github.io/kotlin-multiplatform-samples/fruitties-api",
 )
 
 val json = Json { ignoreUnknownKeys = true }
