@@ -1,8 +1,10 @@
 # Kotlin Multiplatform Samples
 
-## [DiceRoller](./DiceRoller)
+## ~DiceRoller~ (Deprecated)
 
 DiceRoller is a sample app using the Kotlin Multiplatform DataStore library to store and observe preferences.
+
+#### This sample was deprecated and removed, but you can still access it [in the history](https://github.com/android/kotlin-multiplatform-samples/tree/36d62a15d6e476e0f0ee4102b881aa40806bb8dd/DiceRoller).
 
 ## [Fruitties](./Fruitties)
 
