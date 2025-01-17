@@ -52,12 +52,6 @@ jobs:
           distribution: 'zulu'
           java-version: 17
 
-      - name: Initialize pods
-        working-directory: ./Fruitties
-        run: |
-          cd iosApp
-          pod install --verbose
-
       - name: Build app
         working-directory: ./Fruitties
-        run: xcodebuild -workspace iosApp/iosApp.xcworkspace -configuration Debug -scheme iosApp -sdk iphonesimulator
+        run: xcodebuild -project iosApp/iosApp.xcodeproj -configuration Debug -scheme iosApp -sdk iphonesimulator
