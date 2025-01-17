@@ -54,6 +54,13 @@ jobs:
           cd iosApp
           pod install --verbose
 
+  
+      - name: Xcode version
+      - uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+          run: xcodebuild -version
+
       - name: Build app
         working-directory: ./Fruitties
         run: xcodebuild -workspace iosApp/iosApp.xcworkspace -configuration Debug -scheme iosApp -sdk iphonesimulator
