@@ -21,6 +21,7 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform) apply false
     alias(libs.plugins.compose.compiler) apply false
     alias(libs.plugins.spotless) apply false
+    alias(libs.plugins.androidKmpLibrary) apply false
 }
 
 subprojects {

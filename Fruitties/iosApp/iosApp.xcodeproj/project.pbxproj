@@ -100,7 +100,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7555FFA5242A565B00829871 /* Build configuration list for PBXNativeTarget "iosApp" */;
 			buildPhases = (
-				7555FFB5242A651A00829871 /* ShellScript */,
+				7555FFB5242A651A00829871 /* Compile Kotlin Multiplatform */,
 				7555FF77242A565900829871 /* Sources */,
 				7555FF78242A565900829871 /* Frameworks */,
 				7555FF79242A565900829871 /* Resources */,
@@ -161,7 +161,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		7555FFB5242A651A00829871 /* ShellScript */ = {
+		7555FFB5242A651A00829871 /* Compile Kotlin Multiplatform */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -170,6 +170,7 @@
 			);
 			inputPaths = (
 			);
+			name = "Compile Kotlin Multiplatform";
 			outputFileListPaths = (
 			);
 			outputPaths = (
