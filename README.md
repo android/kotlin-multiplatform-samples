@@ -1,14 +1,15 @@
 # Kotlin Multiplatform Samples
 
+## [Fruitties](./Fruitties)
+
+Fruitties is a sample app using the Kotlin Multiplatform ViewModel, Room, DataStore and Ktor libraries to fetch, store and display data.
+
 ## ~DiceRoller~ (Deprecated)
 
 DiceRoller is a sample app using the Kotlin Multiplatform DataStore library to store and observe preferences.
 
 #### This sample was deprecated and removed, but you can still access it [in the history](https://github.com/android/kotlin-multiplatform-samples/tree/36d62a15d6e476e0f0ee4102b881aa40806bb8dd/DiceRoller).
 
-## [Fruitties](./Fruitties)
-
-Fruitties is a sample app using the Kotlin Multiplatform ViewModel, Room, DataStore and Ktor libraries to fetch, store and display data.
 
 ## License
 
