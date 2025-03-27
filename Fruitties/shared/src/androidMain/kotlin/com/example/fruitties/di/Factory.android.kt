@@ -20,29 +20,31 @@ import androidx.room.Room
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import com.example.fruitties.database.AppDatabase
 import com.example.fruitties.database.CartDataStore
-import com.example.fruitties.database.dbFileName
+import com.example.fruitties.database.DB_FILE_NAME
 import com.example.fruitties.network.FruittieApi
 import kotlinx.coroutines.Dispatchers
 
-actual class Factory(private val app: Application) {
+actual class Factory(
+    private val app: Application,
+) {
     actual fun createRoomDatabase(): AppDatabase {
-        val dbFile = app.getDatabasePath(dbFileName)
-        return Room.databaseBuilder<AppDatabase>(
-            context = app,
-            name = dbFile.absolutePath,
-        )
-            .setDriver(BundledSQLiteDriver())
+        val dbFile = app.getDatabasePath(DB_FILE_NAME)
+        return Room
+            .databaseBuilder<AppDatabase>(
+                context = app,
+                name = dbFile.absolutePath,
+            ).setDriver(BundledSQLiteDriver())
             .setQueryCoroutineContext(Dispatchers.IO)
             .build()
     }
 
-    actual fun createCartDataStore(): CartDataStore {
-        return CartDataStore {
-            app.filesDir.resolve(
-                "cart.json",
-            ).absolutePath
+    actual fun createCartDataStore(): CartDataStore =
+        CartDataStore {
+            app.filesDir
+                .resolve(
+                    "cart.json",
+                ).absolutePath
         }
-    }
 
     actual fun createApi(): FruittieApi = commonCreateApi()
 }

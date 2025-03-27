@@ -11,7 +11,9 @@ import com.example.fruitties.viewmodel.MainViewModel
  * This is used with from iOS with Kotlin Multiplatform (KMP).
  */
 @Suppress("unused") // Android Studio is not aware of iOS usage.
-class IOSViewModelOwner(appContainer: AppContainer) : ViewModelStoreOwner {
+class IOSViewModelOwner(
+    appContainer: AppContainer,
+) : ViewModelStoreOwner {
     override val viewModelStore: ViewModelStore = ViewModelStore()
 
     // Create an instance of MainViewModel with the CreationExtras.

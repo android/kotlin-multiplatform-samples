@@ -13,8 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -53,22 +51,26 @@ kotlin {
     // project can be found here:
     // https://developer.android.com/kotlin/multiplatform/migrate
     val xcfName = "shared"
+    val iosBundleId = "com.example.fruitties.ios"
 
     iosX64 {
         binaries.framework {
             baseName = xcfName
+            binaryOptions["bundleId"] = iosBundleId
         }
     }
 
     iosArm64 {
         binaries.framework {
             baseName = xcfName
+            binaryOptions["bundleId"] = iosBundleId
         }
     }
 
     iosSimulatorArm64 {
         binaries.framework {
             baseName = xcfName
+            binaryOptions["bundleId"] = iosBundleId
         }
     }
 
@@ -138,7 +140,6 @@ kotlin {
             }
         }
     }
-
 }
 
 dependencies {

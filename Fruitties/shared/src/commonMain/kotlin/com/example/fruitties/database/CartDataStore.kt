@@ -33,22 +33,28 @@ import okio.use
 data class Cart(
     val items: List<CartItem>,
 )
+
 @Serializable
 data class CartItem(
     val id: Long,
     val count: Int,
 )
+
 internal object CartJsonSerializer : OkioSerializer<Cart> {
     override val defaultValue: Cart = Cart(emptyList())
-    override suspend fun readFrom(source: BufferedSource): Cart {
-        return json.decodeFromString<Cart>(source.readUtf8())
-    }
-    override suspend fun writeTo(t: Cart, sink: BufferedSink) {
+
+    override suspend fun readFrom(source: BufferedSource): Cart = json.decodeFromString<Cart>(source.readUtf8())
+
+    override suspend fun writeTo(
+        t: Cart,
+        sink: BufferedSink,
+    ) {
         sink.use {
             it.writeUtf8(json.encodeToString(Cart.serializer(), t))
         }
     }
 }
+
 class CartDataStore(
     private val produceFilePath: () -> String,
 ) {
@@ -63,9 +69,15 @@ class CartDataStore(
     )
     val cart: Flow<Cart>
         get() = db.data
+
     suspend fun add(fruittie: Fruittie) = update(fruittie, 1)
+
     suspend fun remove(fruittie: Fruittie) = update(fruittie, -1)
-    suspend fun update(fruittie: Fruittie, diff: Int) {
+
+    suspend fun update(
+        fruittie: Fruittie,
+        diff: Int,
+    ) {
         db.updateData { prevCart ->
             val newItems = mutableListOf<CartItem>()
             var found = false

@@ -33,10 +33,13 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-class MainViewModel(private val repository: DataRepository) : ViewModel() {
-
+class MainViewModel(
+    private val repository: DataRepository,
+) : ViewModel() {
     val homeUiState: StateFlow<HomeUiState> =
-        repository.getData().map { HomeUiState(it) }
+        repository
+            .getData()
+            .map { HomeUiState(it) }
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
@@ -44,7 +47,8 @@ class MainViewModel(private val repository: DataRepository) : ViewModel() {
             )
 
     val cartUiState: StateFlow<CartUiState> =
-        repository.cartDetails.map { CartUiState(it) }
+        repository.cartDetails
+            .map { CartUiState(it) }
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
@@ -58,7 +62,6 @@ class MainViewModel(private val repository: DataRepository) : ViewModel() {
     }
 
     companion object {
-
         val APP_CONTAINER_KEY = CreationExtras.Key<AppContainer>()
 
         val Factory: ViewModelProvider.Factory = viewModelFactory {
@@ -90,11 +93,15 @@ class MainViewModel(private val repository: DataRepository) : ViewModel() {
 /**
  * Ui State for the home screen
  */
-data class HomeUiState(val fruitties: List<Fruittie> = listOf())
+data class HomeUiState(
+    val fruitties: List<Fruittie> = listOf(),
+)
 
 /**
  * Ui State for the cart
  */
-data class CartUiState(val cartDetails: List<CartItemDetails> = listOf())
+data class CartUiState(
+    val cartDetails: List<CartItemDetails> = listOf(),
+)
 
 private const val TIMEOUT_MILLIS = 5_000L

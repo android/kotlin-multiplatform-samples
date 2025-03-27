@@ -32,4 +32,5 @@ abstract class AppDatabase : RoomDatabase() {
 expect object AppDatabaseConstructor : RoomDatabaseConstructor<AppDatabase> {
     override fun initialize(): AppDatabase
 }
-internal const val dbFileName = "fruits.db"
+
+internal const val DB_FILE_NAME = "fruits.db"
