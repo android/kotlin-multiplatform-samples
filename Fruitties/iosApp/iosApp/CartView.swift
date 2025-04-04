@@ -21,6 +21,9 @@ import shared
 struct CartView : View {
     let mainViewModel: MainViewModel
 
+    // The ViewModel exposes a StateFlow that we access in SwiftUI with SKIE Observing.
+    // https://skie.touchlab.co/features/flows-in-swiftui
+
     @State
     private var expanded = false
 
