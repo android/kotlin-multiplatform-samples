@@ -54,7 +54,8 @@ struct CartDetailsView: View {
     let mainViewModel: MainViewModel
 
     var body: some View {
-        
+
+        // https://skie.touchlab.co/features/flows-in-swiftui
         Observing(self.mainViewModel.cartUiState) { cartUIState in
             VStack {
                 ForEach(cartUIState.cartDetails, id: \.fruittie.id) { item in
