@@ -21,6 +21,9 @@ import shared
 struct CartView : View {
     let mainViewModel: MainViewModel
 
+    // The ViewModel exposes a StateFlow that we access in SwiftUI with SKIE Observing.
+    // https://skie.touchlab.co/features/flows-in-swiftui
+
     @State
     private var expanded = false
 
@@ -54,7 +57,8 @@ struct CartDetailsView: View {
     let mainViewModel: MainViewModel
 
     var body: some View {
-        
+
+        // https://skie.touchlab.co/features/flows-in-swiftui
         Observing(self.mainViewModel.cartUiState) { cartUIState in
             VStack {
                 ForEach(cartUIState.cartDetails, id: \.fruittie.id) { item in

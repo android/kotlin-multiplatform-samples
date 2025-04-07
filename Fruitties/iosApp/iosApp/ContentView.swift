@@ -21,27 +21,22 @@ import Foundation
 struct ContentView: View {
     var mainViewModel: MainViewModel
 
-    // The ViewModel exposes a StateFlow.
-    // We collect() the StateFlow into State, which can be used in SwiftUI.
-    // https://skie.touchlab.co/features/flows-in-swiftui
-    @State
-    var homeUIState: HomeUiState = HomeUiState(fruitties: [])
-
     var body: some View {
         Text("Fruitties").font(.largeTitle).fontWeight(.bold)
         CartView(mainViewModel: mainViewModel)
-        ScrollView {
-            LazyVStack {
-                ForEach(homeUIState.fruitties, id: \.self) { value in
-                    FruittieView(fruittie: value, addToCart: { fruittie in
-                        Task {
-                            self.mainViewModel.addItemToCart(fruittie: fruittie)
-                        }
-                    })
+        // https://skie.touchlab.co/features/flows-in-swiftui
+        Observing(self.mainViewModel.homeUiState) { homeUIState in
+            ScrollView {
+                LazyVStack {
+                    ForEach(homeUIState.fruitties, id: \.self) { value in
+                        FruittieView(fruittie: value, addToCart: { fruittie in
+                            Task {
+                                self.mainViewModel.addItemToCart(fruittie: fruittie)
+                            }
+                        })
+                    }
                 }
             }
-            // https://skie.touchlab.co/features/flows-in-swiftui
-            .collect(flow: self.mainViewModel.homeUiState, into: $homeUIState)
         }
     }
 }
