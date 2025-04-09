@@ -51,26 +51,22 @@ kotlin {
     // project can be found here:
     // https://developer.android.com/kotlin/multiplatform/migrate
     val xcfName = "shared"
-    val iosBundleId = "com.example.fruitties.ios"
 
     iosX64 {
         binaries.framework {
             baseName = xcfName
-            binaryOptions["bundleId"] = iosBundleId
         }
     }
 
     iosArm64 {
         binaries.framework {
             baseName = xcfName
-            binaryOptions["bundleId"] = iosBundleId
         }
     }
 
     iosSimulatorArm64 {
         binaries.framework {
             baseName = xcfName
-            binaryOptions["bundleId"] = iosBundleId
         }
     }
 
