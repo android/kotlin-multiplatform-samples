@@ -57,9 +57,7 @@ class DataRepository(
         return loadData()
     }
 
-    fun loadData(): Flow<List<Fruittie>> {
-        return database.fruittieDao().getAllAsFlow()
-    }
+    fun loadData(): Flow<List<Fruittie>> = database.fruittieDao().getAllAsFlow()
 
     suspend fun refreshData() {
         val response = api.getData()

@@ -27,17 +27,20 @@ import kotlinx.serialization.json.Json
 
 expect class Factory {
     fun createRoomDatabase(): AppDatabase
+
     fun createApi(): FruittieApi
+
     fun createCartDataStore(): CartDataStore
 }
 
-internal fun commonCreateApi(): FruittieApi = FruittieNetworkApi(
-    client = HttpClient {
-        install(ContentNegotiation) {
-            json(json, contentType = ContentType.Any)
-        }
-    },
-    apiUrl = "https://android.github.io/kotlin-multiplatform-samples/fruitties-api",
-)
+internal fun commonCreateApi(): FruittieApi =
+    FruittieNetworkApi(
+        client = HttpClient {
+            install(ContentNegotiation) {
+                json(json, contentType = ContentType.Any)
+            }
+        },
+        apiUrl = "https://android.github.io/kotlin-multiplatform-samples/fruitties-api",
+    )
 
 val json = Json { ignoreUnknownKeys = true }

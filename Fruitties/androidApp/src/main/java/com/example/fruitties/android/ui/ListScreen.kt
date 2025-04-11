@@ -91,7 +91,7 @@ fun ListScreen() {
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
-                    Text(text = stringResource(R.string.frutties),)
+                    Text(text = stringResource(R.string.frutties))
                 },
                 colors = TopAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primary,
@@ -105,7 +105,7 @@ fun ListScreen() {
         contentWindowInsets = WindowInsets.safeDrawing.only(
             // Do not include Bottom so scrolled content is drawn below system bars.
             // Include Horizontal because some devices have camera cutouts on the side.
-            WindowInsetsSides.Top + WindowInsetsSides.Horizontal
+            WindowInsetsSides.Top + WindowInsetsSides.Horizontal,
         ),
     ) { paddingValues ->
         Column(
@@ -145,8 +145,8 @@ fun ListScreen() {
                 item {
                     Spacer(
                         Modifier.windowInsetsBottomHeight(
-                            WindowInsets.systemBars
-                        )
+                            WindowInsets.systemBars,
+                        ),
                     )
                 }
             }
@@ -216,7 +216,10 @@ fun FruittieItem(
 }
 
 @Composable
-fun CartDetailsView(cart: List<CartItemDetails>, modifier: Modifier = Modifier) {
+fun CartDetailsView(
+    cart: List<CartItemDetails>,
+    modifier: Modifier = Modifier,
+) {
     Column(
         modifier.padding(horizontal = 32.dp),
     ) {

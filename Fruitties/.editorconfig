@@ -1,0 +1,35 @@
+[*.{kt,kts}]
+# Kotlin style typically requires functions to start with a lowercase letter.
+# Composable functions should start with a capital letter.
+ktlint_function_naming_ignore_when_annotated_with = Composable
+
+# ktlint always puts a new line after a multi-line assignment, like this:
+# val colors =
+#     if (darkTheme) {
+#         darkColorScheme(
+#             primary = Color(0xFFBB86FC),
+#             secondary = Color(0xFF03DAC5),
+#             tertiary = Color(0xFF3700B3),
+#         )
+#     } else {
+#         lightColorScheme(
+#             primary = Color(0xFF6200EE),
+#             secondary = Color(0xFF03DAC5),
+#             tertiary = Color(0xFF3700B3),
+#         )
+#     }
+# But we actually prefer to keep some multi-line assignments on the same line, like this:
+# val colors = if (darkTheme) {
+#     darkColorScheme(
+#         primary = Color(0xFFBB86FC),
+#         secondary = Color(0xFF03DAC5),
+#         tertiary = Color(0xFF3700B3),
+#     )
+# } else {
+#     lightColorScheme(
+#         primary = Color(0xFF6200EE),
+#         secondary = Color(0xFF03DAC5),
+#         tertiary = Color(0xFF3700B3),
+#     )
+# }
+ktlint_standard_multiline-expression-wrapping = disabled

@@ -25,7 +25,6 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface FruittieDao {
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(fruittie: Fruittie)
 
@@ -46,5 +45,5 @@ interface FruittieDao {
         @MapColumn(columnName = "id")
         Long,
         Fruittie,
-        >
+    >
 }

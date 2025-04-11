@@ -19,7 +19,7 @@ import androidx.room.Room
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import com.example.fruitties.database.AppDatabase
 import com.example.fruitties.database.CartDataStore
-import com.example.fruitties.database.dbFileName
+import com.example.fruitties.database.DB_FILE_NAME
 import com.example.fruitties.network.FruittieApi
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.coroutines.Dispatchers
@@ -31,20 +31,19 @@ import platform.Foundation.NSUserDomainMask
 
 actual class Factory {
     actual fun createRoomDatabase(): AppDatabase {
-        val dbFile = "${fileDirectory()}/$dbFileName"
-        return Room.databaseBuilder<AppDatabase>(
-            name = dbFile,
-        )
-            .setDriver(BundledSQLiteDriver())
+        val dbFile = "${fileDirectory()}/$DB_FILE_NAME"
+        return Room
+            .databaseBuilder<AppDatabase>(
+                name = dbFile,
+            ).setDriver(BundledSQLiteDriver())
             .setQueryCoroutineContext(Dispatchers.IO)
             .build()
     }
 
-    actual fun createCartDataStore(): CartDataStore {
-        return CartDataStore {
+    actual fun createCartDataStore(): CartDataStore =
+        CartDataStore {
             "${fileDirectory()}/cart.json"
         }
-    }
 
     @OptIn(ExperimentalForeignApi::class)
     private fun fileDirectory(): String {

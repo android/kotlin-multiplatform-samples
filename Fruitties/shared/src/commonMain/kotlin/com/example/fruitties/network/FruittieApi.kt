@@ -25,8 +25,10 @@ interface FruittieApi {
     suspend fun getData(pageNumber: Int = 0): FruittiesResponse
 }
 
-class FruittieNetworkApi(private val client: HttpClient, private val apiUrl: String) : FruittieApi {
-
+class FruittieNetworkApi(
+    private val client: HttpClient,
+    private val apiUrl: String,
+) : FruittieApi {
     override suspend fun getData(pageNumber: Int): FruittiesResponse {
         val url = "$apiUrl/$pageNumber.json"
         return try {
