@@ -1,0 +1,46 @@
+{
+  "currentPage": 4,
+  "totalPages": 10,
+  "feed": [
+    {
+      "name": "Coconut",
+      "full_name": "Cocos nucifera",
+      "calories": "354 calories"
+    },
+    {
+      "name": "Date",
+      "full_name": "Phoenix dactylifera",
+      "calories": "282 calories"
+    },
+    {
+      "name": "Goji Berry",
+      "full_name": "Lycium barbarum",
+      "calories": "349 calories"
+    },
+    {
+      "name": "Acai Berry",
+      "full_name": "Euterpe oleracea",
+      "calories": "70 calories"
+    },
+    {
+      "name": "Jackfruit",
+      "full_name": "Artocarpus heterophyllus",
+      "calories": "95 calories"
+    },
+    {
+      "name": "Durian",
+      "full_name": "Durio zibethinus",
+      "calories": "147 calories"
+    },
+    {
+      "name": "Mulberry",
+      "full_name": "Morus spp.",
+      "calories": "43 calories"
+    },
+    {
+      "name": "Gooseberry",
+      "full_name": "Ribes uva-crispa",
+      "calories": "44 calories"
+    }
+  ]
+}
