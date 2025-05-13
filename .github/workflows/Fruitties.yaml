@@ -1,11 +1,13 @@
 name: Build Fruitties sample
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
       - feature/*
   pull_request:
+    branches: [ main ]
 
 concurrency:
   group: build-${{ github.ref }}
