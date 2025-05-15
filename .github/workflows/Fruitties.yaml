@@ -1,6 +1,7 @@
 name: Build Fruitties sample
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
