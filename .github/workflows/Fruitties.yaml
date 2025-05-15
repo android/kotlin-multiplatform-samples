@@ -7,7 +7,6 @@ on:
       - main
       - feature/*
   pull_request:
-    branches: [ main ]
 
 concurrency:
   group: build-${{ github.ref }}
