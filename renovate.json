@@ -6,5 +6,15 @@
 
   "baseBranches": [
     "main"
+  ],
+  "packageRules": [
+    {
+      "groupName": "Kotlin Dependencies",
+       "matchPackagePrefixes": [                                                                                                                                                                                                           
+          "org.jetbrains.kotlin",                                                                                                                                                                                                          
+          "co.touchlab.skie",                                                                                                                                                                                                              
+          "com.google.devtools.ksp"                                                                                                                                                                                                        
+        ] 
+    }  
   ]
 }
