@@ -3,18 +3,23 @@
   "extends": [
     "local>android/.github:renovate-config"
   ],
-
   "baseBranches": [
     "main"
   ],
   "packageRules": [
     {
       "groupName": "Kotlin Dependencies",
-       "matchPackagePrefixes": [                                                                                                                                                                                                           
-          "org.jetbrains.kotlin",                                                                                                                                                                                                          
-          "co.touchlab.skie",                                                                                                                                                                                                              
-          "com.google.devtools.ksp"                                                                                                                                                                                                        
-        ] 
-    }  
+      "matchPackagePrefixes": [
+        "org.jetbrains.kotlin",
+        "com.google.devtools.ksp"
+      ]
+    },
+    {
+      "matchPackageNames": [
+        "co.touchlab.skie:co.touchlab.skie.gradle.plugin"
+      ],
+      "groupName": "SKIE Update Only",
+      "prerelease": true
+    }
   ]
 }
