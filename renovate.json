@@ -9,17 +9,11 @@
   "packageRules": [
     {
       "groupName": "Kotlin Dependencies",
-      "matchPackagePrefixes": [
-        "org.jetbrains.kotlin",
-        "com.google.devtools.ksp"
-      ]
-    },
-    {
       "matchPackageNames": [
-        "co.touchlab.skie:co.touchlab.skie.gradle.plugin"
-      ],
-      "groupName": "SKIE Update Only",
-      "prerelease": true
+        "org.jetbrains.kotlin**",
+        "co.touchlab.skie**",
+        "com.google.devtools.ksp**"
+      ]
     }
   ]
 }
