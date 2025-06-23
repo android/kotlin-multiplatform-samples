@@ -20,7 +20,7 @@ import Foundation
 
 struct ContentView: View {
     // Find the nearest scoped ViewModelStoreOwner.
-    @EnvironmentObject var viewModelStoreOwner: ObservableValueWrapper<FruittiesViewModelStoreOwner>
+    @EnvironmentObject var viewModelStoreOwner: ObservableValueWrapper<IOSViewModelStoreOwner>
 
     var body: some View {
         let mainViewModel = viewModelStoreOwner.value.mainViewModel

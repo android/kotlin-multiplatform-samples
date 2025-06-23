@@ -20,7 +20,7 @@ import shared
 
 struct CartView : View {
     // Find the nearest scoped ViewModelStoreOwner.
-    @EnvironmentObject var viewModelStoreOwner: ObservableValueWrapper<FruittiesViewModelStoreOwner>
+    @EnvironmentObject var viewModelStoreOwner: ObservableValueWrapper<IOSViewModelStoreOwner>
 
     var body: some View {
         let cartViewModel = viewModelStoreOwner.value.cartViewModel

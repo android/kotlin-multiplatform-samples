@@ -20,10 +20,10 @@ import shared
 @main
 struct iOSApp: App {
     // We define extras to be passed to the ViewModelStoreOwner so that it can instantiate ViewModel instances.
-    let extras: FruittiesViewModelStoreOwner.Extras
+    let extras: IOSViewModelStoreOwner.Extras
 
     init() {
-        self.extras = FruittiesViewModelStoreOwner.Extras(appContainer: AppContainer(factory: Factory()))
+        self.extras = IOSViewModelStoreOwner.Extras(appContainer: AppContainer(factory: Factory()))
     }
 
     var body: some Scene {

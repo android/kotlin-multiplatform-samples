@@ -12,7 +12,7 @@ import com.example.fruitties.viewmodel.MainViewModel
  * This is used with from iOS with Kotlin Multiplatform (KMP).
  */
 @Suppress("unused") // Android Studio is not aware of iOS usage.
-class FruittiesViewModelStoreOwner(
+class IOSViewModelStoreOwner(
     val extras: Extras,
 ) : ViewModelStoreOwner {
     override val viewModelStore: ViewModelStore = ViewModelStore()
@@ -47,4 +47,3 @@ class FruittiesViewModelStoreOwner(
         viewModelStore.clear()
     }
 }
-
