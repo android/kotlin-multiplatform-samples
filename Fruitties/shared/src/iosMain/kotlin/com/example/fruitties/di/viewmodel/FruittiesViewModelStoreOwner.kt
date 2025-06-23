@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStore
 import androidx.lifecycle.ViewModelStoreOwner
 import com.example.fruitties.di.AppContainer
+import com.example.fruitties.viewmodel.CartViewModel
 import com.example.fruitties.viewmodel.MainViewModel
 
 /**
@@ -11,8 +12,8 @@ import com.example.fruitties.viewmodel.MainViewModel
  * This is used with from iOS with Kotlin Multiplatform (KMP).
  */
 @Suppress("unused") // Android Studio is not aware of iOS usage.
-class MainViewModelStoreOwner(
-    appContainer: AppContainer,
+class FruittiesViewModelStoreOwner(
+    val extras: Extras,
 ) : ViewModelStoreOwner {
     override val viewModelStore: ViewModelStore = ViewModelStore()
 
@@ -21,9 +22,21 @@ class MainViewModelStoreOwner(
         ViewModelProvider.create(
             owner = this as ViewModelStoreOwner,
             factory = MainViewModel.Factory,
-            extras = MainViewModel.newCreationExtras(appContainer),
+            extras = MainViewModel.newCreationExtras(extras.appContainer),
         )[MainViewModel::class]
     }
+
+    val cartViewModel: CartViewModel by lazy {
+        ViewModelProvider.create(
+            owner = this as ViewModelStoreOwner,
+            factory = CartViewModel.Factory,
+            extras = CartViewModel.newCreationExtras(extras.appContainer),
+        )[CartViewModel::class]
+    }
+
+    data class Extras(
+        val appContainer: AppContainer,
+    )
 
     // To add more ViewModel types, add new properties for each ViewModel.
     // If we need to add a very large number of ViewModel types,
@@ -34,3 +47,4 @@ class MainViewModelStoreOwner(
         viewModelStore.clear()
     }
 }
+

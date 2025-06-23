@@ -19,11 +19,11 @@ import SwiftUI
 import shared
 
 struct CartView : View {
-    let viewModelStoreOwnerFactory: () -> CartViewModelStoreOwner
+    // Find the nearest scoped ViewModelStoreOwner.
+    @EnvironmentObject var viewModelStoreOwner: ObservableValueWrapper<FruittiesViewModelStoreOwner>
 
     var body: some View {
-        let viewModelStoreOwner = viewModelStoreOwnerFactory()
-        let cartViewModel = viewModelStoreOwner.cartViewModel
+        let cartViewModel = viewModelStoreOwner.value.cartViewModel
         // The ViewModel exposes a StateFlow that we access in SwiftUI with SKIE Observing.
         // https://skie.touchlab.co/features/flows-in-swiftui
         Observing(cartViewModel.cartUiState) { cartUIState in
@@ -35,9 +35,6 @@ struct CartView : View {
                 }
                 CartDetailsView(cartViewModel: cartViewModel)
                 Spacer()
-            }
-            .onDisappear {
-                viewModelStoreOwner.clear()
             }
         }
     }

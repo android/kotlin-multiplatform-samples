@@ -1,7 +1,7 @@
 /*
  * Copyright 2024 The Android Open Source Project
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
+ * Licensed under the Apache License, Version 20.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
@@ -16,16 +16,25 @@
 
 import SwiftUI
 import shared
+
 @main
 struct iOSApp: App {
-    let appContainer = AppContainer(factory: Factory())
+    // We define extras to be passed to the ViewModelStoreOwner so that it can instantiate ViewModel instances.
+    let extras: FruittiesViewModelStoreOwner.Extras
+
+    init() {
+        self.extras = FruittiesViewModelStoreOwner.Extras(appContainer: AppContainer(factory: Factory()))
+    }
+
     var body: some Scene {
         WindowGroup {
-            ContentView(mainViewModelStoreOwnerFactory: {
-                MainViewModelStoreOwner(appContainer: appContainer)
-            }, cartViewModelStoreOwnerFactory: {
-                CartViewModelStoreOwner(appContainer: appContainer)
-            })
+            // Provide the root ViewModelStoreOwner.
+            // This will provide an @EnvironmentObject that views can use to find the nearest ViewModelStoreOwner.
+            // Nested parts of the app can create additional ViewModelStoreOwner instances
+            // by nesting declarations of ViewModelStoreOwnerProvider().
+            ViewModelStoreOwnerProvider(extras: self.extras) {
+                ContentView()
+            }
         }
     }
 }

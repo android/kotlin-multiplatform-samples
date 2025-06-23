@@ -19,17 +19,23 @@ import shared
 import Foundation
 
 struct ContentView: View {
-    let mainViewModelStoreOwnerFactory: () -> MainViewModelStoreOwner
-    let cartViewModelStoreOwnerFactory: () -> CartViewModelStoreOwner
-    
+    // Find the nearest scoped ViewModelStoreOwner.
+    @EnvironmentObject var viewModelStoreOwner: ObservableValueWrapper<FruittiesViewModelStoreOwner>
+
     var body: some View {
-        let mainViewModelStoreOwner = mainViewModelStoreOwnerFactory()
-        let mainViewModel = mainViewModelStoreOwner.mainViewModel
+        let mainViewModel = viewModelStoreOwner.value.mainViewModel
+
         NavigationStack {
             VStack {
                 Text("Fruitties").font(.largeTitle).fontWeight(.bold)
                 NavigationLink {
-                    CartView(viewModelStoreOwnerFactory: cartViewModelStoreOwnerFactory)
+                    // Create a new ViewModelStoreOwner scoped to this part of the app.'
+                    // The new viewModelStoreOwner will shadow the @EnvironmentObject.
+                    // The ViewModelStoreOwnerProvider will instantiate and clean up the ViewModelStoreOwner
+                    // and all of its ViewModel instances.
+                    ViewModelStoreOwnerProvider(extras: viewModelStoreOwner.value.extras) {
+                        CartView()
+                    }
                 } label: {
                     Observing(mainViewModel.homeUiState) { homeUIState in
                         let total = homeUIState.cartItemCount
@@ -50,9 +56,6 @@ struct ContentView: View {
                     }
                 }
             }
-        }
-        .onDisappear {
-            mainViewModelStoreOwner.clear()
         }
     }
 }
