@@ -51,6 +51,9 @@ struct ContentView: View {
                 }
             }
         }
+        .onDisappear {
+            mainViewModelStoreOwner.clear()
+        }
     }
 }
 

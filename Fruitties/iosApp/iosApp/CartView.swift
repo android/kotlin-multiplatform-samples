@@ -39,7 +39,6 @@ struct CartView : View {
             .onDisappear {
                 viewModelStoreOwner.clear()
             }
-
         }
     }
 }

@@ -104,11 +104,10 @@ fun CartScreen(onNavBack: () -> Unit) {
     ) { paddingValues ->
         Column(
             modifier = Modifier
-                .padding(horizontal = 16.dp)
+                .padding(16.dp)
                 // Support edge-to-edge (required on Android 15)
                 // https://developer.android.com/develop/ui/compose/layouts/insets#inset-size
                 .padding(paddingValues),
-            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             val cartItemCount = cartState.cartDetails.sumOf { it.count }
             Text(
@@ -117,7 +116,7 @@ fun CartScreen(onNavBack: () -> Unit) {
             )
             LazyColumn(
                 modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 items(cartState.cartDetails) { cartItem ->
                     Text(text = "${cartItem.fruittie.name}: ${cartItem.count}")
