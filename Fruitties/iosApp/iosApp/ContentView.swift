@@ -19,21 +19,34 @@ import shared
 import Foundation
 
 struct ContentView: View {
-    var mainViewModel: MainViewModel
-
+    let mainViewModelStoreOwnerFactory: () -> MainViewModelStoreOwner
+    let cartViewModelStoreOwnerFactory: () -> CartViewModelStoreOwner
+    
     var body: some View {
-        Text("Fruitties").font(.largeTitle).fontWeight(.bold)
-        CartView(mainViewModel: mainViewModel)
-        // https://skie.touchlab.co/features/flows-in-swiftui
-        Observing(self.mainViewModel.homeUiState) { homeUIState in
-            ScrollView {
-                LazyVStack {
-                    ForEach(homeUIState.fruitties, id: \.self) { value in
-                        FruittieView(fruittie: value, addToCart: { fruittie in
-                            Task {
-                                self.mainViewModel.addItemToCart(fruittie: fruittie)
+        let mainViewModelStoreOwner = mainViewModelStoreOwnerFactory()
+        let mainViewModel = mainViewModelStoreOwner.mainViewModel
+        NavigationStack {
+            VStack {
+                Text("Fruitties").font(.largeTitle).fontWeight(.bold)
+                NavigationLink {
+                    CartView(viewModelStoreOwnerFactory: cartViewModelStoreOwnerFactory)
+                } label: {
+                    Observing(mainViewModel.homeUiState) { homeUIState in
+                        let total = homeUIState.cartItemCount
+                        Text("View Cart (\(total))")
+                    }
+                }
+                Observing(mainViewModel.homeUiState) { homeUIState in
+                    ScrollView {
+                        LazyVStack {
+                            ForEach(homeUIState.fruitties, id: \.self) { value in
+                                FruittieView(fruittie: value, addToCart: { fruittie in
+                                    Task {
+                                        mainViewModel.addItemToCart(fruittie: fruittie)
+                                    }
+                                })
                             }
-                        })
+                        }
                     }
                 }
             }

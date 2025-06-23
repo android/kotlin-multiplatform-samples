@@ -25,35 +25,15 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.fruitties.DataRepository
 import com.example.fruitties.di.AppContainer
-import com.example.fruitties.model.Fruittie
+import com.example.fruitties.model.CartItemDetails
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 
-class MainViewModel(
+class CartViewModel(
     private val repository: DataRepository,
 ) : ViewModel() {
-    val homeUiState: StateFlow<HomeUiState> =
-        repository
-            .getData()
-            .combine(repository.cartDetails) { fruitties, cartState ->
-                HomeUiState(
-                    fruitties = fruitties,
-                    cartItemCount = cartState.sumOf { item -> item.count },
-                )
-            }.stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
-                initialValue = HomeUiState(),
-            )
-
-    @Deprecated(
-        "Use CartViewModel.cartUiState instead",
-        ReplaceWith("CartViewModel.cartUiState"),
-    )
     val cartUiState: StateFlow<CartUiState> =
         repository.cartDetails
             .map { CartUiState(it) }
@@ -63,12 +43,6 @@ class MainViewModel(
                 initialValue = CartUiState(),
             )
 
-    fun addItemToCart(fruittie: Fruittie) {
-        viewModelScope.launch {
-            repository.addToCart(fruittie)
-        }
-    }
-
     companion object {
         val APP_CONTAINER_KEY = CreationExtras.Key<AppContainer>()
 
@@ -76,21 +50,10 @@ class MainViewModel(
             initializer {
                 val appContainer = this[APP_CONTAINER_KEY] as AppContainer
                 val repository = appContainer.dataRepository
-                MainViewModel(repository = repository)
+                CartViewModel(repository = repository)
             }
         }
 
-        /**
-         * Helper function to prepare CreationExtras.
-         *
-         * USAGE:
-         *
-         * val mainViewModel: MainViewModel = ViewModelProvider.create(
-         *  owner = this as ViewModelStoreOwner,
-         *  factory = MainViewModel.Factory,
-         *  extras = MainViewModel.newCreationExtras(appContainer),
-         * )[MainViewModel::class]
-         */
         fun newCreationExtras(appContainer: AppContainer): CreationExtras =
             MutableCreationExtras().apply {
                 set(APP_CONTAINER_KEY, appContainer)
@@ -99,11 +62,10 @@ class MainViewModel(
 }
 
 /**
- * Ui State for the home screen
+ * Ui State for the cart
  */
-data class HomeUiState(
-    val fruitties: List<Fruittie> = listOf(),
-    val cartItemCount: Int = 0,
+data class CartUiState(
+    val cartDetails: List<CartItemDetails> = listOf(),
 )
 
 private const val TIMEOUT_MILLIS = 5_000L
