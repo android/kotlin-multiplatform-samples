@@ -25,6 +25,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entry
 import androidx.navigation3.runtime.entryProvider
@@ -68,8 +69,7 @@ fun NavApp() {
         entryDecorators = listOf(
             rememberSceneSetupNavEntryDecorator(),
             rememberSavedStateNavEntryDecorator(),
-//            java.lang.NoSuchMethodError: No virtual method getKey()Ljava/lang/Object; in class Landroidx/navigation3/runtime/NavEntry; or its super classes (declaration of 'androidx.navigation3.runtime.NavEntry'
-//            rememberViewModelStoreNavEntryDecorator(),
+            rememberViewModelStoreNavEntryDecorator(),
         ),
         onBack = { keysToRemove -> repeat(keysToRemove) { backStack.removeLastOrNull() } },
         entryProvider = entryProvider {
