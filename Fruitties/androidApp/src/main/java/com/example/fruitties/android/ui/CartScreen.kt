@@ -38,6 +38,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarColors
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -86,7 +87,7 @@ fun CartScreen(onNavBack: () -> Unit) {
                 title = {
                     Text(text = stringResource(R.string.frutties))
                 },
-                colors = TopAppBarColors(
+                colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primary,
                     scrolledContainerColor = MaterialTheme.colorScheme.primary,
                     navigationIconContentColor = MaterialTheme.colorScheme.onPrimary,
@@ -103,10 +104,10 @@ fun CartScreen(onNavBack: () -> Unit) {
     ) { paddingValues ->
         Column(
             modifier = Modifier
-                .padding(16.dp)
                 // Support edge-to-edge (required on Android 15)
                 // https://developer.android.com/develop/ui/compose/layouts/insets#inset-size
-                .padding(paddingValues),
+                .padding(paddingValues)
+                .padding(16.dp),
         ) {
             val cartItemCount = cartState.cartDetails.sumOf { it.count }
             Text(

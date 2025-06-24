@@ -31,7 +31,7 @@ struct CartView : View {
         /// and proper initialization of the ViewModel with its required `AppContainer`.
         let cartViewModel: CartViewModel = viewModelStoreOwner.value.getCartViewModel(
             factory: CartViewModel.companion.Factory,
-            extras: CartViewModel.creationExtras(appContainer: appContainer.value)
+            extras: CartViewModel.companion.creationExtras(appContainer: appContainer.value)
         )
 
         /// Observes the `cartUiState` `StateFlow` from the `CartViewModel` using SKIE's `Observing` utility.

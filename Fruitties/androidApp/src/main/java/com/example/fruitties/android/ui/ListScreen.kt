@@ -100,7 +100,13 @@ fun ListScreen(onClickViewCart: () -> Unit = {}) {
                 .padding(horizontal = 16.dp)
                 // Support edge-to-edge (required on Android 15)
                 // https://developer.android.com/develop/ui/compose/layouts/insets#inset-size
-                .padding(paddingValues),
+                .padding(
+                    // Draw to bottom edge. LazyColumn adds a Spacer for WindowInsets.systemBars.
+                    // No bottom padding.
+                    top = paddingValues.calculateTopPadding(),
+                    start = 16.dp,
+                    end = 16.dp,
+                ),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Button(
@@ -150,7 +156,7 @@ fun FruittieItem(
             Text(
                 text = item.name,
                 color = MaterialTheme.colorScheme.onBackground,
-                style = MaterialTheme.typography.titleMedium,
+                style = MaterialTheme.typography.titleLarge,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
