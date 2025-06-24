@@ -82,9 +82,8 @@ fun NavApp() {
             }
             entry<CartScreenKey> {
                 CartScreen(
-                    onNavBack = {
-                        backStack.clear()
-                        backStack.add(ListScreenKey)
+                    onNavBarBack = {
+                        backStack.removeIf { it is CartScreenKey }
                     },
                 )
             }

@@ -37,7 +37,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -55,7 +54,7 @@ import com.example.fruitties.viewmodel.CartViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CartScreen(onNavBack: () -> Unit) {
+fun CartScreen(onNavBarBack: () -> Unit) {
     // Instantiate a ViewModel with a dependency on the AppContainer.
     // To make ViewModel compatible with KMP, the ViewModel factory must
     // create an instance without referencing the Android Application.
@@ -77,7 +76,7 @@ fun CartScreen(onNavBack: () -> Unit) {
         topBar = {
             CenterAlignedTopAppBar(
                 navigationIcon = {
-                    IconButton(onClick = onNavBack) {
+                    IconButton(onClick = onNavBarBack) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Navigate back",
