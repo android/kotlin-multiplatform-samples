@@ -19,7 +19,6 @@ androidx-paging = "3.3.6"
 nav3Core = "1.0.0-alpha01"
 lifecycleViewmodelNav3 = "1.0.0-alpha01"
 kotlinxSerializationCore = "1.8.1"
-material3AdaptiveNav3 = "1.0.0-SNAPSHOT"
 androidx-room = "2.7.1"
 androidx-lifecycle = "2.9.1"
 atomicfu = "0.27.0"
@@ -75,7 +74,6 @@ androidx-navigation3-runtime = { module = "androidx.navigation3:navigation3-runt
 androidx-navigation3-ui = { module = "androidx.navigation3:navigation3-ui", version.ref = "nav3Core" }
 androidx-lifecycle-viewmodel-navigation3 = { module = "androidx.lifecycle:lifecycle-viewmodel-navigation3", version.ref = "lifecycleViewmodelNav3" }
 kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinxSerializationCore" }
-androidx-material3-adaptive-navigation3 = { group = "androidx.compose.material3.adaptive", name = "adaptive-navigation3", version.ref = "material3AdaptiveNav3" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
