@@ -54,7 +54,7 @@ class CartViewModel(
             }
         }
 
-        fun newCreationExtras(appContainer: AppContainer): CreationExtras =
+        fun creationExtras(appContainer: AppContainer): CreationExtras =
             MutableCreationExtras().apply {
                 set(APP_CONTAINER_KEY, appContainer)
             }

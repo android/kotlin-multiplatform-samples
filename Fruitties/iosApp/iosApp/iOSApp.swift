@@ -19,22 +19,21 @@ import shared
 
 @main
 struct iOSApp: App {
-    // We define extras to be passed to the ViewModelStoreOwner so that it can instantiate ViewModel instances.
-    let extras: IOSViewModelStoreOwner.Extras
+    /// The application's dependency container, wrapped for SwiftUI observation.
+    let appContainer: ObservableValueWrapper<AppContainer>
 
     init() {
-        self.extras = IOSViewModelStoreOwner.Extras(appContainer: AppContainer(factory: Factory()))
+        self.appContainer = ObservableValueWrapper<AppContainer>(value: AppContainer(factory: Factory()))
     }
 
     var body: some Scene {
         WindowGroup {
-            // Provide the root ViewModelStoreOwner.
-            // This will provide an @EnvironmentObject that views can use to find the nearest ViewModelStoreOwner.
-            // Nested parts of the app can create additional ViewModelStoreOwner instances
-            // by nesting declarations of ViewModelStoreOwnerProvider().
-            ViewModelStoreOwnerProvider(extras: self.extras) {
+            /// Provides the root `ViewModelStoreOwner` to the environment, making it accessible to all child views.
+            /// Nested `ViewModelStoreOwnerProvider` instances can create additional, scoped ViewModel stores.
+            ViewModelStoreOwnerProvider {
                 ContentView()
             }
+            .environmentObject(appContainer)
         }
     }
 }

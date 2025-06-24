@@ -19,21 +19,29 @@ import shared
 import Foundation
 
 struct ContentView: View {
-    // Find the nearest scoped ViewModelStoreOwner.
+    /// Injects the `IOSViewModelStoreOwner` from the environment, which manages the lifecycle of `ViewModel` instances.
     @EnvironmentObject var viewModelStoreOwner: ObservableValueWrapper<IOSViewModelStoreOwner>
 
+    /// Injects the `AppContainer` from the environment, providing access to application-wide dependencies.
+    @EnvironmentObject var appContainer: ObservableValueWrapper<AppContainer>
+
     var body: some View {
-        let mainViewModel = viewModelStoreOwner.value.mainViewModel
+        /// Retrieves the `MainViewModel` instance using the `viewModelStoreOwner`.
+        /// The `MainViewModel.Factory` and `creationExtras` are provided to enable dependency injection
+        /// and proper initialization of the ViewModel with its required `AppContainer`.
+        let mainViewModel: MainViewModel = viewModelStoreOwner.value.getMainViewModel(
+            factory: MainViewModel.companion.Factory,
+            extras: MainViewModel.companion.creationExtras(appContainer: self.appContainer.value)
+        )
 
         NavigationStack {
             VStack {
                 Text("Fruitties").font(.largeTitle).fontWeight(.bold)
                 NavigationLink {
-                    // Create a new ViewModelStoreOwner scoped to this part of the app.'
-                    // The new viewModelStoreOwner will shadow the @EnvironmentObject.
-                    // The ViewModelStoreOwnerProvider will instantiate and clean up the ViewModelStoreOwner
-                    // and all of its ViewModel instances.
-                    ViewModelStoreOwnerProvider(extras: viewModelStoreOwner.value.extras) {
+                    /// Provides a new `ViewModelStoreOwner` for `CartView`, ensuring its ViewModels
+                    /// are scoped to this navigation destination and are properly managed.
+                    /// This shadows the parent's `viewModelStoreOwner` for this sub-hierarchy.
+                    ViewModelStoreOwnerProvider {
                         CartView()
                     }
                 } label: {

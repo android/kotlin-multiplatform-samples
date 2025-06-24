@@ -65,7 +65,7 @@ fun ListScreen(onClickViewCart: () -> Unit = {}) {
     val app = LocalContext.current.applicationContext as App
     val extras = remember(app) {
         val container = app.container
-        MainViewModel.newCreationExtras(container)
+        MainViewModel.creationExtras(container)
     }
     val viewModel: MainViewModel = viewModel(
         factory = MainViewModel.Factory,

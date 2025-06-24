@@ -16,7 +16,6 @@
 
 package com.example.fruitties.android.ui
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -64,7 +63,7 @@ fun CartScreen(onNavBack: () -> Unit) {
     val app = LocalContext.current.applicationContext as App
     val extras = remember(app) {
         val container = app.container
-        CartViewModel.newCreationExtras(container)
+        CartViewModel.creationExtras(container)
     }
     val viewModel: CartViewModel = viewModel(
         factory = CartViewModel.Factory,

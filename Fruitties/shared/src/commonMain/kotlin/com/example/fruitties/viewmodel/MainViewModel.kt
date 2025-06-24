@@ -91,7 +91,7 @@ class MainViewModel(
          *  extras = MainViewModel.newCreationExtras(appContainer),
          * )[MainViewModel::class]
          */
-        fun newCreationExtras(appContainer: AppContainer): CreationExtras =
+        fun creationExtras(appContainer: AppContainer): CreationExtras =
             MutableCreationExtras().apply {
                 set(APP_CONTAINER_KEY, appContainer)
             }

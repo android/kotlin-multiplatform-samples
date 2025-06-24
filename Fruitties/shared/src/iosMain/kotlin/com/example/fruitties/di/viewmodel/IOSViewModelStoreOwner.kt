@@ -3,7 +3,7 @@ package com.example.fruitties.di.viewmodel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStore
 import androidx.lifecycle.ViewModelStoreOwner
-import com.example.fruitties.di.AppContainer
+import androidx.lifecycle.viewmodel.CreationExtras
 import com.example.fruitties.viewmodel.CartViewModel
 import com.example.fruitties.viewmodel.MainViewModel
 
@@ -12,35 +12,28 @@ import com.example.fruitties.viewmodel.MainViewModel
  * This is used with from iOS with Kotlin Multiplatform (KMP).
  */
 @Suppress("unused") // Android Studio is not aware of iOS usage.
-class IOSViewModelStoreOwner(
-    val extras: Extras,
-) : ViewModelStoreOwner {
+class IOSViewModelStoreOwner : ViewModelStoreOwner {
     override val viewModelStore: ViewModelStore = ViewModelStore()
 
-    // Create an instance of MainViewModel with the CreationExtras.
-    val mainViewModel: MainViewModel by lazy {
+    fun getMainViewModel(
+        factory: ViewModelProvider.Factory? = null,
+        extras: CreationExtras? = null,
+    ): MainViewModel =
         ViewModelProvider.create(
             owner = this as ViewModelStoreOwner,
             factory = MainViewModel.Factory,
-            extras = MainViewModel.newCreationExtras(extras.appContainer),
+            extras = extras ?: CreationExtras.Empty,
         )[MainViewModel::class]
-    }
 
-    val cartViewModel: CartViewModel by lazy {
+    fun getCartViewModel(
+        factory: ViewModelProvider.Factory? = null,
+        extras: CreationExtras? = null,
+    ): CartViewModel =
         ViewModelProvider.create(
             owner = this as ViewModelStoreOwner,
             factory = CartViewModel.Factory,
-            extras = CartViewModel.newCreationExtras(extras.appContainer),
+            extras = extras ?: CreationExtras.Empty,
         )[CartViewModel::class]
-    }
-
-    data class Extras(
-        val appContainer: AppContainer,
-    )
-
-    // To add more ViewModel types, add new properties for each ViewModel.
-    // If we need to add a very large number of ViewModel types,
-    // we could consider creating a generic retrieval implementation with reflection.
 
     // If the ViewModelStoreOwner will go out of scope, we should clear the ViewModelStore.
     fun clear() {
