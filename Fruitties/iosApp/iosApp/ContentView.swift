@@ -29,11 +29,15 @@ struct ContentView: View {
         /// Retrieves the `MainViewModel` instance using the `viewModelStoreOwner`.
         /// The `MainViewModel.Factory` and `creationExtras` are provided to enable dependency injection
         /// and proper initialization of the ViewModel with its required `AppContainer`.
+//        let mainViewModel: MainViewModel = viewModelStoreOwner.value.getViewModel(
+//            type: .main,
+//            factory: MainViewModel.companion.Factory,
+//            extras: MainViewModel.companion.creationExtras(appContainer: self.appContainer.value)
+//        ) as! MainViewModel
         let mainViewModel: MainViewModel = viewModelStoreOwner.value.getMainViewModel(
             factory: MainViewModel.companion.Factory,
-            extras: MainViewModel.companion.creationExtras(appContainer: self.appContainer.value)
+            extras: MainViewModel.companion.creationExtras(appContainer: appContainer.value)
         )
-
         NavigationStack {
             VStack {
                 Text("Fruitties").font(.largeTitle).fontWeight(.bold)

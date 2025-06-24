@@ -29,6 +29,11 @@ struct CartView : View {
         /// Retrieves the `CartViewModel` instance using the `viewModelStoreOwner`.
         /// The `CartViewModel.Factory` and `creationExtras` are provided to enable dependency injection
         /// and proper initialization of the ViewModel with its required `AppContainer`.
+//        let cartViewModel: CartViewModel = viewModelStoreOwner.value.getViewModel(
+//            type: .cart,
+//            factory: CartViewModel.companion.Factory,
+//            extras: CartViewModel.companion.creationExtras(appContainer: appContainer.value)
+//        ) as! CartViewModel
         let cartViewModel: CartViewModel = viewModelStoreOwner.value.getCartViewModel(
             factory: CartViewModel.companion.Factory,
             extras: CartViewModel.companion.creationExtras(appContainer: appContainer.value)

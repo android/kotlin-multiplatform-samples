@@ -1,11 +1,23 @@
 package com.example.fruitties.di.viewmodel
 
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStore
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.example.fruitties.viewmodel.CartViewModel
 import com.example.fruitties.viewmodel.MainViewModel
+import kotlin.reflect.KClass
+
+enum class ViewModelType {
+    MAIN,
+    CART,
+}
+private fun selectViewModel(type: ViewModelType): Pair<KClass<out ViewModel>, ViewModelProvider.Factory?> =
+    when (type) {
+        ViewModelType.MAIN -> MainViewModel::class to MainViewModel.Factory
+        ViewModelType.CART -> CartViewModel::class to CartViewModel.Factory
+    }
 
 /**
  * A ViewModelStoreOwner specifically for iOS.
@@ -15,25 +27,52 @@ import com.example.fruitties.viewmodel.MainViewModel
 class IOSViewModelStoreOwner : ViewModelStoreOwner {
     override val viewModelStore: ViewModelStore = ViewModelStore()
 
+    fun getViewModel(
+        type: ViewModelType,
+        factory: ViewModelProvider.Factory? = null,
+        extras: CreationExtras = CreationExtras.Empty
+    ): ViewModel {
+        val (kClass, defaultFactory) = selectViewModel(type)
+        val provider =
+            if (factory != null) {
+                ViewModelProvider.create(this.viewModelStore, factory, extras)
+            } else if (defaultFactory != null) {
+                ViewModelProvider.create(this.viewModelStore, defaultFactory, extras)
+            } else {
+                ViewModelProvider.create(this)
+            }
+        return provider[kClass]
+    }
+
     fun getMainViewModel(
         factory: ViewModelProvider.Factory? = null,
         extras: CreationExtras? = null,
     ): MainViewModel =
-        ViewModelProvider.create(
-            owner = this as ViewModelStoreOwner,
-            factory = MainViewModel.Factory,
+        getViewModel(
+            type = ViewModelType.MAIN,
+            factory = factory,
             extras = extras ?: CreationExtras.Empty,
-        )[MainViewModel::class]
+        ) as MainViewModel
+//        ViewModelProvider.create(
+//            owner = this as ViewModelStoreOwner,
+//            factory = factory ?: MainViewModel.Factory,
+//            extras = extras ?: CreationExtras.Empty,
+//        )[MainViewModel::class]
 
     fun getCartViewModel(
         factory: ViewModelProvider.Factory? = null,
         extras: CreationExtras? = null,
     ): CartViewModel =
-        ViewModelProvider.create(
-            owner = this as ViewModelStoreOwner,
-            factory = CartViewModel.Factory,
+        getViewModel(
+            type = ViewModelType.CART,
+            factory = factory,
             extras = extras ?: CreationExtras.Empty,
-        )[CartViewModel::class]
+        ) as CartViewModel
+//        ViewModelProvider.create(
+//            owner = this as ViewModelStoreOwner,
+//            factory = factory ?: CartViewModel.Factory,
+//            extras = extras ?: CreationExtras.Empty,
+//        )[CartViewModel::class]
 
     // If the ViewModelStoreOwner will go out of scope, we should clear the ViewModelStore.
     fun clear() {
