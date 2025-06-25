@@ -19,12 +19,34 @@ import SwiftUI
 import shared
 
 struct CartView : View {
-    let cartViewModel: CartViewModel
+    /// Injects the `IOSViewModelStoreOwner` from the environment, which manages the lifecycle of `ViewModel` instances.
+    @EnvironmentObject var viewModelStoreOwner: ObservableValueWrapper<IOSViewModelStoreOwner>
 
-    // The ViewModel exposes a StateFlow that we access in SwiftUI with SKIE Observing.
-    // https://skie.touchlab.co/features/flows-in-swiftui
+    /// Injects the `AppContainer` from the environment, providing access to application-wide dependencies.
+    @EnvironmentObject var appContainer: ObservableValueWrapper<AppContainer>
 
     var body: some View {
+        /// Retrieves the `CartViewModel` instance using the `viewModelStoreOwner`.
+        /// The `CartViewModel.Factory` and `creationExtras` are provided to enable dependency
+        /// injection and proper initialization of the ViewModel with its required `AppContainer`.
+        let cartViewModelFromEnum: CartViewModel = viewModelStoreOwner.value.getViewModelWithEnum(
+            type: .cart,
+            factory: CartViewModel.companion.Factory,
+            extras: CartViewModel.companion.creationExtras(appContainer: appContainer.value)
+        ) as! CartViewModel
+        let cartViewModelWithFunctionUsingEnum: CartViewModel = viewModelStoreOwner.value.getCartViewModelWithFunctionUsingEnum(
+            factory: CartViewModel.companion.Factory,
+            extras: CartViewModel.companion.creationExtras(appContainer: appContainer.value)
+        )
+        let cartViewModelWithFunctionUsingProvider: CartViewModel = viewModelStoreOwner.value.getCartViewModelWithFunctionUsingProvider(
+            factory: CartViewModel.companion.Factory,
+            extras: CartViewModel.companion.creationExtras(appContainer: appContainer.value)
+        )
+        // Any of the 3 options work.
+//        let cartViewModel = cartViewModelFromEnum
+//        let cartViewModel = cartViewModelWithFunctionUsingEnum
+        let cartViewModel = cartViewModelWithFunctionUsingProvider
+
         // https://skie.touchlab.co/features/flows-in-swiftui
         Observing(cartViewModel.cartUiState) { cartUIState in
             VStack {
