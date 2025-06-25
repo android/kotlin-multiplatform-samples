@@ -1,0 +1,30 @@
+import SwiftUI
+import shared
+
+/// A ViewModelStoreOwner specifically for iOS.
+/// This is used with from iOS with Kotlin Multiplatform (KMP).
+class IOSViewModelStoreOwner: ObservableObject {
+
+    private let viewModelStore = Lifecycle_viewmodelViewModelStore()
+
+    /// This function allows retrieving the androidx ViewModel from the store.
+    func viewModel<T: AnyObject>(
+        key: String? = nil,
+        factory: Lifecycle_viewmodelViewModelProviderFactory,
+        extras: Lifecycle_viewmodelCreationExtras,
+    ) -> T {
+        let vm =
+            viewModelStore.getViewModel(
+                modelClass: T.self,
+                factory: factory,
+                key: key,
+                extras: extras
+            ) as! T
+
+        return vm
+    }
+
+    func clear() {
+        viewModelStore.clear()
+    }
+}
