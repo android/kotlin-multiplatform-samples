@@ -32,12 +32,12 @@ class CartViewModel(
 ) : ViewModel() {
 
     init {
-        Logger.i { "CartViewModel created" }
+        Logger.v { "CartViewModel created" }
     }
 
     override fun onCleared() {
         super.onCleared()
-        Logger.i { "CartViewModel cleared" }
+        Logger.v { "CartViewModel cleared" }
     }
 
     val cartUiState: StateFlow<CartUiState> =

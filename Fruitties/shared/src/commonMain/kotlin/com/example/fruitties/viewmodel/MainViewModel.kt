@@ -33,12 +33,12 @@ class MainViewModel(
 ) : ViewModel() {
 
     init {
-        Logger.i { "MainViewModel created" }
+        Logger.v { "MainViewModel created" }
     }
 
     override fun onCleared() {
         super.onCleared()
-        Logger.i { "MainViewModel cleared" }
+        Logger.v { "MainViewModel cleared" }
     }
 
     val homeUiState: StateFlow<HomeUiState> =
