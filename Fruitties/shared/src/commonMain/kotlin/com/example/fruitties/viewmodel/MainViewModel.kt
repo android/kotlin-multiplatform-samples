@@ -19,12 +19,7 @@ package com.example.fruitties.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.CreationExtras
-import androidx.lifecycle.viewmodel.MutableCreationExtras
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.fruitties.DataRepository
-import com.example.fruitties.di.AppContainer
 import com.example.fruitties.model.Fruittie
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -35,6 +30,11 @@ import kotlinx.coroutines.launch
 class MainViewModel(
     private val repository: DataRepository,
 ) : ViewModel() {
+
+    init {
+        println("hello from ios!")
+    }
+
     val homeUiState: StateFlow<HomeUiState> =
         repository
             .getData()
@@ -56,31 +56,9 @@ class MainViewModel(
     }
 
     companion object {
-        val APP_CONTAINER_KEY = CreationExtras.Key<AppContainer>()
-
-        val Factory: ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                val appContainer = this[APP_CONTAINER_KEY] as AppContainer
-                val repository = appContainer.dataRepository
-                MainViewModel(repository = repository)
-            }
+        val Factory: ViewModelProvider.Factory = vmFactory {
+            MainViewModel(repository = it.dataRepository)
         }
-
-        /**
-         * Helper function to prepare CreationExtras.
-         *
-         * USAGE:
-         *
-         * val mainViewModel: MainViewModel = ViewModelProvider.create(
-         *  owner = this as ViewModelStoreOwner,
-         *  factory = MainViewModel.Factory,
-         *  extras = MainViewModel.newCreationExtras(appContainer),
-         * )[MainViewModel::class]
-         */
-        fun creationExtras(appContainer: AppContainer): CreationExtras =
-            MutableCreationExtras().apply {
-                set(APP_CONTAINER_KEY, appContainer)
-            }
     }
 }
 

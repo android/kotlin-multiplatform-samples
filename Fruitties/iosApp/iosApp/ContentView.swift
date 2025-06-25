@@ -19,15 +19,27 @@ import shared
 import Foundation
 
 struct ContentView: View {
-    var mainViewModel: MainViewModel
-    var cartViewModel: CartViewModel
+    /// Injects the `IOSViewModelStoreOwner` from the environment, which manages the lifecycle of `ViewModel` instances.
+    @EnvironmentObject var viewModelStoreOwner: IOSViewModelStoreOwner
+
+    /// Injects the `AppContainer` from the environment, providing access to application-wide dependencies.
+    @EnvironmentObject var appContainer: ObservableValueWrapper<AppContainer>
 
     var body: some View {
+        /// Retrieves the `MainViewModel` instance using the `viewModelStoreOwner`.
+        /// The `MainViewModel.Factory` and `creationExtras` are provided to enable dependency injection
+        /// and proper initialization of the ViewModel with its required `AppContainer`.
+        let mainViewModel: MainViewModel = viewModelStoreOwner.viewModel(
+            factory: MainViewModel.companion.Factory,
+            extras: creationExtras(appContainer: appContainer.value)
+        )
         NavigationStack {
             VStack {
                 Text("Fruitties").font(.largeTitle).fontWeight(.bold)
                 NavigationLink {
-                    CartView(cartViewModel: cartViewModel)
+                    ViewModelStoreOwnerProvider{
+                        CartView()
+                    }
                 } label: {
                     Observing(mainViewModel.homeUiState) { homeUIState in
                         let total = homeUIState.cartItemCount
