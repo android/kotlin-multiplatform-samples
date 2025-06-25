@@ -108,7 +108,7 @@ fun CartScreen(onNavBarBack: () -> Unit) {
                 .padding(paddingValues)
                 .padding(16.dp),
         ) {
-            val cartItemCount = cartState.cartDetails.sumOf { it.count }
+            val cartItemCount = cartState.totalItemCount
             Text(
                 text = "Cart has $cartItemCount items",
                 modifier = Modifier.padding(8.dp),

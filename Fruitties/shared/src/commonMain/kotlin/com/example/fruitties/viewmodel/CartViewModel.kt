@@ -36,8 +36,12 @@ class CartViewModel(
 ) : ViewModel() {
     val cartUiState: StateFlow<CartUiState> =
         repository.cartDetails
-            .map { CartUiState(it) }
-            .stateIn(
+            .map { details ->
+                CartUiState(
+                    cartDetails = details,
+                    totalItemCount = details.sumOf { it.count },
+                )
+            }.stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
                 initialValue = CartUiState(),
@@ -66,6 +70,7 @@ class CartViewModel(
  */
 data class CartUiState(
     val cartDetails: List<CartItemDetails> = listOf(),
+    val totalItemCount: Int = 0,
 )
 
 private const val TIMEOUT_MILLIS = 5_000L
