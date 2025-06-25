@@ -19,15 +19,44 @@ import shared
 import Foundation
 
 struct ContentView: View {
-    var mainViewModel: MainViewModel
-    var cartViewModel: CartViewModel
+    /// Injects the `IOSViewModelStoreOwner` from the environment, which manages the lifecycle of `ViewModel` instances.
+    @EnvironmentObject var viewModelStoreOwner: ObservableValueWrapper<IOSViewModelStoreOwner>
+
+    /// Injects the `AppContainer` from the environment, providing access to application-wide dependencies.
+    @EnvironmentObject var appContainer: ObservableValueWrapper<AppContainer>
 
     var body: some View {
+        /// Retrieves the `MainViewModel` instance using the `viewModelStoreOwner`.
+        /// The `MainViewModel.Factory` and `creationExtras` are provided to enable dependency injection
+        /// and proper initialization of the ViewModel with its required `AppContainer`.
+        let mainViewModelFromEnum: MainViewModel = viewModelStoreOwner.value.getViewModelWithEnum(
+            type: .main,
+            factory: MainViewModel.companion.Factory,
+            extras: MainViewModel.companion.creationExtras(appContainer: self.appContainer.value)
+        ) as! MainViewModel
+        let mainViewModelWithFunctionUsingEnum: MainViewModel = viewModelStoreOwner.value.getMainViewModelWithFunctionUsingEnum(
+            factory: MainViewModel.companion.Factory,
+            extras: MainViewModel.companion.creationExtras(appContainer: appContainer.value)
+        )
+        let mainViewModelWithFunctionUsingProvider: MainViewModel = viewModelStoreOwner.value.getMainViewModelWithFunctionUsingProvider(
+            factory: MainViewModel.companion.Factory,
+            extras: MainViewModel.companion.creationExtras(appContainer: appContainer.value)
+        )
+        // Any of the 3 options work.
+//        let mainViewModel = mainViewModelFromEnum
+//        let mainViewModel = mainViewModelWithFunctionUsingEnum
+        let mainViewModel = mainViewModelWithFunctionUsingProvider
+
         NavigationStack {
             VStack {
                 Text("Fruitties").font(.largeTitle).fontWeight(.bold)
                 NavigationLink {
-                    CartView(cartViewModel: cartViewModel)
+                    /// Provides a new `ViewModelStoreOwner` for `CartView`, ensuring its ViewModels
+                    /// are scoped to this navigation destination and are properly managed.
+                    /// This shadows the parent's `viewModelStoreOwner` for this sub-hierarchy.
+                    ViewModelStoreOwnerProvider {
+                        CartView()
+                    }
                 } label: {
                     Observing(mainViewModel.homeUiState) { homeUIState in
                         let total = homeUIState.cartItemCount
