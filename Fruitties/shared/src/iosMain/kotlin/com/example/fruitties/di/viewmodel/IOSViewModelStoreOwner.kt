@@ -30,7 +30,7 @@ class IOSViewModelStoreOwner : ViewModelStoreOwner {
     fun getViewModel(
         type: ViewModelType,
         factory: ViewModelProvider.Factory? = null,
-        extras: CreationExtras = CreationExtras.Empty
+        extras: CreationExtras = CreationExtras.Empty,
     ): ViewModel {
         val (kClass, defaultFactory) = selectViewModel(type)
         val provider =
@@ -50,7 +50,7 @@ class IOSViewModelStoreOwner : ViewModelStoreOwner {
     ): MainViewModel =
         getViewModel(
             type = ViewModelType.MAIN,
-            factory = factory,
+            factory = factory ?: MainViewModel.Factory,
             extras = extras ?: CreationExtras.Empty,
         ) as MainViewModel
 //        ViewModelProvider.create(
@@ -65,7 +65,7 @@ class IOSViewModelStoreOwner : ViewModelStoreOwner {
     ): CartViewModel =
         getViewModel(
             type = ViewModelType.CART,
-            factory = factory,
+            factory = factory ?: CartViewModel.Factory,
             extras = extras ?: CreationExtras.Empty,
         ) as CartViewModel
 //        ViewModelProvider.create(
