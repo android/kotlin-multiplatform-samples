@@ -58,6 +58,9 @@ class CartViewModel(
             }
         }
 
+        @Suppress("unused")
+        val KClass = CartViewModel::class
+
         fun creationExtras(appContainer: AppContainer): CreationExtras =
             MutableCreationExtras().apply {
                 set(APP_CONTAINER_KEY, appContainer)

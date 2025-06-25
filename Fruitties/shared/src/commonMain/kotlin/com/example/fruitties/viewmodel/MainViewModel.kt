@@ -66,6 +66,9 @@ class MainViewModel(
             }
         }
 
+        @Suppress("unused")
+        val KClass = MainViewModel::class
+
         /**
          * Helper function to prepare CreationExtras.
          *

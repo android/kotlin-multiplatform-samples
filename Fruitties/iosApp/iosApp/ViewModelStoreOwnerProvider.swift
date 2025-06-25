@@ -22,21 +22,20 @@ import shared
 /// Manages the lifecycle of `ViewModel` instances, scoping them to this view hierarchy.
 /// Clears the associated `ViewModelStore` when the provider disappears.
 struct ViewModelStoreOwnerProvider<Content: View>: View {
-    /// The `IOSViewModelStoreOwner` instance, wrapped for SwiftUI observability.
-    @StateObject private var viewModelStoreOwner: ObservableValueWrapper<IOSViewModelStoreOwner>
+    // Directly create our new Swift class as a StateObject
+    @StateObject private var viewModelStoreOwner = SwiftViewModelStoreOwner()
     private let content: Content
 
-    /// Initializes the provider with its content, creating a new `IOSViewModelStoreOwner`.
     init(@ViewBuilder content: () -> Content) {
-        _viewModelStoreOwner = StateObject(wrappedValue: ObservableValueWrapper(value: IOSViewModelStoreOwner()))
         self.content = content()
     }
 
     var body: some View {
         content
+            // Pass the owner directly to the environment
             .environmentObject(viewModelStoreOwner)
             .onDisappear {
-                viewModelStoreOwner.value.clear()
+                viewModelStoreOwner.clear()
             }
     }
 }

@@ -19,12 +19,11 @@ import shared
 
 @main
 struct iOSApp: App {
-    /// The application's dependency container, wrapped for SwiftUI observation.
+    /// The application's dependency container.
     let appContainer: ObservableValueWrapper<AppContainer>
 
     init() {
-        self.appContainer = ObservableValueWrapper<AppContainer>(
-            value: AppContainer(factory: Factory()))
+        self.appContainer = ObservableValueWrapper(value: AppContainer(factory: Factory()))
     }
 
     var body: some Scene {

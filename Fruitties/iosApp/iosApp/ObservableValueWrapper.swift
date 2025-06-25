@@ -14,20 +14,13 @@
  * limitations under the License.
  */
 
+import Foundation
 import Combine
-import SwiftUI
-import shared
 
-/// A generic wrapper that makes any `Value` type observable by SwiftUI.
-///
-/// Use this to wrap non-`ObservableObject` types when their changes need to update SwiftUI views.
-class ObservableValueWrapper<Value>: ObservableObject {
+class ObservableValueWrapper<T>: ObservableObject {
+    @Published var value: T
 
-    /// The wrapped value. Changes trigger SwiftUI view updates.
-    @Published var value: Value
-
-    /// Initializes the wrapper with an initial value.
-    init(value: Value) {
+    init(value: T) {
         self.value = value
     }
 }
