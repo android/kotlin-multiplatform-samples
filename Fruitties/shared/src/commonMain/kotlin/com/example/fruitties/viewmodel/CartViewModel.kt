@@ -31,6 +31,7 @@ class CartViewModel(
     private val repository: DataRepository,
 ) : ViewModel() {
 
+<<<<<<< kermit
     init {
         Logger.i { "CartViewModel created" }
     }
@@ -40,6 +41,8 @@ class CartViewModel(
         Logger.i { "CartViewModel cleared" }
     }
 
+=======
+>>>>>>> mlykotom/ios-viewmodel-scoping
     val cartUiState: StateFlow<CartUiState> =
         repository.cartDetails
             .map { details ->
