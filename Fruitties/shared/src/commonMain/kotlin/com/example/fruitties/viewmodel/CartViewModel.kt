@@ -22,7 +22,6 @@ import androidx.lifecycle.viewModelScope
 import co.touchlab.kermit.Logger
 import com.example.fruitties.DataRepository
 import com.example.fruitties.model.CartItemDetails
-import io.ktor.util.logging.Logger
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
@@ -55,7 +54,7 @@ class CartViewModel(
             )
 
     companion object {
-        val Factory: ViewModelProvider.Factory = vmFactory {
+        val Factory: ViewModelProvider.Factory = fruittiesViewModelFactory {
             CartViewModel(repository = it.dataRepository)
         }
     }

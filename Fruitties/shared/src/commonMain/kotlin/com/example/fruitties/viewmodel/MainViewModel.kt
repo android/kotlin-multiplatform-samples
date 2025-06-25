@@ -62,7 +62,7 @@ class MainViewModel(
     }
 
     companion object {
-        val Factory: ViewModelProvider.Factory = vmFactory {
+        val Factory: ViewModelProvider.Factory = fruittiesViewModelFactory {
             MainViewModel(repository = it.dataRepository)
         }
     }
