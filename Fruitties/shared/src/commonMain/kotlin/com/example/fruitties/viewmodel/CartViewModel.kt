@@ -30,15 +30,6 @@ class CartViewModel(
     private val repository: DataRepository,
 ) : ViewModel() {
 
-    init {
-        println("hello from CartViewmodel")
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        println("clearing CartViewModel")
-    }
-
     val cartUiState: StateFlow<CartUiState> =
         repository.cartDetails
             .map { details ->

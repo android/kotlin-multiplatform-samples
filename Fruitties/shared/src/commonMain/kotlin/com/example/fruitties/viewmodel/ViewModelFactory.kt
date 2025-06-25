@@ -25,6 +25,15 @@ fun creationExtras(appContainer: AppContainer): CreationExtras =
         set(APP_CONTAINER_KEY, appContainer)
     }
 
+fun creationExtras(
+    appContainer: AppContainer,
+    additional: MutableCreationExtras.() -> Unit
+): CreationExtras =
+    MutableCreationExtras().apply {
+        set(APP_CONTAINER_KEY, appContainer)
+        additional()
+    }
+
 inline fun <reified T : ViewModel> vmFactory(
     crossinline initializer: CreationExtras.(AppContainer) -> T
 ) =

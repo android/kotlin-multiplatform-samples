@@ -34,6 +34,7 @@ class IOSViewModelStoreOwner: ObservableObject {
         Lifecycle_viewmodelViewModelStore()
 
     func viewModel<T: AnyObject>(
+        key: String? = nil,
         factory: Lifecycle_viewmodelViewModelProviderFactory,
         extras: Lifecycle_viewmodelCreationExtras,
     ) -> T {
@@ -41,6 +42,7 @@ class IOSViewModelStoreOwner: ObservableObject {
             viewModelStore.getViewModel(
                 modelClass: T.self,
                 factory: factory,
+                key: key,
                 extras: extras
             ) as! T
 
