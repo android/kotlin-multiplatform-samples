@@ -1,7 +1,7 @@
 /*
  * Copyright 2024 The Android Open Source Project
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
+ * Licensed under the Apache License, Version 20.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
@@ -16,13 +16,15 @@
 
 import SwiftUI
 import shared
+
 @main
 struct iOSApp: App {
     let appContainer = AppContainer(factory: Factory())
     var body: some Scene {
         WindowGroup {
-            let iosViewModelOwner = IOSViewModelOwner(appContainer: appContainer)
-            ContentView(mainViewModel: iosViewModelOwner.mainViewModel)
+            let iosViewModelOwner = IOSViewModelStoreOwner(appContainer: appContainer)
+            ContentView(mainViewModel: iosViewModelOwner.getMainViewModel(),
+                        cartViewModel: iosViewModelOwner.getCartViewModel())
         }
     }
 }
