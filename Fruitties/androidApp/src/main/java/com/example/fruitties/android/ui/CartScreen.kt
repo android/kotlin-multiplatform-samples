@@ -16,9 +16,7 @@
 
 package com.example.fruitties.android.ui
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
@@ -30,13 +28,16 @@ import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Button
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarColors
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -45,18 +46,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.fruitties.android.R
 import com.example.fruitties.android.di.App
-import com.example.fruitties.model.Fruittie
-import com.example.fruitties.viewmodel.MainViewModel
+import com.example.fruitties.viewmodel.CartViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ListScreen(onClickViewCart: () -> Unit = {}) {
+fun CartScreen(onNavBarBack: () -> Unit) {
     // Instantiate a ViewModel with a dependency on the AppContainer.
     // To make ViewModel compatible with KMP, the ViewModel factory must
     // create an instance without referencing the Android Application.
@@ -65,22 +63,30 @@ fun ListScreen(onClickViewCart: () -> Unit = {}) {
     val app = LocalContext.current.applicationContext as App
     val extras = remember(app) {
         val container = app.container
-        MainViewModel.creationExtras(container)
+        CartViewModel.creationExtras(container)
     }
-    val viewModel: MainViewModel = viewModel(
-        factory = MainViewModel.Factory,
+    val viewModel: CartViewModel = viewModel(
+        factory = CartViewModel.Factory,
         extras = extras,
     )
 
-    val uiState by viewModel.homeUiState.collectAsState()
+    val cartState by viewModel.cartUiState.collectAsState()
 
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
+                navigationIcon = {
+                    IconButton(onClick = onNavBarBack) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Navigate back",
+                        )
+                    }
+                },
                 title = {
                     Text(text = stringResource(R.string.frutties))
                 },
-                colors = TopAppBarColors(
+                colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primary,
                     scrolledContainerColor = MaterialTheme.colorScheme.primary,
                     navigationIconContentColor = MaterialTheme.colorScheme.onPrimary,
@@ -97,37 +103,23 @@ fun ListScreen(onClickViewCart: () -> Unit = {}) {
     ) { paddingValues ->
         Column(
             modifier = Modifier
-                .padding(horizontal = 16.dp)
                 // Support edge-to-edge (required on Android 15)
                 // https://developer.android.com/develop/ui/compose/layouts/insets#inset-size
-                .padding(
-                    // Draw to bottom edge. LazyColumn adds a Spacer for WindowInsets.systemBars.
-                    // No bottom padding.
-                    top = paddingValues.calculateTopPadding(),
-                    start = 16.dp,
-                    end = 16.dp,
-                ),
-            horizontalAlignment = Alignment.CenterHorizontally,
+                .padding(paddingValues)
+                .padding(16.dp),
         ) {
-            Button(
-                onClick = onClickViewCart,
+            val cartItemCount = cartState.totalItemCount
+            Text(
+                text = "Cart has $cartItemCount items",
                 modifier = Modifier.padding(8.dp),
-            ) {
-                Text(text = "View Cart (${uiState.cartItemCount})")
-            }
+            )
             LazyColumn(
                 modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(64.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                items(items = uiState.fruitties, key = { it.id }) { item ->
-                    FruittieItem(
-                        item = item,
-                        onAddToCart = viewModel::addItemToCart,
-                        modifier = Modifier.fillMaxWidth(),
-                    )
+                items(cartState.cartDetails) { cartItem ->
+                    Text(text = "${cartItem.fruittie.name}: ${cartItem.count}")
                 }
-                // Support edge-to-edge (required on Android 15)
-                // https://developer.android.com/develop/ui/compose/layouts/insets#inset-size
                 item {
                     Spacer(
                         Modifier.windowInsetsBottomHeight(
@@ -138,51 +130,4 @@ fun ListScreen(onClickViewCart: () -> Unit = {}) {
             }
         }
     }
-}
-
-@Composable
-fun FruittieItem(
-    item: Fruittie,
-    onAddToCart: (fruittie: Fruittie) -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    Row(
-        modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Column(
-            verticalArrangement = Arrangement.Center,
-        ) {
-            Text(
-                text = item.name,
-                color = MaterialTheme.colorScheme.onBackground,
-                style = MaterialTheme.typography.titleLarge,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
-            Text(
-                text = item.fullName,
-                color = MaterialTheme.colorScheme.onSurface,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis,
-            )
-        }
-        Spacer(modifier = Modifier.weight(1f))
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Button(onClick = { onAddToCart(item) }) {
-                Text(stringResource(R.string.add))
-            }
-        }
-    }
-}
-
-@Preview
-@Composable
-fun ItemPreview() {
-    FruittieItem(
-        Fruittie(name = "Fruit", fullName = "Fruitus Mangorus", calories = "240"),
-        onAddToCart = {},
-    )
 }

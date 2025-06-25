@@ -20,20 +20,31 @@ import Foundation
 
 struct ContentView: View {
     var mainViewModel: MainViewModel
+    var cartViewModel: CartViewModel
 
     var body: some View {
-        Text("Fruitties").font(.largeTitle).fontWeight(.bold)
-        CartView(mainViewModel: mainViewModel)
-        // https://skie.touchlab.co/features/flows-in-swiftui
-        Observing(self.mainViewModel.homeUiState) { homeUIState in
-            ScrollView {
-                LazyVStack {
-                    ForEach(homeUIState.fruitties, id: \.self) { value in
-                        FruittieView(fruittie: value, addToCart: { fruittie in
-                            Task {
-                                self.mainViewModel.addItemToCart(fruittie: fruittie)
+        NavigationStack {
+            VStack {
+                Text("Fruitties").font(.largeTitle).fontWeight(.bold)
+                NavigationLink {
+                    CartView(cartViewModel: cartViewModel)
+                } label: {
+                    Observing(mainViewModel.homeUiState) { homeUIState in
+                        let total = homeUIState.cartItemCount
+                        Text("View Cart (\(total))")
+                    }
+                }
+                Observing(mainViewModel.homeUiState) { homeUIState in
+                    ScrollView {
+                        LazyVStack {
+                            ForEach(homeUIState.fruitties, id: \.self) { value in
+                                FruittieView(fruittie: value, addToCart: { fruittie in
+                                    Task {
+                                        mainViewModel.addItemToCart(fruittie: fruittie)
+                                    }
+                                })
                             }
-                        })
+                        }
                     }
                 }
             }

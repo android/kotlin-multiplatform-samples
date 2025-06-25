@@ -23,8 +23,25 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
+import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.entry
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.rememberNavBackStack
+import androidx.navigation3.runtime.rememberSavedStateNavEntryDecorator
+import androidx.navigation3.ui.NavDisplay
+import androidx.navigation3.ui.rememberSceneSetupNavEntryDecorator
+import com.example.fruitties.android.ui.CartScreen
 import com.example.fruitties.android.ui.ListScreen
+import kotlinx.serialization.Serializable
+
+@Serializable
+data object ListScreenKey : NavKey
+
+@Serializable
+data object CartScreenKey : NavKey
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,9 +53,40 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background,
                 ) {
-                    ListScreen()
+                    NavApp()
                 }
             }
         }
     }
+}
+
+@Composable
+fun NavApp() {
+    val backStack = rememberNavBackStack(ListScreenKey)
+
+    NavDisplay(
+        backStack = backStack,
+        entryDecorators = listOf(
+            rememberSceneSetupNavEntryDecorator(),
+            rememberSavedStateNavEntryDecorator(),
+            rememberViewModelStoreNavEntryDecorator(),
+        ),
+        onBack = { keysToRemove -> repeat(keysToRemove) { backStack.removeLastOrNull() } },
+        entryProvider = entryProvider {
+            entry<ListScreenKey> {
+                ListScreen(
+                    onClickViewCart = {
+                        backStack.add(CartScreenKey)
+                    },
+                )
+            }
+            entry<CartScreenKey> {
+                CartScreen(
+                    onNavBarBack = {
+                        backStack.removeIf { it is CartScreenKey }
+                    },
+                )
+            }
+        },
+    )
 }

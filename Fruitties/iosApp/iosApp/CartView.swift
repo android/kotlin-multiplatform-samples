@@ -19,50 +19,38 @@ import SwiftUI
 import shared
 
 struct CartView : View {
-    let mainViewModel: MainViewModel
+    let cartViewModel: CartViewModel
 
     // The ViewModel exposes a StateFlow that we access in SwiftUI with SKIE Observing.
     // https://skie.touchlab.co/features/flows-in-swiftui
 
-    @State
-    private var expanded = false
-
     var body: some View {
         // https://skie.touchlab.co/features/flows-in-swiftui
-        Observing(self.mainViewModel.cartUiState) { cartUIState in
+        Observing(cartViewModel.cartUiState) { cartUIState in
             VStack {
                 HStack {
-                    let total = cartUIState.cartDetails.reduce(0) { $0 + $1.count }
+                    let total = cartUIState.totalItemCount
                     Text("Cart has \(total) items").padding()
                     Spacer()
-                    Button {
-                        expanded.toggle()
-                    } label: {
-                        if (expanded) {
-                            Text("collapse")
-                        } else {
-                            Text("expand")
-                        }
-                    }.padding()
                 }
-                if (expanded) {
-                    CartDetailsView(mainViewModel: mainViewModel)
-                }
+                CartDetailsView(cartViewModel: cartViewModel)
+                Spacer()
             }
         }
     }
 }
 
 struct CartDetailsView: View {
-    let mainViewModel: MainViewModel
+    let cartViewModel: CartViewModel
 
     var body: some View {
-
         // https://skie.touchlab.co/features/flows-in-swiftui
-        Observing(self.mainViewModel.cartUiState) { cartUIState in
-            VStack {
-                ForEach(cartUIState.cartDetails, id: \.fruittie.id) { item in
-                    Text("\(item.fruittie.name): \(item.count)")
+        Observing(self.cartViewModel.cartUiState) { cartUIState in
+            ScrollView {
+                LazyVStack {
+                    ForEach(cartUIState.cartDetails, id: \.fruittie.id) { item in
+                        Text("\(item.fruittie.name): \(item.count)")
+                    }
                 }
             }
         }
