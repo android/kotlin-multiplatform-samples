@@ -10,7 +10,7 @@
 		058557BB273AAA24004C7B11 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557BA273AAA24004C7B11 /* Assets.xcassets */; };
 		058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */; };
 		2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* iOSApp.swift */; };
-		2DBC08C52E0C3291000309C8 /* ViewModelStoreProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBC08C42E0C3291000309C8 /* ViewModelStoreProvider.swift */; };
+		2DBC08C52E0C3291000309C8 /* ViewModelStoreOwnerProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBC08C42E0C3291000309C8 /* ViewModelStoreOwnerProvider.swift */; };
 		2DBC08C72E0C32CE000309C8 /* ObservableValueWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBC08C62E0C32CE000309C8 /* ObservableValueWrapper.swift */; };
 		2DBC08C92E0C96A4000309C8 /* IOSViewModelStoreOwner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBC08C82E0C96A4000309C8 /* IOSViewModelStoreOwner.swift */; };
 /* End PBXBuildFile section */
@@ -32,7 +32,7 @@
 		058557BA273AAA24004C7B11 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2152FB032600AC8F00CF470E /* iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSApp.swift; sourceTree = "<group>"; };
-		2DBC08C42E0C3291000309C8 /* ViewModelStoreProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelStoreProvider.swift; sourceTree = "<group>"; };
+		2DBC08C42E0C3291000309C8 /* ViewModelStoreOwnerProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelStoreOwnerProvider.swift; sourceTree = "<group>"; };
 		2DBC08C62E0C32CE000309C8 /* ObservableValueWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableValueWrapper.swift; sourceTree = "<group>"; };
 		2DBC08C82E0C96A4000309C8 /* IOSViewModelStoreOwner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOSViewModelStoreOwner.swift; sourceTree = "<group>"; };
 		7555FF7B242A565900829871 /* iosApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iosApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -87,7 +87,7 @@
 				7555FF8C242A565B00829871 /* Info.plist */,
 				2152FB032600AC8F00CF470E /* iOSApp.swift */,
 				058557D7273AAEEB004C7B11 /* Preview Content */,
-				2DBC08C42E0C3291000309C8 /* ViewModelStoreProvider.swift */,
+				2DBC08C42E0C3291000309C8 /* ViewModelStoreOwnerProvider.swift */,
 				2DBC08C82E0C96A4000309C8 /* IOSViewModelStoreOwner.swift */,
 				2DBC08C62E0C32CE000309C8 /* ObservableValueWrapper.swift */,
 			);
@@ -201,7 +201,7 @@
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
 				2DBC08C92E0C96A4000309C8 /* IOSViewModelStoreOwner.swift in Sources */,
 				2DBC08C72E0C32CE000309C8 /* ObservableValueWrapper.swift in Sources */,
-				2DBC08C52E0C3291000309C8 /* ViewModelStoreProvider.swift in Sources */,
+				2DBC08C52E0C3291000309C8 /* ViewModelStoreOwnerProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
