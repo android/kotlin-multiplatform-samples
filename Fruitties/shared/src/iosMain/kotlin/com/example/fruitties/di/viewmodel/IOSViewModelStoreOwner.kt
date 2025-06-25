@@ -11,6 +11,7 @@ import kotlin.reflect.KClass
 
 @Suppress("unused") // Android Studio is not aware of iOS usage.
 @OptIn(BetaInteropApi::class)
+@Throws(IllegalStateException::class)
 fun ViewModelStore.getViewModel(
     modelClass: ObjCClass,
     factory: ViewModelProvider.Factory,

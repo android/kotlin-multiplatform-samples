@@ -13,15 +13,16 @@ class IOSViewModelStoreOwner: ObservableObject {
         factory: Lifecycle_viewmodelViewModelProviderFactory,
         extras: Lifecycle_viewmodelCreationExtras,
     ) -> T {
-        let vm =
-            viewModelStore.getViewModel(
+        do {
+            return try viewModelStore.getViewModel(
                 modelClass: T.self,
                 factory: factory,
                 key: key,
                 extras: extras
             ) as! T
-
-        return vm
+        } catch {
+            fatalError("Failed to create ViewModel of type \(T.self)")
+        }
     }
 
     func clear() {
