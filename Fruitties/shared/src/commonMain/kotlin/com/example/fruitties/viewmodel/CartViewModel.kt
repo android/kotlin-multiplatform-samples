@@ -22,6 +22,7 @@ import androidx.lifecycle.viewModelScope
 import co.touchlab.kermit.Logger
 import com.example.fruitties.DataRepository
 import com.example.fruitties.model.CartItemDetails
+import io.ktor.util.logging.Logger
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
@@ -31,7 +32,6 @@ class CartViewModel(
     private val repository: DataRepository,
 ) : ViewModel() {
 
-<<<<<<< kermit
     init {
         Logger.i { "CartViewModel created" }
     }
@@ -41,8 +41,6 @@ class CartViewModel(
         Logger.i { "CartViewModel cleared" }
     }
 
-=======
->>>>>>> mlykotom/ios-viewmodel-scoping
     val cartUiState: StateFlow<CartUiState> =
         repository.cartDetails
             .map { details ->
