@@ -29,7 +29,7 @@ struct CartView : View {
         Observing(cartViewModel.cartUiState) { cartUIState in
             VStack {
                 HStack {
-                    let total = cartUIState.cartDetails.reduce(0) { $0 + $1.count }
+                    let total = cartUIState.totalItemCount
                     Text("Cart has \(total) items").padding()
                     Spacer()
                 }
