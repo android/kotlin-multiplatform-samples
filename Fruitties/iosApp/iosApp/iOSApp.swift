@@ -23,9 +23,8 @@ struct iOSApp: App {
     let appContainer: ObservableValueWrapper<AppContainer>
 
     init() {
-        let appContainer = AppContainer(factory: Factory())
         self.appContainer = ObservableValueWrapper<AppContainer>(
-            value: appContainer
+            value: AppContainer(factory: Factory())
         )
     }
 
