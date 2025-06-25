@@ -13,6 +13,7 @@ enum class ViewModelType {
     MAIN,
     CART,
 }
+
 private fun selectViewModel(type: ViewModelType): Pair<KClass<out ViewModel>, ViewModelProvider.Factory?> =
     when (type) {
         ViewModelType.MAIN -> MainViewModel::class to MainViewModel.Factory
@@ -28,22 +29,25 @@ class IOSViewModelStoreOwner : ViewModelStoreOwner {
     override val viewModelStore: ViewModelStore = ViewModelStore()
 
     fun getViewModel(
+        // Requires a type parameter because generics do not work well with KMP and Swift.
+        // The caller must cast the ViewModel to the specific subclass.
         type: ViewModelType,
         factory: ViewModelProvider.Factory? = null,
-        extras: CreationExtras = CreationExtras.Empty,
+        extras: CreationExtras? = null,
     ): ViewModel {
         val (kClass, defaultFactory) = selectViewModel(type)
         val provider =
             if (factory != null) {
-                ViewModelProvider.create(this.viewModelStore, factory, extras)
+                ViewModelProvider.create(this.viewModelStore, factory, extras ?: CreationExtras.Empty)
             } else if (defaultFactory != null) {
-                ViewModelProvider.create(this.viewModelStore, defaultFactory, extras)
+                ViewModelProvider.create(this.viewModelStore, defaultFactory, extras ?: CreationExtras.Empty)
             } else {
                 ViewModelProvider.create(this)
             }
         return provider[kClass]
     }
 
+    // Type-safe, but requires a new function name.
     fun getMainViewModel(
         factory: ViewModelProvider.Factory? = null,
         extras: CreationExtras? = null,
@@ -53,6 +57,7 @@ class IOSViewModelStoreOwner : ViewModelStoreOwner {
             factory = factory ?: MainViewModel.Factory,
             extras = extras ?: CreationExtras.Empty,
         ) as MainViewModel
+    // This also works:
 //        ViewModelProvider.create(
 //            owner = this as ViewModelStoreOwner,
 //            factory = factory ?: MainViewModel.Factory,
@@ -68,6 +73,7 @@ class IOSViewModelStoreOwner : ViewModelStoreOwner {
             factory = factory ?: CartViewModel.Factory,
             extras = extras ?: CreationExtras.Empty,
         ) as CartViewModel
+    // This also works:
 //        ViewModelProvider.create(
 //            owner = this as ViewModelStoreOwner,
 //            factory = factory ?: CartViewModel.Factory,
