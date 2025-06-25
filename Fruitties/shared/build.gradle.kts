@@ -98,6 +98,7 @@ kotlin {
                 api(libs.androidx.datastore.preferences.core)
                 api(libs.androidx.datastore.core.okio)
                 implementation(libs.okio)
+                implementation(libs.kermit)
             }
         }
 
