@@ -19,6 +19,7 @@ package com.example.fruitties.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import co.touchlab.kermit.Logger
 import com.example.fruitties.DataRepository
 import com.example.fruitties.model.CartItemDetails
 import kotlinx.coroutines.flow.SharingStarted
@@ -31,12 +32,12 @@ class CartViewModel(
 ) : ViewModel() {
 
     init {
-        println("hello from CartViewmodel")
+        Logger.i { "CartViewModel created" }
     }
 
     override fun onCleared() {
         super.onCleared()
-        println("clearing CartViewModel")
+        Logger.i { "CartViewModel cleared" }
     }
 
     val cartUiState: StateFlow<CartUiState> =

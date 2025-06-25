@@ -19,6 +19,7 @@ package com.example.fruitties.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import co.touchlab.kermit.Logger
 import com.example.fruitties.DataRepository
 import com.example.fruitties.model.Fruittie
 import kotlinx.coroutines.flow.SharingStarted
@@ -32,7 +33,12 @@ class MainViewModel(
 ) : ViewModel() {
 
     init {
-        println("hello from ios!")
+        Logger.i { "MainViewModel created" }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        Logger.i { "MainViewModel cleared" }
     }
 
     val homeUiState: StateFlow<HomeUiState> =
