@@ -53,7 +53,7 @@ fun FruittieScreen(
     FruittieScreen(
         state = state,
         onNavBarBack = onNavBarBack,
-        addToCart = { viewModel.addToCard(it) }
+        addToCart = { viewModel.addToCart(it) }
     )
 }
 

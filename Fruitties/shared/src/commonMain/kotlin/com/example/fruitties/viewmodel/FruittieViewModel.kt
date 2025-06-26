@@ -17,12 +17,12 @@ class FruittieViewModel(
     private val repository: DataRepository,
 ) : ViewModel() {
 
-    sealed interface State {
-        data object Loading : State
+    sealed class State {
+        data object Loading : State()
         data class Content(
             val inCart: Int,
             val fruittie: Fruittie
-        ) : State
+        ) : State()
     }
 
     val state = combine(
@@ -36,7 +36,7 @@ class FruittieViewModel(
         initialValue = State.Loading,
     )
 
-    fun addToCard(fruittie: Fruittie) {
+    fun addToCart(fruittie: Fruittie) {
         viewModelScope.launch {
             repository.addToCart(fruittie)
         }
