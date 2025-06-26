@@ -47,6 +47,7 @@ struct CartView : View {
                 CartDetailsView(cartViewModel: cartViewModel)
                 Spacer()
             }
+            .navigationTitle("Your Cart")
         }
     }
 }

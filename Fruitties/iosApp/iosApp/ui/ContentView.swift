@@ -35,17 +35,6 @@ struct ContentView: View {
         )
         NavigationStack {
             VStack {
-                Text("Fruitties").font(.largeTitle).fontWeight(.bold)
-                NavigationLink {
-                    ViewModelStoreOwnerProvider {
-                        CartView()
-                    }
-                } label: {
-                    Observing(mainViewModel.homeUiState) { homeUIState in
-                        let total = homeUIState.cartItemCount
-                        Text("View Cart (\(total))")
-                    }
-                }
                 Observing(mainViewModel.homeUiState) { homeUIState in
                     ScrollView {
                         LazyVStack {
@@ -62,6 +51,21 @@ struct ContentView: View {
                                     }
                                 )
                             }
+                        }
+                    }
+                }
+            }
+            .navigationTitle("Fruitties")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    NavigationLink {
+                        ViewModelStoreOwnerProvider {
+                            CartView()
+                        }
+                    } label: {
+                        Observing(mainViewModel.homeUiState) { homeUIState in
+                            let total = homeUIState.cartItemCount
+                            Text("View Cart (\(total))")
                         }
                     }
                 }
