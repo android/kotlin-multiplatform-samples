@@ -39,15 +39,18 @@ struct CartView : View {
         /// For more details, refer to: https://skie.touchlab.co/features/flows-in-swiftui
         Observing(cartViewModel.cartUiState) { cartUIState in
             VStack {
-                HStack {
-                    let total = cartUIState.totalItemCount
-                    Text("Cart has \(total) items").padding()
-                    Spacer()
-                }
                 CartDetailsView(cartViewModel: cartViewModel)
                 Spacer()
             }
-            .navigationTitle("Your Cart")
+            .navigationTitle("Cart")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Observing(cartViewModel.cartUiState) { cartUIState in
+                        let total = cartUIState.totalItemCount
+                        Text("Cart has \(total) items")
+                    }
+                }
+            }
         }
     }
 }
@@ -63,9 +66,28 @@ struct CartDetailsView: View {
             ScrollView {
                 LazyVStack {
                     ForEach(cartUIState.cartDetails, id: \.fruittie.id) { item in
-                        Text("\(item.fruittie.name): \(item.count)")
+                        HStack {
+                            Text("\(item.count)x \(item.fruittie.name)")
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                            Spacer()
+                            Button(action: {
+                                self.cartViewModel.decreaseCountClick(cartItem: item)
+                            }) {
+                                Image(systemName: "minus.circle.fill")
+                                    .foregroundColor(.red)
+                            }
+                            
+                            Button(action: {
+                                self.cartViewModel.increaseCountClick(cartItem: item)
+                            }) {
+                                Image(systemName: "plus.circle.fill")
+                                    .foregroundColor(.green)
+                            }
+                        }
+                        .padding()
                     }
                 }
+                .animation(.default, value: cartUIState.cartDetails)
             }
         }
     }
