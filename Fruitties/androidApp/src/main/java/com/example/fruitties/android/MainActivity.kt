@@ -34,6 +34,7 @@ import androidx.navigation3.runtime.rememberSavedStateNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import androidx.navigation3.ui.rememberSceneSetupNavEntryDecorator
 import com.example.fruitties.android.ui.CartScreen
+import com.example.fruitties.android.ui.FruittieScreen
 import com.example.fruitties.android.ui.ListScreen
 import kotlinx.serialization.Serializable
 
@@ -42,6 +43,9 @@ data object ListScreenKey : NavKey
 
 @Serializable
 data object CartScreenKey : NavKey
+
+@Serializable
+data class FruittieScreenKey(val id: Long) : NavKey
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,11 +79,23 @@ fun NavApp() {
         entryProvider = entryProvider {
             entry<ListScreenKey> {
                 ListScreen(
+                    onFruittieClick = {
+                        backStack.add(FruittieScreenKey(it.id))
+                    },
                     onClickViewCart = {
                         backStack.add(CartScreenKey)
                     },
                 )
             }
+            entry<FruittieScreenKey> {
+                FruittieScreen(
+                    fruittieId = it.id,
+                    onNavBarBack = {
+                        backStack.removeIf { it is FruittieScreenKey }
+                    },
+                )
+            }
+
             entry<CartScreenKey> {
                 CartScreen(
                     onNavBarBack = {
@@ -90,3 +106,4 @@ fun NavApp() {
         },
     )
 }
+

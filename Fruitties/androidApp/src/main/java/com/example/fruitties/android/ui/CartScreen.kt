@@ -17,6 +17,7 @@
 package com.example.fruitties.android.ui
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
@@ -25,6 +26,7 @@ import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -32,8 +34,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledIconButton
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonColors
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -43,12 +49,15 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.fruitties.android.R
 import com.example.fruitties.android.di.App
+import com.example.fruitties.model.CartItemDetails
 import com.example.fruitties.viewmodel.CartViewModel
 import com.example.fruitties.viewmodel.creationExtras
 
@@ -81,7 +90,7 @@ fun CartScreen(onNavBarBack: () -> Unit) {
                     }
                 },
                 title = {
-                    Text(text = stringResource(R.string.frutties))
+                    Text(text = stringResource(R.string.cart))
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primary,
@@ -108,14 +117,17 @@ fun CartScreen(onNavBarBack: () -> Unit) {
             val cartItemCount = cartState.totalItemCount
             Text(
                 text = "Cart has $cartItemCount items",
-                modifier = Modifier.padding(8.dp),
             )
+            HorizontalDivider()
             LazyColumn(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 items(cartState.cartDetails) { cartItem ->
-                    Text(text = "${cartItem.fruittie.name}: ${cartItem.count}")
+                    CartItem(
+                        cartItem = cartItem,
+                        decreaseCountClick = viewModel::decreaseCountClick,
+                        increaseCountClick = viewModel::increaseCountClick,
+                    )
                 }
                 item {
                     Spacer(
@@ -125,6 +137,42 @@ fun CartScreen(onNavBarBack: () -> Unit) {
                     )
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun CartItem(
+    cartItem: CartItemDetails,
+    increaseCountClick: (CartItemDetails) -> Unit,
+    decreaseCountClick: (CartItemDetails) -> Unit,
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Text(text = "${cartItem.count}x")
+        Spacer(Modifier.width(8.dp))
+        Text(text = cartItem.fruittie.name)
+        Spacer(Modifier.weight(1f))
+        FilledIconButton(
+            onClick = { decreaseCountClick(cartItem) },
+            colors = IconButtonDefaults.filledIconButtonColors(containerColor = Color.Red),
+        ) {
+            Text(
+                text = "-",
+                color = MaterialTheme.colorScheme.onPrimary,
+                textAlign = TextAlign.Center,
+            )
+        }
+        FilledIconButton(
+            onClick = { increaseCountClick(cartItem) },
+            colors = IconButtonDefaults.filledIconButtonColors(containerColor = Color.Green),
+        ) {
+            Text(
+                text = "+",
+                color = MaterialTheme.colorScheme.onPrimary,
+                textAlign = TextAlign.Center,
+            )
         }
     }
 }

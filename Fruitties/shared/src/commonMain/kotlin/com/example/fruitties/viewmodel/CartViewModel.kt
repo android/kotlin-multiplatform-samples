@@ -26,6 +26,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
 class CartViewModel(
     private val repository: DataRepository,
@@ -52,6 +53,18 @@ class CartViewModel(
                 started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
                 initialValue = CartUiState(),
             )
+
+    fun increaseCountClick(cartItem: CartItemDetails) {
+        viewModelScope.launch {
+            repository.addToCart(cartItem.fruittie)
+        }
+    }
+
+    fun decreaseCountClick(cartItem: CartItemDetails) {
+        viewModelScope.launch {
+            repository.removeFromCart(cartItem.fruittie)
+        }
+    }
 
     companion object {
         val Factory: ViewModelProvider.Factory = fruittiesViewModelFactory {
