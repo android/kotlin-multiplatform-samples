@@ -23,6 +23,7 @@ import com.example.fruitties.network.FruittieApi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.launch
 
@@ -48,6 +49,10 @@ class DataRepository(
         cartDataStore.add(fruittie)
     }
 
+    suspend fun removeFromCart(fruittie: Fruittie) {
+        cartDataStore.remove(fruittie)
+    }
+
     fun getData(): Flow<List<Fruittie>> {
         scope.launch {
             if (database.fruittieDao().count() < 1) {
@@ -55,6 +60,16 @@ class DataRepository(
             }
         }
         return loadData()
+    }
+
+    suspend fun getFruittie(id: Long): Fruittie? {
+        return database.fruittieDao().getFruittie(id)
+    }
+
+    fun fruittieInCart(id: Long): Flow<Int> {
+        return cartDataStore.cart.map { cart ->
+            cart.items.find { it.id == id }?.count ?: 0
+        }
     }
 
     fun loadData(): Flow<List<Fruittie>> = database.fruittieDao().getAllAsFlow()

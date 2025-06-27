@@ -16,5 +16,11 @@
 -->
 <resources>
     <string name="frutties">"Frutties"</string>
+    <string name="cart">Cart</string>
     <string name="add">Add</string>
+    <string name="loading">Loading…</string>
+    <string name="view_cart">View Cart (%1$d)</string>
+    <string name="navigate_back">Navigate back</string>
+    <string name="add_to_cart">Add to cart</string>
+    <string name="in_cart">In cart: %1$d</string>
 </resources>

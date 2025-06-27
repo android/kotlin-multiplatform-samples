@@ -18,7 +18,7 @@ import Foundation
 import SwiftUI
 import shared
 
-struct CartView : View {
+struct CartView: View {
     /// Injects the `IOSViewModelStoreOwner` from the environment, which manages the lifecycle of `ViewModel` instances.
     @EnvironmentObject var viewModelStoreOwner: IOSViewModelStoreOwner
 
@@ -39,13 +39,17 @@ struct CartView : View {
         /// For more details, refer to: https://skie.touchlab.co/features/flows-in-swiftui
         Observing(cartViewModel.cartUiState) { cartUIState in
             VStack {
-                HStack {
-                    let total = cartUIState.totalItemCount
-                    Text("Cart has \(total) items").padding()
-                    Spacer()
-                }
                 CartDetailsView(cartViewModel: cartViewModel)
                 Spacer()
+            }
+            .navigationTitle("Cart")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Observing(cartViewModel.cartUiState) { cartUIState in
+                        let total = cartUIState.totalItemCount
+                        Text("Cart has \(total) items")
+                    }
+                }
             }
         }
     }
@@ -59,13 +63,36 @@ struct CartDetailsView: View {
         /// This allows SwiftUI to react to changes in the cart's UI state.
         /// For more details, refer to: https://skie.touchlab.co/features/flows-in-swiftui
         Observing(self.cartViewModel.cartUiState) { cartUIState in
-            ScrollView {
-                LazyVStack {
-                    ForEach(cartUIState.cartDetails, id: \.fruittie.id) { item in
-                        Text("\(item.fruittie.name): \(item.count)")
+            List {
+                ForEach(cartUIState.cartDetails, id: \.fruittie.id) { item in
+                    HStack {
+                        Text("\(item.count)x \(item.fruittie.name)")
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                        Spacer()
+                        Button(action: {
+                            self.cartViewModel.decreaseCountClick(
+                                cartItem: item
+                            )
+                        }) {
+                            Image(systemName: "minus.circle.fill")
+                                .foregroundColor(.red)
+                        }
+                        .buttonStyle(.plain)
+
+                        Button(action: {
+                            self.cartViewModel.increaseCountClick(
+                                cartItem: item
+                            )
+                        }) {
+                            Image(systemName: "plus.circle.fill")
+                                .foregroundColor(.green)
+                        }
+                        .buttonStyle(.plain)
                     }
                 }
             }
+            .listStyle(.inset)
+            .animation(.default, value: cartUIState.cartDetails)
         }
     }
 }
