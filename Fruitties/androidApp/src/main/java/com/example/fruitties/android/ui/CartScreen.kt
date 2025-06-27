@@ -156,7 +156,7 @@ fun CartItem(
         Spacer(Modifier.weight(1f))
         FilledIconButton(
             onClick = { decreaseCountClick(cartItem) },
-            colors = IconButtonDefaults.filledIconButtonColors(containerColor = Color.Red),
+            colors = IconButtonDefaults.filledIconButtonColors(containerColor = MaterialTheme.colorScheme.error),
         ) {
             Text(
                 text = "-",
