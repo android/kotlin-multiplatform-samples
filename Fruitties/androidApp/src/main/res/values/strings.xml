@@ -23,4 +23,5 @@
     <string name="navigate_back">Navigate back</string>
     <string name="add_to_cart">Add to cart</string>
     <string name="in_cart">In cart: %1$d</string>
+    <string name="cart_has_items">Cart has %1$d items</string>
 </resources>
