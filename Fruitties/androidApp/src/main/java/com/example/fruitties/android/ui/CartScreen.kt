@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
@@ -38,7 +39,6 @@ import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonColors
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -53,17 +53,21 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.fruitties.android.MyApplicationTheme
 import com.example.fruitties.android.R
 import com.example.fruitties.android.di.App
 import com.example.fruitties.model.CartItemDetails
+import com.example.fruitties.model.Fruittie
+import com.example.fruitties.viewmodel.CartUiState
 import com.example.fruitties.viewmodel.CartViewModel
 import com.example.fruitties.viewmodel.creationExtras
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CartScreen(onNavBarBack: () -> Unit) {
+
     // Instantiate a ViewModel with a dependency on the AppContainer.
     // To make ViewModel compatible with KMP, the ViewModel factory must
     // create an instance without referencing the Android Application.
@@ -78,6 +82,22 @@ fun CartScreen(onNavBarBack: () -> Unit) {
 
     val cartState by viewModel.cartUiState.collectAsState()
 
+    CartScreen(
+        onNavBarBack = onNavBarBack,
+        cartState = cartState,
+        increaseCountClick = viewModel::increaseCountClick,
+        decreaseCountClick = viewModel::decreaseCountClick,
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun CartScreen(
+    onNavBarBack: () -> Unit,
+    cartState: CartUiState,
+    decreaseCountClick: (CartItemDetails) -> Unit,
+    increaseCountClick: (CartItemDetails) -> Unit,
+) {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -109,14 +129,13 @@ fun CartScreen(onNavBarBack: () -> Unit) {
     ) { paddingValues ->
         Column(
             modifier = Modifier
-                // Support edge-to-edge (required on Android 15)
-                // https://developer.android.com/develop/ui/compose/layouts/insets#inset-size
                 .padding(paddingValues)
+                .consumeWindowInsets(paddingValues)
                 .padding(16.dp),
         ) {
             val cartItemCount = cartState.totalItemCount
             Text(
-                text = "Cart has $cartItemCount items",
+                text = stringResource(R.string.cart_has_items, cartItemCount),
             )
             HorizontalDivider()
             LazyColumn(
@@ -125,8 +144,8 @@ fun CartScreen(onNavBarBack: () -> Unit) {
                 items(cartState.cartDetails) { cartItem ->
                     CartItem(
                         cartItem = cartItem,
-                        decreaseCountClick = viewModel::decreaseCountClick,
-                        increaseCountClick = viewModel::increaseCountClick,
+                        decreaseCountClick = decreaseCountClick,
+                        increaseCountClick = increaseCountClick,
                     )
                 }
                 item {
@@ -146,8 +165,10 @@ fun CartItem(
     cartItem: CartItemDetails,
     increaseCountClick: (CartItemDetails) -> Unit,
     decreaseCountClick: (CartItemDetails) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Row(
+        modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(text = "${cartItem.count}x")
@@ -174,5 +195,64 @@ fun CartItem(
                 textAlign = TextAlign.Center,
             )
         }
+    }
+}
+
+@Preview
+@Composable
+private fun CartScreenPreview() {
+    MyApplicationTheme {
+        CartScreen(
+            onNavBarBack = {},
+            cartState = CartUiState(
+                cartDetails = listOf(
+                    CartItemDetails(
+                        fruittie = Fruittie(
+                            name = "Banana",
+                            fullName = "Banana Banana",
+                            calories = "100",
+                        ),
+                        count = 4,
+                    ),
+                    CartItemDetails(
+                        fruittie = Fruittie(
+                            name = "Orange",
+                            fullName = "Orange Orange",
+                            calories = "100",
+                        ),
+                        count = 1,
+                    ),
+                    CartItemDetails(
+                        fruittie = Fruittie(
+                            name = "Apple",
+                            fullName = "Apple Apple",
+                            calories = "100",
+                        ),
+                        count = 100,
+                    ),
+                )
+            ),
+            decreaseCountClick = {},
+            increaseCountClick = {},
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun CartItemPreview() {
+    MyApplicationTheme {
+        CartItem(
+            cartItem = CartItemDetails(
+                fruittie = Fruittie(
+                    name = "Banana",
+                    fullName = "Banana Banana",
+                    calories = "100",
+                ),
+                count = 4,
+            ),
+            increaseCountClick = {},
+            decreaseCountClick = {}
+        )
     }
 }
