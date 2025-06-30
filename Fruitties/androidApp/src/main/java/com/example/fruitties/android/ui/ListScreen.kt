@@ -19,10 +19,11 @@ package com.example.fruitties.android.ui
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -105,10 +106,11 @@ fun ListScreen(
     ) { paddingValues ->
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(16.dp),
-//            contentPadding = paddingValues,
+            contentPadding = PaddingValues(bottom = 72.dp),
             modifier = Modifier
                 .nestedScroll(topAppBarScrollBehavior.nestedScrollConnection)
-                .padding(paddingValues),
+                .padding(paddingValues)
+                .consumeWindowInsets(paddingValues),
         ) {
             items(items = uiState.fruitties, key = { it.id }) { item ->
                 FruittieItem(
@@ -117,10 +119,6 @@ fun ListScreen(
                     onAddToCart = viewModel::addItemToCart,
                     modifier = Modifier.fillMaxWidth(),
                 )
-            }
-            item {
-                // Additional space because of FAB
-                Spacer(Modifier.height(50.dp))
             }
         }
     }
