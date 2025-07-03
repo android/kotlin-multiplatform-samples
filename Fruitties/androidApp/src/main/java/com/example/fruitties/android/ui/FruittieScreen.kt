@@ -1,0 +1,130 @@
+package com.example.fruitties.android.ui
+
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.fruitties.android.R
+import com.example.fruitties.android.di.App
+import com.example.fruitties.model.Fruittie
+import com.example.fruitties.viewmodel.FruittieViewModel
+import com.example.fruitties.viewmodel.FruittieViewModel.Companion.FRUITTIE_ID_KEY
+import com.example.fruitties.viewmodel.creationExtras
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun FruittieScreen(
+    fruittieId: Long,
+    onNavBarBack: () -> Unit,
+) {
+    val app = LocalContext.current.applicationContext as App
+
+    val viewModel: FruittieViewModel = viewModel(
+        factory = FruittieViewModel.Factory,
+        extras = creationExtras(app.container) {
+            set(FRUITTIE_ID_KEY, fruittieId)
+        },
+    )
+
+    val state = viewModel.state.collectAsState().value
+
+    FruittieScreen(
+        state = state,
+        onNavBarBack = onNavBarBack,
+        addToCart = { viewModel.addToCart(it) },
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun FruittieScreen(
+    state: FruittieViewModel.State,
+    addToCart: (Fruittie) -> Unit,
+    onNavBarBack: () -> Unit,
+) {
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(
+                        (state as? FruittieViewModel.State.Content)?.fruittie?.name
+                            ?: stringResource(R.string.loading),
+                    )
+                },
+                actions = {
+                    val inCart = (state as? FruittieViewModel.State.Content)?.inCart ?: 0
+                    Text(stringResource(R.string.in_cart, inCart))
+                    Spacer(Modifier.width(8.dp))
+                },
+                navigationIcon = {
+                    IconButton(onClick = onNavBarBack) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = stringResource(R.string.navigate_back),
+                        )
+                    }
+                },
+            )
+        },
+        floatingActionButton = {
+            // Check if state is loaded
+            if (state !is FruittieViewModel.State.Content) return@Scaffold
+
+            FloatingActionButton(
+                shape = MaterialTheme.shapes.extraLarge,
+                onClick = { addToCart(state.fruittie) },
+            ) {
+                Row(
+                    modifier = Modifier.padding(
+                        horizontal = 16.dp,
+                    ),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Icon(
+                        Icons.Filled.ShoppingCart,
+                        contentDescription = null,
+                    )
+                    Spacer(Modifier.width(8.dp))
+                    Text(text = stringResource(R.string.add_to_cart))
+                }
+            }
+        },
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .padding(it)
+                .fillMaxSize(),
+        ) {
+            when (state) {
+                FruittieViewModel.State.Loading -> CircularProgressIndicator()
+                is FruittieViewModel.State.Content -> {
+                    Text(state.fruittie.fullName)
+                    Text(state.fruittie.calories)
+                }
+            }
+        }
+    }
+}
