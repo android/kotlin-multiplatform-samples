@@ -16,18 +16,18 @@ class FruittieViewModel(
     private val fruittieId: Long,
     private val repository: DataRepository,
 ) : ViewModel() {
-
     sealed class State {
         data object Loading : State()
+
         data class Content(
             val inCart: Int,
-            val fruittie: Fruittie
+            val fruittie: Fruittie,
         ) : State()
     }
 
     val state = combine(
         flow { emit(repository.getFruittie(fruittieId)) }.filterNotNull(),
-        repository.fruittieInCart(fruittieId)
+        repository.fruittieInCart(fruittieId),
     ) { fruittie, inCart ->
         State.Content(inCart, fruittie)
     }.stateIn(
@@ -46,7 +46,7 @@ class FruittieViewModel(
         val Factory = fruittiesViewModelFactory {
             FruittieViewModel(
                 fruittieId = get(FRUITTIE_ID_KEY) ?: error("Expected fruittieId!"),
-                repository = it.dataRepository
+                repository = it.dataRepository,
             )
         }
 

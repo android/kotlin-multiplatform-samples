@@ -67,7 +67,6 @@ import com.example.fruitties.viewmodel.creationExtras
 
 @Composable
 fun CartScreen(onNavBarBack: () -> Unit) {
-
     // Instantiate a ViewModel with a dependency on the AppContainer.
     // To make ViewModel compatible with KMP, the ViewModel factory must
     // create an instance without referencing the Android Application.
@@ -230,7 +229,7 @@ private fun CartScreenPreview() {
                         ),
                         count = 100,
                     ),
-                )
+                ),
             ),
             decreaseCountClick = {},
             increaseCountClick = {},
@@ -252,7 +251,7 @@ private fun CartItemPreview() {
                 count = 4,
             ),
             increaseCountClick = {},
-            decreaseCountClick = {}
+            decreaseCountClick = {},
         )
     }
 }

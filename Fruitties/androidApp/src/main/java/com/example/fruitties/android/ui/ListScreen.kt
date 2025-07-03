@@ -82,7 +82,7 @@ fun ListScreen(
                 scrollBehavior = topAppBarScrollBehavior,
                 title = {
                     Text(text = stringResource(R.string.frutties))
-                }
+                },
             )
         },
         floatingActionButton = {
@@ -92,11 +92,11 @@ fun ListScreen(
             ) {
                 Row(
                     modifier = Modifier.padding(horizontal = 16.dp),
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Icon(
                         Icons.Filled.ShoppingCart,
-                        contentDescription = null
+                        contentDescription = null,
                     )
                     Spacer(Modifier.width(8.dp))
                     Text(text = stringResource(R.string.view_cart, uiState.cartItemCount))
@@ -135,8 +135,7 @@ fun FruittieItem(
         modifier = modifier
             .clickable {
                 onClick(item)
-            }
-            .padding(16.dp),
+            }.padding(16.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Column(

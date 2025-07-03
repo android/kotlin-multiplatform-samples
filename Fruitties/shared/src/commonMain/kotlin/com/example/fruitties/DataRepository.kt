@@ -62,15 +62,12 @@ class DataRepository(
         return loadData()
     }
 
-    suspend fun getFruittie(id: Long): Fruittie? {
-        return database.fruittieDao().getFruittie(id)
-    }
+    suspend fun getFruittie(id: Long): Fruittie? = database.fruittieDao().getFruittie(id)
 
-    fun fruittieInCart(id: Long): Flow<Int> {
-        return cartDataStore.cart.map { cart ->
+    fun fruittieInCart(id: Long): Flow<Int> =
+        cartDataStore.cart.map { cart ->
             cart.items.find { it.id == id }?.count ?: 0
         }
-    }
 
     fun loadData(): Flow<List<Fruittie>> = database.fruittieDao().getAllAsFlow()
 

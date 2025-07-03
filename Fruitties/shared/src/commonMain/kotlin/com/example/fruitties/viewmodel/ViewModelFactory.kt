@@ -16,16 +16,14 @@ fun creationExtras(appContainer: AppContainer): CreationExtras =
 
 fun creationExtras(
     appContainer: AppContainer,
-    additional: MutableCreationExtras.() -> Unit
+    additional: MutableCreationExtras.() -> Unit,
 ): CreationExtras =
     MutableCreationExtras().apply {
         set(APP_CONTAINER_KEY, appContainer)
         additional()
     }
 
-inline fun <reified T : ViewModel> fruittiesViewModelFactory(
-    crossinline initializer: CreationExtras.(AppContainer) -> T
-) =
+inline fun <reified T : ViewModel> fruittiesViewModelFactory(crossinline initializer: CreationExtras.(AppContainer) -> T) =
     viewModelFactory {
         initializer {
             val appContainer = this[APP_CONTAINER_KEY] as AppContainer

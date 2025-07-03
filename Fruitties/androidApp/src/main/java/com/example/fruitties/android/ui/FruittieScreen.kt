@@ -37,7 +37,7 @@ import com.example.fruitties.viewmodel.creationExtras
 @Composable
 fun FruittieScreen(
     fruittieId: Long,
-    onNavBarBack: () -> Unit
+    onNavBarBack: () -> Unit,
 ) {
     val app = LocalContext.current.applicationContext as App
 
@@ -53,7 +53,7 @@ fun FruittieScreen(
     FruittieScreen(
         state = state,
         onNavBarBack = onNavBarBack,
-        addToCart = { viewModel.addToCart(it) }
+        addToCart = { viewModel.addToCart(it) },
     )
 }
 
@@ -62,7 +62,7 @@ fun FruittieScreen(
 fun FruittieScreen(
     state: FruittieViewModel.State,
     addToCart: (Fruittie) -> Unit,
-    onNavBarBack: () -> Unit
+    onNavBarBack: () -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -70,7 +70,7 @@ fun FruittieScreen(
                 title = {
                     Text(
                         (state as? FruittieViewModel.State.Content)?.fruittie?.name
-                            ?: stringResource(R.string.loading)
+                            ?: stringResource(R.string.loading),
                     )
                 },
                 actions = {
@@ -94,29 +94,29 @@ fun FruittieScreen(
 
             FloatingActionButton(
                 shape = MaterialTheme.shapes.extraLarge,
-                onClick = { addToCart(state.fruittie) }
+                onClick = { addToCart(state.fruittie) },
             ) {
                 Row(
                     modifier = Modifier.padding(
-                        horizontal = 16.dp
+                        horizontal = 16.dp,
                     ),
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Icon(
                         Icons.Filled.ShoppingCart,
-                        contentDescription = null
+                        contentDescription = null,
                     )
                     Spacer(Modifier.width(8.dp))
                     Text(text = stringResource(R.string.add_to_cart))
                 }
             }
-        }
+        },
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .padding(it)
-                .fillMaxSize()
+                .fillMaxSize(),
         ) {
             when (state) {
                 FruittieViewModel.State.Loading -> CircularProgressIndicator()

@@ -31,7 +31,6 @@ import kotlinx.coroutines.launch
 class CartViewModel(
     private val repository: DataRepository,
 ) : ViewModel() {
-
     init {
         Logger.v { "CartViewModel created" }
     }

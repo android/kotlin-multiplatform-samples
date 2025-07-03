@@ -45,7 +45,9 @@ data object ListScreenKey : NavKey
 data object CartScreenKey : NavKey
 
 @Serializable
-data class FruittieScreenKey(val id: Long) : NavKey
+data class FruittieScreenKey(
+    val id: Long,
+) : NavKey
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -106,4 +108,3 @@ fun NavApp() {
         },
     )
 }
-
