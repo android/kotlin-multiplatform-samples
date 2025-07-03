@@ -31,7 +31,6 @@ import kotlinx.coroutines.launch
 class MainViewModel(
     private val repository: DataRepository,
 ) : ViewModel() {
-
     init {
         Logger.v { "MainViewModel created" }
     }

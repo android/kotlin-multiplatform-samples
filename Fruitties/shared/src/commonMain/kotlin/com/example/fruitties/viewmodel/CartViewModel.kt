@@ -30,7 +30,6 @@ import kotlinx.coroutines.flow.stateIn
 class CartViewModel(
     private val repository: DataRepository,
 ) : ViewModel() {
-
     init {
         Logger.v { "CartViewModel created" }
     }
