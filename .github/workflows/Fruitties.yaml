@@ -6,22 +6,30 @@ on:
     branches:
       - main
       - feature/*
-  pull_request:
+    paths:
+      - 'Fruitties/**'
+      - '.github/workflows/Fruitties.yml'
+    pull_request:
+      paths:
+        - 'Fruitties/**'
+        - '.github/workflows/Fruitties.yml'
 
 concurrency:
   group: build-${{ github.ref }}
   cancel-in-progress: true
 
+defaults:
+  run:
+    working-directory: ./Fruitties
+
 jobs:
   build_android:
     name: Build Android app
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Validate Gradle Wrapper
-        uses: gradle/wrapper-validation-action@v3
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
@@ -29,9 +37,16 @@ jobs:
           distribution: 'zulu'
           java-version: 17
 
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
+
+      - name: Run Spotless check
+        run: ./gradlew spotlessCheck --stacktrace
+
       - name: Build app
-        working-directory: ./Fruitties
-        run: ./gradlew assemble --stacktrace
+        run: ./gradlew assembleDebug lintDebug --stacktrace
 
   build_ios:
     name: Build iOS app
@@ -44,15 +59,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Validate Gradle Wrapper
-        uses: gradle/wrapper-validation-action@v3
-
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
+      - name: Run xcodebuild
+        uses: mxcl/xcodebuild@v3
         with:
-          distribution: 'zulu'
-          java-version: 17
+          xcode: ^16
+          scheme: Fruitties
+          platform: iOS
+          action: build
 
       - name: Build app
-        working-directory: ./Fruitties
         run: xcodebuild -project iosApp/iosApp.xcodeproj -configuration Debug -scheme iosApp -sdk iphonesimulator
