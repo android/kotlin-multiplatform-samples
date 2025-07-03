@@ -18,14 +18,16 @@ concurrency:
   group: build-${{ github.ref }}
   cancel-in-progress: true
 
-defaults:
-  run:
-    working-directory: ./Fruitties
+env:
+  SAMPLE_PATH: ./Fruitties
 
 jobs:
   build_android:
     name: Build Android app
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ env.SAMPLE_PATH }}
 
     steps:
       - name: Checkout
@@ -51,6 +53,10 @@ jobs:
   build_ios:
     name: Build iOS app
     runs-on: macos-latest
+    defaults:
+      run:
+        working-directory: ${{ env.SAMPLE_PATH }}
+        
     steps:
       - uses: maxim-lobanov/setup-xcode@v1
         with:
