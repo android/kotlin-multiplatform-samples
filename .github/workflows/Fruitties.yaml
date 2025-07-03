@@ -19,7 +19,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  SAMPLE_PATH: ./Fruitties
+  SAMPLE_PATH: Fruitties
 
 jobs:
   build_android:
@@ -56,7 +56,7 @@ jobs:
     defaults:
       run:
         working-directory: ${{ env.SAMPLE_PATH }}
-        
+
     steps:
       - uses: maxim-lobanov/setup-xcode@v1
         with:
@@ -65,13 +65,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Run xcodebuild
+      - name: Build iOS app
         uses: mxcl/xcodebuild@v3
         with:
           xcode: ^16
           scheme: Fruitties
           platform: iOS
           action: build
-
-      - name: Build app
-        run: xcodebuild -project iosApp/iosApp.xcodeproj -configuration Debug -scheme iosApp -sdk iphonesimulator
+          working-directory: ${{ env.SAMPLE_PATH }}/iosApp
