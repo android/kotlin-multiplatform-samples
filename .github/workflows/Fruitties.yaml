@@ -69,7 +69,7 @@ jobs:
         uses: mxcl/xcodebuild@v3
         with:
           xcode: ^16
-          scheme: Fruitties
+          scheme: iosApp
           platform: iOS
           action: build
           working-directory: ${{ env.SAMPLE_PATH }}/iosApp
