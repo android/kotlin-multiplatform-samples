@@ -19,12 +19,23 @@ import shared
 
 @main
 struct iOSApp: App {
-    let appContainer = AppContainer(factory: Factory())
+    /// The application's dependency container, wrapped for SwiftUI observation.
+    let appContainer: ObservableValueWrapper<AppContainer>
+
+    init() {
+        self.appContainer = ObservableValueWrapper<AppContainer>(
+            value: AppContainer(factory: Factory())
+        )
+    }
+
     var body: some Scene {
         WindowGroup {
-            let iosViewModelOwner = IOSViewModelStoreOwner(appContainer: appContainer)
-            ContentView(mainViewModel: iosViewModelOwner.getMainViewModel(),
-                        cartViewModel: iosViewModelOwner.getCartViewModel())
+            /// Provides the root `ViewModelStoreOwner` to the environment, making it accessible to all child views.
+            /// Nested `ViewModelStoreOwnerProvider` instances can create additional, scoped ViewModel stores.
+            ViewModelStoreOwnerProvider {
+                ContentView()
+            }
+            .environmentObject(appContainer)
         }
     }
 }

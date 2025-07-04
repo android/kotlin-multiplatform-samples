@@ -40,7 +40,6 @@ import androidx.compose.material3.TopAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -53,6 +52,7 @@ import com.example.fruitties.android.R
 import com.example.fruitties.android.di.App
 import com.example.fruitties.model.Fruittie
 import com.example.fruitties.viewmodel.MainViewModel
+import com.example.fruitties.viewmodel.creationExtras
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -63,13 +63,9 @@ fun ListScreen(onClickViewCart: () -> Unit = {}) {
     // Here we put the KMP-compatible AppContainer into the extras
     // so it can be passed to the ViewModel factory.
     val app = LocalContext.current.applicationContext as App
-    val extras = remember(app) {
-        val container = app.container
-        MainViewModel.creationExtras(container)
-    }
     val viewModel: MainViewModel = viewModel(
         factory = MainViewModel.Factory,
-        extras = extras,
+        extras = creationExtras(app.container),
     )
 
     val uiState by viewModel.homeUiState.collectAsState()
