@@ -16,11 +16,11 @@ fun ViewModelStore.getViewModel(
     modelClass: ObjCClass,
     factory: ViewModelProvider.Factory,
     key: String?,
-    extras: CreationExtras,
+    extras: CreationExtras? = null,
 ): ViewModel {
     @Suppress("UNCHECKED_CAST")
     val vmClass = getOriginalKotlinClass(modelClass) as? KClass<ViewModel>
         ?: error("modelClass isn't a ViewModel type")
-    val provider = ViewModelProvider.create(this, factory, extras)
+    val provider = ViewModelProvider.create(this, factory, extras ?: CreationExtras.Empty)
     return key?.let { provider[key, vmClass] } ?: provider[vmClass]
 }

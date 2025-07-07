@@ -11,7 +11,7 @@ class IOSViewModelStoreOwner: ObservableObject {
     func viewModel<T: Lifecycle_viewmodelViewModel>(
         key: String? = nil,
         factory: Lifecycle_viewmodelViewModelProviderFactory,
-        extras: Lifecycle_viewmodelCreationExtras
+        extras: Lifecycle_viewmodelCreationExtras? = nil
     ) -> T {
         do {
             return try viewModelStore.getViewModel(
