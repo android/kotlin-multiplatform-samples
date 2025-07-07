@@ -19,13 +19,24 @@ import SwiftUI
 import shared
 
 struct CartView : View {
-    let cartViewModel: CartViewModel
+    /// Injects the `IOSViewModelStoreOwner` from the environment, which manages the lifecycle of `ViewModel` instances.
+    @EnvironmentObject var viewModelStoreOwner: IOSViewModelStoreOwner
 
-    // The ViewModel exposes a StateFlow that we access in SwiftUI with SKIE Observing.
-    // https://skie.touchlab.co/features/flows-in-swiftui
+    /// Injects the `AppContainer` from the environment, providing access to application-wide dependencies.
+    @EnvironmentObject var appContainer: ObservableValueWrapper<AppContainer>
 
     var body: some View {
-        // https://skie.touchlab.co/features/flows-in-swiftui
+        /// Retrieves the `CartViewModel` instance using the `viewModelStoreOwner`.
+        /// The `CartViewModel.Factory` and `creationExtras` are provided to enable dependency injection
+        /// and proper initialization of the ViewModel with its required `AppContainer`.
+        let cartViewModel: CartViewModel = viewModelStoreOwner.viewModel(
+            factory: CartViewModel.companion.Factory,
+            extras: creationExtras(appContainer: appContainer.value)
+        )
+
+        /// Observes the `cartUiState` `StateFlow` from the `CartViewModel` using SKIE's `Observing` utility.
+        /// This allows SwiftUI to react to changes in the cart's UI state.
+        /// For more details, refer to: https://skie.touchlab.co/features/flows-in-swiftui
         Observing(cartViewModel.cartUiState) { cartUIState in
             VStack {
                 HStack {
@@ -44,7 +55,9 @@ struct CartDetailsView: View {
     let cartViewModel: CartViewModel
 
     var body: some View {
-        // https://skie.touchlab.co/features/flows-in-swiftui
+        /// Observes the `cartUiState` `StateFlow` from the `CartViewModel` using SKIE's `Observing` utility.
+        /// This allows SwiftUI to react to changes in the cart's UI state.
+        /// For more details, refer to: https://skie.touchlab.co/features/flows-in-swiftui
         Observing(self.cartViewModel.cartUiState) { cartUIState in
             ScrollView {
                 LazyVStack {

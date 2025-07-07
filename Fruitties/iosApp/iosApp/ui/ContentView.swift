@@ -14,20 +14,32 @@
  * limitations under the License.
  */
 
+import Foundation
 import SwiftUI
 import shared
-import Foundation
 
 struct ContentView: View {
-    var mainViewModel: MainViewModel
-    var cartViewModel: CartViewModel
+    /// Injects the `IOSViewModelStoreOwner` from the environment, which manages the lifecycle of `ViewModel` instances.
+    @EnvironmentObject var viewModelStoreOwner: IOSViewModelStoreOwner
+
+    /// Injects the `AppContainer` from the environment, providing access to application-wide dependencies.
+    @EnvironmentObject var appContainer: ObservableValueWrapper<AppContainer>
 
     var body: some View {
+        /// Retrieves the `MainViewModel` instance using the `viewModelStoreOwner`.
+        /// The `MainViewModel.Factory` and `creationExtras` are provided to enable dependency injection
+        /// and proper initialization of the ViewModel with its required `AppContainer`.
+        let mainViewModel: MainViewModel = viewModelStoreOwner.viewModel(
+            factory: MainViewModel.companion.Factory,
+            extras: creationExtras(appContainer: appContainer.value)
+        )
         NavigationStack {
             VStack {
                 Text("Fruitties").font(.largeTitle).fontWeight(.bold)
                 NavigationLink {
-                    CartView(cartViewModel: cartViewModel)
+                    ViewModelStoreOwnerProvider {
+                        CartView()
+                    }
                 } label: {
                     Observing(mainViewModel.homeUiState) { homeUIState in
                         let total = homeUIState.cartItemCount
@@ -37,12 +49,18 @@ struct ContentView: View {
                 Observing(mainViewModel.homeUiState) { homeUIState in
                     ScrollView {
                         LazyVStack {
-                            ForEach(homeUIState.fruitties, id: \.self) { value in
-                                FruittieView(fruittie: value, addToCart: { fruittie in
-                                    Task {
-                                        mainViewModel.addItemToCart(fruittie: fruittie)
+                            ForEach(homeUIState.fruitties, id: \.self) {
+                                value in
+                                FruittieView(
+                                    fruittie: value,
+                                    addToCart: { fruittie in
+                                        Task {
+                                            mainViewModel.addItemToCart(
+                                                fruittie: fruittie
+                                            )
+                                        }
                                     }
-                                })
+                                )
                             }
                         }
                     }
@@ -58,7 +76,9 @@ struct FruittieView: View {
     var body: some View {
         HStack(alignment: .firstTextBaseline) {
             ZStack {
-                RoundedRectangle(cornerRadius: 15).fill(Color(red: 0.8, green: 0.8, blue: 1.0))
+                RoundedRectangle(cornerRadius: 15).fill(
+                    Color(red: 0.8, green: 0.8, blue: 1.0)
+                )
                 VStack {
                     Text("\(fruittie.name)")
                         .fontWeight(.bold)
@@ -67,9 +87,12 @@ struct FruittieView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }.padding()
                 Spacer()
-                Button(action: { addToCart(fruittie) }, label: {
-                    Text("Add")
-                }).padding().frame(maxWidth: .infinity, alignment: .trailing)
+                Button(
+                    action: { addToCart(fruittie) },
+                    label: {
+                        Text("Add")
+                    }
+                ).padding().frame(maxWidth: .infinity, alignment: .trailing)
             }.padding([.leading, .trailing])
         }
     }
