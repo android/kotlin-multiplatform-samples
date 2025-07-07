@@ -31,6 +31,7 @@ class CartViewModel(
     private val repository: DataRepository,
 ) : ViewModel() {
     init {
+        // Leaving the comments here to show when the ViewModel is created.
         Logger.v { "CartViewModel created" }
     }
 
