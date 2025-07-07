@@ -37,6 +37,9 @@ interface FruittieDao {
     @Query("SELECT COUNT(*) as count FROM Fruittie")
     suspend fun count(): Int
 
+    @Query("SELECT * FROM Fruittie WHERE id = :id")
+    suspend fun getFruittie(id: Long): Fruittie?
+
     @Query("SELECT * FROM Fruittie WHERE id in (:ids)")
     suspend fun loadAll(ids: List<Long>): List<Fruittie>
 

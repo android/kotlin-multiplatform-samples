@@ -34,34 +34,42 @@ struct ContentView: View {
             extras: creationExtras(appContainer: appContainer.value)
         )
         NavigationStack {
-            VStack {
-                Text("Fruitties").font(.largeTitle).fontWeight(.bold)
-                NavigationLink {
-                    ViewModelStoreOwnerProvider {
-                        CartView()
-                    }
-                } label: {
-                    Observing(mainViewModel.homeUiState) { homeUIState in
-                        let total = homeUIState.cartItemCount
-                        Text("View Cart (\(total))")
+            Observing(mainViewModel.homeUiState) { homeUIState in
+                List {
+                    ForEach(homeUIState.fruitties, id: \.self) {
+                        value in
+                        HStack {
+                            NavigationLink {
+                                ViewModelStoreOwnerProvider {
+                                    FruittieScreen(fruittie: value)
+                                }
+                            } label: {
+                                FruittieView(fruittie: value)
+                            }
+                            Spacer()
+                            Button(
+                                "Add",
+                                action: {
+                                    mainViewModel.addItemToCart(
+                                        fruittie: value
+                                    )
+                                }
+                            ).buttonStyle(.bordered)
+                        }
                     }
                 }
-                Observing(mainViewModel.homeUiState) { homeUIState in
-                    ScrollView {
-                        LazyVStack {
-                            ForEach(homeUIState.fruitties, id: \.self) {
-                                value in
-                                FruittieView(
-                                    fruittie: value,
-                                    addToCart: { fruittie in
-                                        Task {
-                                            mainViewModel.addItemToCart(
-                                                fruittie: fruittie
-                                            )
-                                        }
-                                    }
-                                )
-                            }
+            }
+            .navigationTitle("Fruitties")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    NavigationLink {
+                        ViewModelStoreOwnerProvider {
+                            CartView()
+                        }
+                    } label: {
+                        Observing(mainViewModel.homeUiState) { homeUIState in
+                            let total = homeUIState.cartItemCount
+                            Text("View Cart (\(total))")
                         }
                     }
                 }
@@ -72,28 +80,13 @@ struct ContentView: View {
 
 struct FruittieView: View {
     var fruittie: Fruittie
-    var addToCart: (Fruittie) -> Void
     var body: some View {
-        HStack(alignment: .firstTextBaseline) {
-            ZStack {
-                RoundedRectangle(cornerRadius: 15).fill(
-                    Color(red: 0.8, green: 0.8, blue: 1.0)
-                )
-                VStack {
-                    Text("\(fruittie.name)")
-                        .fontWeight(.bold)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    Text("\(fruittie.fullName)")
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                }.padding()
-                Spacer()
-                Button(
-                    action: { addToCart(fruittie) },
-                    label: {
-                        Text("Add")
-                    }
-                ).padding().frame(maxWidth: .infinity, alignment: .trailing)
-            }.padding([.leading, .trailing])
-        }
+        VStack {
+            Text("\(fruittie.name)")
+                .fontWeight(.bold)
+                .frame(maxWidth: .infinity, alignment: .leading)
+            Text("\(fruittie.fullName)")
+                .frame(maxWidth: .infinity, alignment: .leading)
+        }.padding(.vertical, 5)
     }
 }

@@ -26,6 +26,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
 class CartViewModel(
     private val repository: DataRepository,
@@ -43,15 +44,24 @@ class CartViewModel(
     val cartUiState: StateFlow<CartUiState> =
         repository.cartDetails
             .map { details ->
-                CartUiState(
-                    cartDetails = details,
-                    totalItemCount = details.sumOf { it.count },
-                )
+                CartUiState(cartDetails = details)
             }.stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
                 initialValue = CartUiState(),
             )
+
+    fun increaseCountClick(cartItem: CartItemDetails) {
+        viewModelScope.launch {
+            repository.addToCart(cartItem.fruittie)
+        }
+    }
+
+    fun decreaseCountClick(cartItem: CartItemDetails) {
+        viewModelScope.launch {
+            repository.removeFromCart(cartItem.fruittie)
+        }
+    }
 
     companion object {
         val Factory: ViewModelProvider.Factory = fruittiesViewModelFactory {
@@ -65,7 +75,8 @@ class CartViewModel(
  */
 data class CartUiState(
     val cartDetails: List<CartItemDetails> = listOf(),
-    val totalItemCount: Int = 0,
-)
+) {
+    val totalItemCount: Int = cartDetails.sumOf { it.count }
+}
 
 private const val TIMEOUT_MILLIS = 5_000L
