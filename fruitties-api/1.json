@@ -5,42 +5,50 @@
     {
       "name": "Kiwi",
       "full_name": "Actinidia deliciosa",
-      "calories": "61 calories"
+      "calories": "61 calories",
+      "id": 8
     },
     {
       "name": "Pear",
       "full_name": "Pyrus communis",
-      "calories": "102 calories"
+      "calories": "102 calories",
+      "id": 9
     },
     {
       "name": "Peach",
       "full_name": "Prunus persica",
-      "calories": "59 calories"
+      "calories": "59 calories",
+      "id": 10
     },
     {
       "name": "Plum",
       "full_name": "Prunus domestica",
-      "calories": "46 calories"
+      "calories": "46 calories",
+      "id": 11
     },
     {
       "name": "Cherry",
       "full_name": "Prunus avium",
-      "calories": "50 calories"
+      "calories": "50 calories",
+      "id": 12
     },
     {
       "name": "Blueberry",
       "full_name": "Vaccinium corymbosum",
-      "calories": "57 calories"
+      "calories": "57 calories",
+      "id": 13
     },
     {
       "name": "Raspberry",
       "full_name": "Rubus idaeus",
-      "calories": "53 calories"
+      "calories": "53 calories",
+      "id": 14
     },
     {
       "name": "Lemon",
       "full_name": "Citrus limon",
-      "calories": "29 calories"
+      "calories": "29 calories",
+      "id": 15
     }
   ]
 }

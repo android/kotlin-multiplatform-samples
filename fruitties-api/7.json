@@ -5,42 +5,50 @@
     {
       "name": "Mangosteen",
       "full_name": "Garcinia mangostana",
-      "calories": "73 calories"
+      "calories": "73 calories",
+      "id": 56
     },
     {
       "name": "Miracle Fruit",
       "full_name": "Synsepalum dulcificum",
-      "calories": "20 calories"
+      "calories": "20 calories",
+      "id": 57
     },
     {
       "name": "Monstera Deliciosa",
       "full_name": "Monstera deliciosa",
-      "calories": "86 calories"
+      "calories": "86 calories",
+      "id": 58
     },
     {
       "name": "Pawpaw",
       "full_name": "Asimina triloba",
-      "calories": "80 calories"
+      "calories": "80 calories",
+      "id": 59
     },
     {
       "name": "Pepino Melon",
       "full_name": "Solanum muricatum",
-      "calories": "23 calories"
+      "calories": "23 calories",
+      "id": 60
     },
     {
       "name": "Rambutan",
       "full_name": "Nephelium lappaceum",
-      "calories": "82 calories"
+      "calories": "82 calories",
+      "id": 61
     },
     {
       "name": "Salak",
       "full_name": "Salacca zalacca",
-      "calories": "82 calories"
+      "calories": "82 calories",
+      "id": 62
     },
     {
       "name": "Sapodilla",
       "full_name": "Manilkara zapota",
-      "calories": "83 calories"
+      "calories": "83 calories",
+      "id": 63
     }
   ]
 }
