@@ -62,12 +62,6 @@ class CartViewModel(
             repository.removeFromCart(cartItem.fruittie)
         }
     }
-
-    companion object {
-        val Factory: ViewModelProvider.Factory = fruittiesViewModelFactory {
-            CartViewModel(repository = it.dataRepository)
-        }
-    }
 }
 
 /**

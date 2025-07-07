@@ -45,35 +45,25 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.fruitties.android.LocalAppContainer
 import com.example.fruitties.android.R
-import com.example.fruitties.android.di.App
 import com.example.fruitties.model.Fruittie
 import com.example.fruitties.viewmodel.MainViewModel
-import com.example.fruitties.viewmodel.creationExtras
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ListScreen(
     onClickViewCart: () -> Unit,
     onFruittieClick: (Fruittie) -> Unit,
-) {
-    // Instantiate a ViewModel with a dependency on the AppContainer.
-    // To make ViewModel compatible with KMP, the ViewModel factory must
-    // create an instance without referencing the Android Application.
-    // Here we put the KMP-compatible AppContainer into the extras
-    // so it can be passed to the ViewModel factory.
-    val app = LocalContext.current.applicationContext as App
-    val viewModel: MainViewModel = viewModel(
-        factory = MainViewModel.Factory,
-        extras = creationExtras(app.container),
+    viewModel: MainViewModel = viewModel(
+        factory = LocalAppContainer.current.mainViewModelFactory,
     )
-
+) {
     val uiState by viewModel.homeUiState.collectAsState()
     val topAppBarScrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     Scaffold(
@@ -135,7 +125,8 @@ fun FruittieItem(
         modifier = modifier
             .clickable {
                 onClick(item)
-            }.padding(16.dp),
+            }
+            .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Column(

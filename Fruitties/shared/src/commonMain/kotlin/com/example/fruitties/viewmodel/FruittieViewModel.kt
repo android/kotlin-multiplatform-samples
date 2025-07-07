@@ -43,13 +43,6 @@ class FruittieViewModel(
     }
 
     companion object {
-        val Factory = fruittiesViewModelFactory {
-            FruittieViewModel(
-                fruittieId = get(FRUITTIE_ID_KEY) ?: error("Expected fruittieId!"),
-                repository = it.dataRepository,
-            )
-        }
-
         val FRUITTIE_ID_KEY = CreationExtras.Key<Long>()
     }
 }

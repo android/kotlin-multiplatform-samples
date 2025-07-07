@@ -26,16 +26,13 @@ struct FruittieScreen: View {
     var body: some View {
         let fruittieViewModel: FruittieViewModel =
             viewModelStoreOwner.viewModel(
-                factory: FruittieViewModel.companion.Factory,
-                extras: creationExtras(
-                    appContainer: appContainer.value,
-                    additional: { extras in
-                        extras.set(
-                            key: FruittieViewModel.companion.FRUITTIE_ID_KEY,
-                            t: fruittie.id
-                        )
-                    }
-                )
+                factory: appContainer.value.fruittieViewModelFactory,
+                extras: creationExtras { extras in
+                    extras.set(
+                        key: FruittieViewModel.companion.FRUITTIE_ID_KEY,
+                        t: fruittie.id
+                    )
+                }
             )
 
         Observing(fruittieViewModel.state) { uiState in

@@ -50,35 +50,23 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.fruitties.android.MyApplicationTheme
 import com.example.fruitties.android.R
-import com.example.fruitties.android.di.App
+import com.example.fruitties.android.LocalAppContainer
 import com.example.fruitties.model.CartItemDetails
 import com.example.fruitties.model.Fruittie
 import com.example.fruitties.viewmodel.CartUiState
 import com.example.fruitties.viewmodel.CartViewModel
-import com.example.fruitties.viewmodel.creationExtras
 
 @Composable
-fun CartScreen(onNavBarBack: () -> Unit) {
-    // Instantiate a ViewModel with a dependency on the AppContainer.
-    // To make ViewModel compatible with KMP, the ViewModel factory must
-    // create an instance without referencing the Android Application.
-    // Here we put the KMP-compatible AppContainer into the extras
-    // so it can be passed to the ViewModel factory.
-    val app = LocalContext.current.applicationContext as App
-
-    val viewModel: CartViewModel = viewModel(
-        factory = CartViewModel.Factory,
-        extras = creationExtras(app.container),
-    )
-
+fun CartScreen(
+    onNavBarBack: () -> Unit,
+    viewModel: CartViewModel = viewModel(factory = LocalAppContainer.current.cartViewModelFactory)
+) {
     val cartState by viewModel.cartUiState.collectAsState()
 
     CartScreen(
@@ -200,7 +188,7 @@ fun CartItem(
 @Preview
 @Composable
 private fun CartScreenPreview() {
-    MyApplicationTheme {
+    FruittiesTheme {
         CartScreen(
             onNavBarBack = {},
             cartState = CartUiState(
@@ -240,7 +228,7 @@ private fun CartScreenPreview() {
 @Preview
 @Composable
 private fun CartItemPreview() {
-    MyApplicationTheme {
+    FruittiesTheme {
         CartItem(
             cartItem = CartItemDetails(
                 fruittie = Fruittie(

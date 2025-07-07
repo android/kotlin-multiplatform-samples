@@ -22,7 +22,7 @@
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name=".di.App">
+        android:name=".FruittiesAndroidApp">
         <activity
             android:name=".MainActivity"
             android:exported="true">

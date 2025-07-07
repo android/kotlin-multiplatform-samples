@@ -30,8 +30,7 @@ struct CartView: View {
         /// The `CartViewModel.Factory` and `creationExtras` are provided to enable dependency injection
         /// and proper initialization of the ViewModel with its required `AppContainer`.
         let cartViewModel: CartViewModel = viewModelStoreOwner.viewModel(
-            factory: CartViewModel.companion.Factory,
-            extras: creationExtras(appContainer: appContainer.value)
+            factory: appContainer.value.cartViewModelFactory,
         )
 
         /// Observes the `cartUiState` `StateFlow` from the `CartViewModel` using SKIE's `Observing` utility.
