@@ -19,49 +19,54 @@ package com.example.fruitties.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.CreationExtras
-import androidx.lifecycle.viewmodel.MutableCreationExtras
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
+import co.touchlab.kermit.Logger
 import com.example.fruitties.DataRepository
-import com.example.fruitties.di.AppContainer
 import com.example.fruitties.model.CartItemDetails
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
 class CartViewModel(
     private val repository: DataRepository,
 ) : ViewModel() {
+    init {
+        // Leaving the comments here to show when the ViewModel is created.
+        Logger.v { "CartViewModel created" }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        Logger.v { "CartViewModel cleared" }
+    }
+
     val cartUiState: StateFlow<CartUiState> =
         repository.cartDetails
             .map { details ->
-                CartUiState(
-                    cartDetails = details,
-                    totalItemCount = details.sumOf { it.count },
-                )
+                CartUiState(cartDetails = details)
             }.stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
                 initialValue = CartUiState(),
             )
 
-    companion object {
-        val APP_CONTAINER_KEY = CreationExtras.Key<AppContainer>()
-
-        val Factory: ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                val appContainer = this[APP_CONTAINER_KEY] as AppContainer
-                val repository = appContainer.dataRepository
-                CartViewModel(repository = repository)
-            }
+    fun increaseCountClick(cartItem: CartItemDetails) {
+        viewModelScope.launch {
+            repository.addToCart(cartItem.fruittie)
         }
+    }
 
-        fun creationExtras(appContainer: AppContainer): CreationExtras =
-            MutableCreationExtras().apply {
-                set(APP_CONTAINER_KEY, appContainer)
-            }
+    fun decreaseCountClick(cartItem: CartItemDetails) {
+        viewModelScope.launch {
+            repository.removeFromCart(cartItem.fruittie)
+        }
+    }
+
+    companion object {
+        val Factory: ViewModelProvider.Factory = fruittiesViewModelFactory {
+            CartViewModel(repository = it.dataRepository)
+        }
     }
 }
 
@@ -70,7 +75,8 @@ class CartViewModel(
  */
 data class CartUiState(
     val cartDetails: List<CartItemDetails> = listOf(),
-    val totalItemCount: Int = 0,
-)
+) {
+    val totalItemCount: Int = cartDetails.sumOf { it.count }
+}
 
 private const val TIMEOUT_MILLIS = 5_000L
