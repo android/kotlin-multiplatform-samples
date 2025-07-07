@@ -3,9 +3,10 @@ import shared
 
 /// A ViewModelStoreOwner specifically for iOS.
 /// This is used with from iOS with Kotlin Multiplatform (KMP).
-class IOSViewModelStoreOwner: ObservableObject {
+class IOSViewModelStoreOwner: ObservableObject, SwiftViewModelStoreOwner {
 
-    private let viewModelStore = Lifecycle_viewmodelViewModelStore()
+    var viewModelStore: Lifecycle_viewmodelViewModelStore =
+        Lifecycle_viewmodelViewModelStore()
 
     /// This function allows retrieving the androidx ViewModel from the store.
     func viewModel<T: Lifecycle_viewmodelViewModel>(
