@@ -59,12 +59,4 @@ class AppContainer(
             )
         }
     }
-
-
-    fun fruittieViewModel(fruittieId: Long): CreationExtras.() -> FruittieViewModel = {
-        FruittieViewModel(
-            fruittieId = fruittieId,
-            repository = dataRepository,
-        )
-    }
 }
