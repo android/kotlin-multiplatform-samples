@@ -8,7 +8,7 @@ class IOSViewModelStoreOwner: ObservableObject {
     private let viewModelStore = Lifecycle_viewmodelViewModelStore()
 
     /// This function allows retrieving the androidx ViewModel from the store.
-    func viewModel<T: AnyObject>(
+    func viewModel<T: Lifecycle_viewmodelViewModel>(
         key: String? = nil,
         factory: Lifecycle_viewmodelViewModelProviderFactory,
         extras: Lifecycle_viewmodelCreationExtras
