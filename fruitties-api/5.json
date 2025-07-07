@@ -6,49 +6,49 @@
       "name": "Nectarine",
       "full_name": "Prunus persica var. nucipersica",
       "calories": "44 calories",
-      "id": 40
+      "id": 941
     },
     {
       "name": "Grapefruit",
-      "full_name": "Citrus × paradisi",
+      "full_name": "Citrus \u00d7 paradisi",
       "calories": "42 calories",
-      "id": 41
+      "id": 481
     },
     {
       "name": "Kumquat",
       "full_name": "Citrus japonica",
       "calories": "71 calories",
-      "id": 42
+      "id": 831
     },
     {
       "name": "Plantain",
       "full_name": "Musa paradisiaca",
       "calories": "122 calories",
-      "id": 43
+      "id": 368
     },
     {
       "name": "Soursop",
       "full_name": "Annona muricata",
       "calories": "66 calories",
-      "id": 44
+      "id": 194
     },
     {
       "name": "Tamarind",
       "full_name": "Tamarindus indica",
       "calories": "239 calories",
-      "id": 45
+      "id": 333
     },
     {
       "name": "Ugli fruit",
-      "full_name": "Citrus reticulata × Citrus paradisi",
+      "full_name": "Citrus reticulata \u00d7 Citrus paradisi",
       "calories": "47 calories",
-      "id": 46
+      "id": 782
     },
     {
       "name": "Yuzu",
       "full_name": "Citrus junos",
       "calories": "29 calories",
-      "id": 47
+      "id": 847
     }
   ]
 }
