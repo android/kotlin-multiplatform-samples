@@ -52,9 +52,9 @@ class AppContainer(
     }
 
     val fruittieViewModelFactory = viewModelFactory {
-        initializer {
+        initializer { // this: CreationExtras
             FruittieViewModel(
-                fruittieId = get(FRUITTIE_ID_KEY) ?: error("Expected fruittieId!"),
+                fruittieId = this[FRUITTIE_ID_KEY] ?: error("Expected fruittieId!"),
                 repository = dataRepository,
             )
         }
