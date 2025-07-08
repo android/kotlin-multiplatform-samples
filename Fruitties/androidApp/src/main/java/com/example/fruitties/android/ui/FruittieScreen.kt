@@ -38,6 +38,7 @@ fun FruittieScreen(
     fruittieId: Long,
     onNavBarBack: () -> Unit,
     viewModel: FruittieViewModel = viewModel(
+        key = "fruittie_$fruittieId",
         factory = LocalAppContainer.current.fruittieViewModelFactory,
         extras = creationExtras {
             set(FRUITTIE_ID_KEY, fruittieId)
