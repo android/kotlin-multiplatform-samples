@@ -15,7 +15,6 @@
  */
 package com.example.fruitties.di
 
-import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.fruitties.DataRepository
@@ -52,7 +51,8 @@ class AppContainer(
     }
 
     val fruittieViewModelFactory = viewModelFactory {
-        initializer { // this: CreationExtras
+        initializer {
+            // this: CreationExtras
             FruittieViewModel(
                 fruittieId = this[FRUITTIE_ID_KEY] ?: error("Expected fruittieId!"),
                 repository = dataRepository,

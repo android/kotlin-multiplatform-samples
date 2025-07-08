@@ -62,7 +62,7 @@ fun ListScreen(
     onFruittieClick: (Fruittie) -> Unit,
     viewModel: MainViewModel = viewModel(
         factory = LocalAppContainer.current.mainViewModelFactory,
-    )
+    ),
 ) {
     val uiState by viewModel.homeUiState.collectAsState()
     val topAppBarScrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
@@ -125,8 +125,7 @@ fun FruittieItem(
         modifier = modifier
             .clickable {
                 onClick(item)
-            }
-            .padding(16.dp),
+            }.padding(16.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Column(

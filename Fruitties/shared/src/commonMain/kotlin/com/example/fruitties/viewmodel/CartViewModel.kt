@@ -17,7 +17,6 @@
 package com.example.fruitties.viewmodel
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import co.touchlab.kermit.Logger
 import com.example.fruitties.DataRepository

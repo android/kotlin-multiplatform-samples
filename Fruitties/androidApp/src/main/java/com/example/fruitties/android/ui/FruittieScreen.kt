@@ -43,7 +43,7 @@ fun FruittieScreen(
         extras = creationExtras {
             set(FRUITTIE_ID_KEY, fruittieId)
         },
-    )
+    ),
 ) {
     val state = viewModel.state.collectAsState().value
 

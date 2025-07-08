@@ -36,8 +36,8 @@ import androidx.navigation3.ui.NavDisplay
 import androidx.navigation3.ui.rememberSceneSetupNavEntryDecorator
 import com.example.fruitties.android.ui.CartScreen
 import com.example.fruitties.android.ui.FruittieScreen
-import com.example.fruitties.android.ui.ListScreen
 import com.example.fruitties.android.ui.FruittiesTheme
+import com.example.fruitties.android.ui.ListScreen
 import kotlinx.serialization.Serializable
 
 @Serializable
