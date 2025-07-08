@@ -30,7 +30,7 @@ struct ContentView: View {
         /// The `MainViewModel.Factory` and `creationExtras` are provided to enable dependency injection
         /// and proper initialization of the ViewModel with its required `AppContainer`.
         let mainViewModel: MainViewModel = viewModelStoreOwner.viewModel(
-            factory: appContainer.value.mainViewModelFactory,
+            factory: appContainer.value.mainViewModelFactory
         )
         NavigationStack {
             Observing(mainViewModel.homeUiState) { homeUIState in
