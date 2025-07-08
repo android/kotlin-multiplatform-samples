@@ -26,8 +26,8 @@ struct FruittieScreen: View {
     var body: some View {
         let fruittieViewModel: FruittieViewModel =
             viewModelStoreOwner.viewModel(
-                factory: appContainer.value.fruittieViewModelFactory,
                 key: "fruittie_\(fruittie.id)",
+                factory: appContainer.value.fruittieViewModelFactory,
                 extras: creationExtras { extras in
                     extras.set(
                         key: FruittieViewModel.companion.FRUITTIE_ID_KEY,
