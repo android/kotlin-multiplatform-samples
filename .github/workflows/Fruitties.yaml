@@ -9,10 +9,10 @@ on:
     paths:
       - 'Fruitties/**'
       - '.github/workflows/Fruitties.yml'
-    pull_request:
-      paths:
-        - 'Fruitties/**'
-        - '.github/workflows/Fruitties.yml'
+  pull_request:
+    paths:
+      - 'Fruitties/**'
+      - '.github/workflows/Fruitties.yml'
 
 concurrency:
   group: build-${{ github.ref }}
