@@ -15,7 +15,13 @@
  */
 package com.example.fruitties.di
 
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.fruitties.DataRepository
+import com.example.fruitties.viewmodel.CartViewModel
+import com.example.fruitties.viewmodel.FruittieViewModel
+import com.example.fruitties.viewmodel.FruittieViewModel.Companion.FRUITTIE_ID_KEY
+import com.example.fruitties.viewmodel.MainViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -30,5 +36,27 @@ class AppContainer(
             cartDataStore = factory.createCartDataStore(),
             scope = CoroutineScope(Dispatchers.Default + SupervisorJob()),
         )
+    }
+
+    val mainViewModelFactory = viewModelFactory {
+        initializer {
+            MainViewModel(repository = dataRepository)
+        }
+    }
+
+    val cartViewModelFactory = viewModelFactory {
+        initializer {
+            CartViewModel(repository = dataRepository)
+        }
+    }
+
+    val fruittieViewModelFactory = viewModelFactory {
+        initializer {
+            // this: CreationExtras
+            FruittieViewModel(
+                fruittieId = this[FRUITTIE_ID_KEY] ?: error("Expected fruittieId!"),
+                repository = dataRepository,
+            )
+        }
     }
 }

@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-package com.example.fruitties.android.di
+package com.example.fruitties.android
 
 import android.app.Application
+import androidx.compose.runtime.staticCompositionLocalOf
 import com.example.fruitties.di.AppContainer
 import com.example.fruitties.di.Factory
 
-class App : Application() {
+class FruittiesAndroidApp : Application() {
     /** AppContainer instance used by the rest of classes to obtain dependencies */
     lateinit var container: AppContainer
 
@@ -29,3 +30,11 @@ class App : Application() {
         container = AppContainer(Factory(this))
     }
 }
+
+/**
+ * Allows retrieving the AppContainer, which represents a DI graph everywhere from a composable.
+ * Because the [AppContainer] is effectively a singleton, we can use static composition local,
+ * because it won't change during the app execution.
+ */
+val LocalAppContainer =
+    staticCompositionLocalOf<AppContainer> { error("No AppContainer provided!") }

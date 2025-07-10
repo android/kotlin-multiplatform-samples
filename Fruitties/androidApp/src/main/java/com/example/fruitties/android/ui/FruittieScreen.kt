@@ -22,12 +22,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.fruitties.android.LocalAppContainer
 import com.example.fruitties.android.R
-import com.example.fruitties.android.di.App
 import com.example.fruitties.model.Fruittie
 import com.example.fruitties.viewmodel.FruittieViewModel
 import com.example.fruitties.viewmodel.FruittieViewModel.Companion.FRUITTIE_ID_KEY
@@ -38,16 +37,14 @@ import com.example.fruitties.viewmodel.creationExtras
 fun FruittieScreen(
     fruittieId: Long,
     onNavBarBack: () -> Unit,
-) {
-    val app = LocalContext.current.applicationContext as App
-
-    val viewModel: FruittieViewModel = viewModel(
-        factory = FruittieViewModel.Factory,
-        extras = creationExtras(app.container) {
+    viewModel: FruittieViewModel = viewModel(
+        key = "fruittie_$fruittieId",
+        factory = LocalAppContainer.current.fruittieViewModelFactory,
+        extras = creationExtras {
             set(FRUITTIE_ID_KEY, fruittieId)
         },
-    )
-
+    ),
+) {
     val state = viewModel.state.collectAsState().value
 
     FruittieScreen(
