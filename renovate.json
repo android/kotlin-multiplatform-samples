@@ -13,7 +13,8 @@
         "org.jetbrains.kotlin**",
         "co.touchlab.skie**",
         "com.google.devtools.ksp**"
-      ]
+      ],
+      "automerge": true
     }
   ]
 }
