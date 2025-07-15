@@ -14,7 +14,7 @@ class IOSViewModelStoreOwner: ObservableObject, ViewModelStoreOwner {
         extras: CreationExtras? = nil
     ) -> T {
         do {
-            return try viewModelStore.getViewModel(
+            return try viewModel(
                 modelClass: T.self,
                 factory: factory,
                 key: key,
