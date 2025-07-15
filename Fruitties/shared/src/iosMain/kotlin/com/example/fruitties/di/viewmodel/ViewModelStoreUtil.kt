@@ -31,8 +31,3 @@ fun ViewModelStore.getViewModel(
     return key?.let { provider[key, vmClass] } ?: provider[vmClass]
 }
 
-/**
- * The ViewModelStoreOwner isn't used anywhere in the project, therefore it's not visible for Swift by default.
- */
-@Suppress("unused")
-interface SwiftViewModelStoreOwner : ViewModelStoreOwner

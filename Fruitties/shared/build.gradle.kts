@@ -50,26 +50,17 @@ kotlin {
     // A step-by-step guide on how to include this library in an XCode
     // project can be found here:
     // https://developer.android.com/kotlin/multiplatform/migrate
-    val xcfName = "shared"
 
-    iosX64 {
-        binaries.framework {
-            baseName = xcfName
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach {
+        it.binaries.framework {
+            export(libs.androidx.lifecycle.viewmodel)
+            baseName = "shared"
         }
     }
-
-    iosArm64 {
-        binaries.framework {
-            baseName = xcfName
-        }
-    }
-
-    iosSimulatorArm64 {
-        binaries.framework {
-            baseName = xcfName
-        }
-    }
-
     // Source set declarations.
     // Declaring a target automatically creates a source set with the same name. By default, the
     // Kotlin Gradle Plugin creates additional source sets that depend on each other, since it is
@@ -90,7 +81,7 @@ kotlin {
                 implementation(libs.ktor.client.content.negotiation)
                 implementation(libs.ktor.serialization.kotlinx.json)
                 implementation(libs.skie.annotations)
-                implementation(libs.androidx.lifecycle.viewmodel)
+                api(libs.androidx.lifecycle.viewmodel)
                 implementation(libs.androidx.paging.common)
                 implementation(libs.androidx.room.runtime)
                 implementation(libs.sqlite.bundled)
