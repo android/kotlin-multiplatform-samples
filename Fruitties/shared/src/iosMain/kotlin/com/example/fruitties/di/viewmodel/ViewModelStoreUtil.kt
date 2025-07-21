@@ -29,5 +29,5 @@ fun ViewModelStoreOwner.viewModel(
     val vmClass = getOriginalKotlinClass(modelClass) as? KClass<ViewModel>
         ?: error("modelClass isn't a ViewModel type")
     val provider = ViewModelProvider.create(this, factory, extras ?: CreationExtras.Empty)
-    return key?.let { provider.get(key, vmClass) } ?: provider.get(vmClass)
+    return key?.let { provider[key, vmClass] } ?: provider[vmClass]
 }
