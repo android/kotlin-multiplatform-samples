@@ -2,14 +2,12 @@ package com.example.fruitties.di.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStore
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.viewmodel.CreationExtras
 import kotlinx.cinterop.BetaInteropApi
 import kotlinx.cinterop.ObjCClass
 import kotlinx.cinterop.getOriginalKotlinClass
 import kotlin.reflect.KClass
-
 
 /**
  * This function allows retrieving any ViewModel from Swift Code with generics.
