@@ -19,7 +19,7 @@ import SwiftUI
 import shared
 
 struct FruittieScreen: View {
-    @EnvironmentObject var viewModelStoreOwner: IOSViewModelStoreOwner
+    @StateObject var viewModelStoreOwner = IOSViewModelStoreOwner()
     @EnvironmentObject var appContainer: ObservableValueWrapper<AppContainer>
     let fruittie: Fruittie
 

@@ -20,7 +20,7 @@ import shared
 
 struct CartView: View {
     /// Injects the `IOSViewModelStoreOwner` from the environment, which manages the lifecycle of `ViewModel` instances.
-    @EnvironmentObject var viewModelStoreOwner: IOSViewModelStoreOwner
+    @StateObject var viewModelStoreOwner = IOSViewModelStoreOwner()
 
     /// Injects the `AppContainer` from the environment, providing access to application-wide dependencies.
     @EnvironmentObject var appContainer: ObservableValueWrapper<AppContainer>
