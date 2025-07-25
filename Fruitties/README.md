@@ -36,15 +36,12 @@ With the [Kotlin Multiplatform Plugin](https://plugins.jetbrains.com/plugin/1493
 1. Open the `Fruitties` project in Android Studio
 2. Select the `iosApp` run configuration <img width="623" height="103" alt="image" src="https://github.com/user-attachments/assets/56ff4eb7-f45a-4043-8aca-9733cb59d053" />
 
-
 #### Run with Xcode
 Alternatively, you can open this project in Xcode and run it from there:
 
 1. Locate the `iosApp` within the `Fruitties` folder and open it with Finder <img width="762" height="579" alt="image" src="https://github.com/user-attachments/assets/3bdc2dd3-bb01-47b1-81c0-e8e1c0f43991" />
 2. Open the `iosApp.xcodeproj` <img width="192" height="103" alt="image" src="https://github.com/user-attachments/assets/a933eb69-7d71-44b5-aff0-adcf7931f2db" />
 3. Build and run the iOS app from Xcode by clicking the Run icon <img width="243" height="42" alt="image" src="https://github.com/user-attachments/assets/a278e57a-7d13-4299-94a8-01ffd6e9e89f" />
-
-
 
 ## License
 
