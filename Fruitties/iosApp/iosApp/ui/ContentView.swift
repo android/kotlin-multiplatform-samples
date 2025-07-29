@@ -39,9 +39,7 @@ struct ContentView: View {
                         value in
                         HStack {
                             NavigationLink {
-                                ViewModelStoreOwnerProvider {
-                                    FruittieScreen(fruittie: value)
-                                }
+                                FruittieScreen(fruittie: value)
                             } label: {
                                 FruittieView(fruittie: value)
                             }
@@ -62,9 +60,7 @@ struct ContentView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     NavigationLink {
-                        ViewModelStoreOwnerProvider {
-                            CartView()
-                        }
+                        CartView()
                     } label: {
                         Observing(mainViewModel.homeUiState) { homeUIState in
                             let total = homeUIState.cartItemCount
