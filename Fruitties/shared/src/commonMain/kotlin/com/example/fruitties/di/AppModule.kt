@@ -30,7 +30,6 @@ import kotlinx.serialization.json.Json
 import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module
 
-
 val appModule = module {
     single<FruittieApi> {
         commonCreateApi()

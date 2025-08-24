@@ -17,19 +17,19 @@
 package com.example.fruitties.di
 
 import androidx.room.Room
-import com.example.fruitties.database.AppDatabase
-import com.example.fruitties.database.DB_FILE_NAME
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
-import org.koin.core.module.Module
-import org.koin.dsl.module
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
+import com.example.fruitties.database.AppDatabase
 import com.example.fruitties.database.CartDataStore
+import com.example.fruitties.database.DB_FILE_NAME
 import com.example.fruitties.viewmodel.CartViewModel
 import com.example.fruitties.viewmodel.FruittieViewModel
 import com.example.fruitties.viewmodel.MainViewModel
 import kotlinx.cinterop.ExperimentalForeignApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
+import org.koin.core.module.Module
 import org.koin.core.module.dsl.factoryOf
+import org.koin.dsl.module
 import platform.Foundation.NSDocumentDirectory
 import platform.Foundation.NSFileManager
 import platform.Foundation.NSURL
@@ -54,7 +54,7 @@ actual val multiplatformModule: Module = module {
 
     factoryOf(::MainViewModel)
     factoryOf(::CartViewModel)
-    factory {parameters ->
+    factory { parameters ->
         FruittieViewModel(fruittieId = parameters.get(), repository = get())
     }
 }

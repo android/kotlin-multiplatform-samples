@@ -35,10 +35,9 @@ fun initKoin() {
 class KoinHelper : KoinComponent {
     val mainViewModel: MainViewModel by inject()
     val cartViewModel: CartViewModel by inject()
+
     fun getFruittieViewModel(fruittieId: Long): FruittieViewModel {
         val fruittieViewModel: FruittieViewModel by inject { parametersOf(fruittieId) }
         return fruittieViewModel
     }
-
-
 }

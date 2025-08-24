@@ -59,7 +59,7 @@ actual val multiplatformModule: Module = module {
     viewModel { parameters ->
         FruittieViewModel(
             fruittieId = parameters.get(),
-            repository = get()
+            repository = get(),
         )
     }
 }
