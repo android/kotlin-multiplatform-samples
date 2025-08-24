@@ -22,6 +22,7 @@ import com.example.fruitties.viewmodel.CartViewModel
 import com.example.fruitties.viewmodel.FruittieViewModel
 import com.example.fruitties.viewmodel.MainViewModel
 import org.koin.core.component.KoinComponent
+import org.koin.core.component.get
 import org.koin.core.component.inject
 import org.koin.core.context.startKoin
 import org.koin.core.parameter.parametersOf
@@ -36,8 +37,5 @@ class KoinHelper : KoinComponent {
     val mainViewModel: MainViewModel by inject()
     val cartViewModel: CartViewModel by inject()
 
-    fun getFruittieViewModel(fruittieId: Long): FruittieViewModel {
-        val fruittieViewModel: FruittieViewModel by inject { parametersOf(fruittieId) }
-        return fruittieViewModel
-    }
+    fun getFruittieViewModel(fruittieId: Long): FruittieViewModel = get { parametersOf(fruittieId) }
 }
