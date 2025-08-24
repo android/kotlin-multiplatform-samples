@@ -111,8 +111,9 @@ kotlin {
                 // dependencies declared in commonMain.
                 implementation(libs.ktor.client.okhttp)
                 implementation(libs.androidx.room.paging)
-                implementation(project.dependencies.platform(libs.koin.bom))
-                implementation(libs.koin.android)
+                api(project.dependencies.platform(libs.koin.bom))
+                api(libs.koin.android)
+                api(libs.koin.androidx.compose)
             }
         }
 
