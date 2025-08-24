@@ -1,3 +1,19 @@
+/*
+ * Copyright 2024 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.example.fruitties.android.ui
 
 import androidx.compose.foundation.layout.Column
@@ -24,27 +40,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.fruitties.android.LocalAppContainer
 import com.example.fruitties.android.R
 import com.example.fruitties.model.Fruittie
 import com.example.fruitties.viewmodel.FruittieViewModel
-import com.example.fruitties.viewmodel.FruittieViewModel.Companion.FRUITTIE_ID_KEY
-import com.example.fruitties.viewmodel.creationExtras
+import org.koin.androidx.compose.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FruittieScreen(
     fruittieId: Long,
     onNavBarBack: () -> Unit,
-    viewModel: FruittieViewModel = viewModel(
-        key = "fruittie_$fruittieId",
-        factory = LocalAppContainer.current.fruittieViewModelFactory,
-        extras = creationExtras {
-            set(FRUITTIE_ID_KEY, fruittieId)
-        },
-    ),
 ) {
+    val viewModel: FruittieViewModel = koinViewModel { parametersOf(fruittieId) }
     val state = viewModel.state.collectAsState().value
 
     FruittieScreen(

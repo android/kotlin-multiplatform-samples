@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 The Android Open Source Project
+ * Copyright 2025 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.example.fruitties.di
 
 import androidx.room.Room
@@ -20,19 +21,24 @@ import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import com.example.fruitties.database.AppDatabase
 import com.example.fruitties.database.CartDataStore
 import com.example.fruitties.database.DB_FILE_NAME
-import com.example.fruitties.network.FruittieApi
+import com.example.fruitties.viewmodel.CartViewModel
+import com.example.fruitties.viewmodel.FruittieViewModel
+import com.example.fruitties.viewmodel.MainViewModel
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
+import org.koin.core.module.Module
+import org.koin.core.module.dsl.factoryOf
+import org.koin.dsl.module
 import platform.Foundation.NSDocumentDirectory
 import platform.Foundation.NSFileManager
 import platform.Foundation.NSURL
 import platform.Foundation.NSUserDomainMask
 
-actual class Factory {
-    actual fun createRoomDatabase(): AppDatabase {
+actual val multiplatformModule: Module = module {
+    single {
         val dbFile = "${fileDirectory()}/$DB_FILE_NAME"
-        return Room
+        Room
             .databaseBuilder<AppDatabase>(
                 name = dbFile,
             ).setDriver(BundledSQLiteDriver())
@@ -40,22 +46,27 @@ actual class Factory {
             .build()
     }
 
-    actual fun createCartDataStore(): CartDataStore =
+    single {
         CartDataStore {
             "${fileDirectory()}/cart.json"
         }
-
-    @OptIn(ExperimentalForeignApi::class)
-    private fun fileDirectory(): String {
-        val documentDirectory: NSURL? = NSFileManager.defaultManager.URLForDirectory(
-            directory = NSDocumentDirectory,
-            inDomain = NSUserDomainMask,
-            appropriateForURL = null,
-            create = false,
-            error = null,
-        )
-        return requireNotNull(documentDirectory).path!!
     }
 
-    actual fun createApi(): FruittieApi = commonCreateApi()
+    factoryOf(::MainViewModel)
+    factoryOf(::CartViewModel)
+    factory { parameters ->
+        FruittieViewModel(fruittieId = parameters.get(), repository = get())
+    }
+}
+
+@OptIn(ExperimentalForeignApi::class)
+private fun fileDirectory(): String {
+    val documentDirectory: NSURL? = NSFileManager.defaultManager.URLForDirectory(
+        directory = NSDocumentDirectory,
+        inDomain = NSUserDomainMask,
+        appropriateForURL = null,
+        create = false,
+        error = null,
+    )
+    return requireNotNull(documentDirectory).path!!
 }

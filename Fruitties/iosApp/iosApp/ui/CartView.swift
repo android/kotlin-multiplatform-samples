@@ -19,19 +19,8 @@ import SwiftUI
 import shared
 
 struct CartView: View {
-    /// Injects the `IOSViewModelStoreOwner` from the environment, which manages the lifecycle of `ViewModel` instances.
-    @StateObject var viewModelStoreOwner = IOSViewModelStoreOwner()
-
-    /// Injects the `AppContainer` from the environment, providing access to application-wide dependencies.
-    @EnvironmentObject var appContainer: ObservableValueWrapper<AppContainer>
-
     var body: some View {
-        /// Retrieves the `CartViewModel` instance using the `viewModelStoreOwner`.
-        /// The `CartViewModel.Factory` and `creationExtras` are provided to enable dependency injection
-        /// and proper initialization of the ViewModel with its required `AppContainer`.
-        let cartViewModel: CartViewModel = viewModelStoreOwner.viewModel(
-            factory: appContainer.value.cartViewModelFactory
-        )
+        let cartViewModel: CartViewModel = KoinHelper().cartViewModel
 
         /// Observes the `cartUiState` `StateFlow` from the `CartViewModel` using SKIE's `Observing` utility.
         /// This allows SwiftUI to react to changes in the cart's UI state.

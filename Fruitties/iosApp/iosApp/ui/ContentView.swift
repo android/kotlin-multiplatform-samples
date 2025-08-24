@@ -19,19 +19,9 @@ import SwiftUI
 import shared
 
 struct ContentView: View {
-    /// Injects the `IOSViewModelStoreOwner` from the environment, which manages the lifecycle of `ViewModel` instances.
-    @EnvironmentObject var viewModelStoreOwner: IOSViewModelStoreOwner
-
-    /// Injects the `AppContainer` from the environment, providing access to application-wide dependencies.
-    @EnvironmentObject var appContainer: ObservableValueWrapper<AppContainer>
-
     var body: some View {
-        /// Retrieves the `MainViewModel` instance using the `viewModelStoreOwner`.
-        /// The `MainViewModel.Factory` and `creationExtras` are provided to enable dependency injection
-        /// and proper initialization of the ViewModel with its required `AppContainer`.
-        let mainViewModel: MainViewModel = viewModelStoreOwner.viewModel(
-            factory: appContainer.value.mainViewModelFactory
-        )
+        let mainViewModel: MainViewModel = KoinHelper().mainViewModel
+        
         NavigationStack {
             Observing(mainViewModel.homeUiState) { homeUIState in
                 List {

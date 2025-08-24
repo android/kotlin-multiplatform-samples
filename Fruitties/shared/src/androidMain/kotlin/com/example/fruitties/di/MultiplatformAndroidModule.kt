@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 The Android Open Source Project
+ * Copyright 2025 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,23 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.example.fruitties.di
 
-import android.app.Application
 import androidx.room.Room
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import com.example.fruitties.database.AppDatabase
 import com.example.fruitties.database.CartDataStore
 import com.example.fruitties.database.DB_FILE_NAME
-import com.example.fruitties.network.FruittieApi
+import com.example.fruitties.viewmodel.CartViewModel
+import com.example.fruitties.viewmodel.FruittieViewModel
+import com.example.fruitties.viewmodel.MainViewModel
 import kotlinx.coroutines.Dispatchers
+import org.koin.android.ext.koin.androidApplication
+import org.koin.core.module.Module
+import org.koin.core.module.dsl.viewModel
+import org.koin.core.module.dsl.viewModelOf
+import org.koin.dsl.module
 
-actual class Factory(
-    private val app: Application,
-) {
-    actual fun createRoomDatabase(): AppDatabase {
+actual val multiplatformModule: Module = module {
+    single {
+        val app = androidApplication()
         val dbFile = app.getDatabasePath(DB_FILE_NAME)
-        return Room
+        Room
             .databaseBuilder<AppDatabase>(
                 context = app,
                 name = dbFile.absolutePath,
@@ -38,13 +44,22 @@ actual class Factory(
             .build()
     }
 
-    actual fun createCartDataStore(): CartDataStore =
+    single {
+        val app = androidApplication()
         CartDataStore {
             app.filesDir
                 .resolve(
                     "cart.json",
                 ).absolutePath
         }
+    }
 
-    actual fun createApi(): FruittieApi = commonCreateApi()
+    viewModelOf(::CartViewModel)
+    viewModelOf(::MainViewModel)
+    viewModel { parameters ->
+        FruittieViewModel(
+            fruittieId = parameters.get(),
+            repository = get(),
+        )
+    }
 }
