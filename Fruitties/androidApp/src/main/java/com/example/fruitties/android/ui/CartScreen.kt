@@ -54,19 +54,18 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.fruitties.android.LocalAppContainer
 import com.example.fruitties.android.R
 import com.example.fruitties.model.CartItemDetails
 import com.example.fruitties.model.Fruittie
 import com.example.fruitties.viewmodel.CartUiState
 import com.example.fruitties.viewmodel.CartViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun CartScreen(
     onNavBarBack: () -> Unit,
-    viewModel: CartViewModel = viewModel(factory = LocalAppContainer.current.cartViewModelFactory),
 ) {
+    val viewModel: CartViewModel = koinViewModel()
     val cartState by viewModel.cartUiState.collectAsState()
 
     CartScreen(

@@ -49,21 +49,18 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.fruitties.android.LocalAppContainer
 import com.example.fruitties.android.R
 import com.example.fruitties.model.Fruittie
 import com.example.fruitties.viewmodel.MainViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ListScreen(
     onClickViewCart: () -> Unit,
     onFruittieClick: (Fruittie) -> Unit,
-    viewModel: MainViewModel = viewModel(
-        factory = LocalAppContainer.current.mainViewModelFactory,
-    ),
 ) {
+    val viewModel: MainViewModel = koinViewModel()
     val uiState by viewModel.homeUiState.collectAsState()
     val topAppBarScrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     Scaffold(
@@ -125,7 +122,8 @@ fun FruittieItem(
         modifier = modifier
             .clickable {
                 onClick(item)
-            }.padding(16.dp),
+            }
+            .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Column(
