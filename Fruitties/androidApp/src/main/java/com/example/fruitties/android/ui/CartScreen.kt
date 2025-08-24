@@ -62,9 +62,7 @@ import com.example.fruitties.viewmodel.CartViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun CartScreen(
-    onNavBarBack: () -> Unit,
-) {
+fun CartScreen(onNavBarBack: () -> Unit) {
     val viewModel: CartViewModel = koinViewModel()
     val cartState by viewModel.cartUiState.collectAsState()
 
