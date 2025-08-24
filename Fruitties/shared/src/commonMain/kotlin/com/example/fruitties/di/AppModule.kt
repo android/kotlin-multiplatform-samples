@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 The Android Open Source Project
+ * Copyright 2025 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,24 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.example.fruitties.di
 
-import com.example.fruitties.database.AppDatabase
-import com.example.fruitties.database.CartDataStore
+import com.example.fruitties.DataRepository
 import com.example.fruitties.network.FruittieApi
 import com.example.fruitties.network.FruittieNetworkApi
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.http.ContentType
 import io.ktor.serialization.kotlinx.json.json
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.serialization.json.Json
+import org.koin.core.module.dsl.factoryOf
+import org.koin.dsl.module
 
-expect class Factory {
-    fun createRoomDatabase(): AppDatabase
 
-    fun createApi(): FruittieApi
-
-    fun createCartDataStore(): CartDataStore
+val appModule = module {
+    single<FruittieApi> {
+        commonCreateApi()
+    }
+    single<CoroutineScope> {
+        CoroutineScope(Dispatchers.Default + SupervisorJob())
+    }
+    factoryOf(::DataRepository)
 }
 
 internal fun commonCreateApi(): FruittieApi =
