@@ -58,10 +58,11 @@ compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeB
 compose-ui = { module = "androidx.compose.ui:ui" }
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
 compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
-compose-material3 = { module = "androidx.compose.material3:material3", version.ref="material3" }
-koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koinBom"}
-koin-core = { module = "io.insert-koin:koin-core"}
-koin-android = { module = "io.insert-koin:koin-android"}
+compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
+koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koinBom" }
+koin-android = { module = "io.insert-koin:koin-android" }
+koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose" }
+koin-core = { module = "io.insert-koin:koin-core" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlinx-atomicfu = { module = "org.jetbrains.kotlinx:atomicfu", version.ref = "atomicfu" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
