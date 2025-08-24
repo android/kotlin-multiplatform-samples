@@ -24,6 +24,7 @@ androidx-lifecycle = "2.9.2"
 atomicfu = "0.29.0"
 composeBom = "2025.07.00"
 dataStore = "1.1.7"
+koinBom = "4.0.3"
 kotlin = "2.2.0"
 kotlinx-coroutines = "1.10.2"
 kotlinxDatetime = "0.7.1-0.6.x-compat"
@@ -58,6 +59,9 @@ compose-ui = { module = "androidx.compose.ui:ui" }
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
 compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
 compose-material3 = { module = "androidx.compose.material3:material3", version.ref="material3" }
+koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koinBom"}
+koin-core = { module = "io.insert-koin:koin-core"}
+koin-android = { module = "io.insert-koin:koin-android"}
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlinx-atomicfu = { module = "org.jetbrains.kotlinx:atomicfu", version.ref = "atomicfu" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }

@@ -93,6 +93,8 @@ kotlin {
                 api(libs.androidx.datastore.core.okio)
                 implementation(libs.okio)
                 implementation(libs.kermit)
+                implementation(project.dependencies.platform(libs.koin.bom))
+                implementation(libs.koin.core)
             }
         }
 
@@ -109,6 +111,8 @@ kotlin {
                 // dependencies declared in commonMain.
                 implementation(libs.ktor.client.okhttp)
                 implementation(libs.androidx.room.paging)
+                implementation(project.dependencies.platform(libs.koin.bom))
+                implementation(libs.koin.android)
             }
         }
 
