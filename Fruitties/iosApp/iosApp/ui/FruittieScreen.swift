@@ -19,22 +19,10 @@ import SwiftUI
 import shared
 
 struct FruittieScreen: View {
-    @StateObject var viewModelStoreOwner = IOSViewModelStoreOwner()
-    @EnvironmentObject var appContainer: ObservableValueWrapper<AppContainer>
     let fruittie: Fruittie
 
     var body: some View {
-        let fruittieViewModel: FruittieViewModel =
-            viewModelStoreOwner.viewModel(
-                key: "fruittie_\(fruittie.id)",
-                factory: appContainer.value.fruittieViewModelFactory,
-                extras: creationExtras { extras in
-                    extras.set(
-                        key: FruittieViewModel.companion.FRUITTIE_ID_KEY,
-                        t: fruittie.id
-                    )
-                }
-            )
+        let fruittieViewModel: FruittieViewModel = KoinHelper().getFruittieViewModel(fruittieId: fruittie.id)
 
         Observing(fruittieViewModel.state) { uiState in
             switch onEnum(of: uiState) {
