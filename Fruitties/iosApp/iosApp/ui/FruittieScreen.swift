@@ -50,7 +50,7 @@ struct FruittieScreen: View {
                     Text(content.fruittie.fullName)
                         .font(.title2)
                         .padding(.bottom, 5)
-                    Text("\(content.fruittie.calories) calories")
+                    Text("\(content.fruittie.calories)")
                         .font(.title3)
 
                     Spacer()
