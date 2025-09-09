@@ -45,6 +45,4 @@ actual class Factory(
                     "cart.json",
                 ).absolutePath
         }
-
-    actual fun createApi(): FruittieApi = commonCreateApi()
 }

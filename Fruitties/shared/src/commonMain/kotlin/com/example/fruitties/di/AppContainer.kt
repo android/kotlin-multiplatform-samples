@@ -31,7 +31,7 @@ class AppContainer(
 ) {
     val dataRepository: DataRepository by lazy {
         DataRepository(
-            api = factory.createApi(),
+            api = commonCreateApi(),
             database = factory.createRoomDatabase(),
             cartDataStore = factory.createCartDataStore(),
             scope = CoroutineScope(Dispatchers.Default + SupervisorJob()),

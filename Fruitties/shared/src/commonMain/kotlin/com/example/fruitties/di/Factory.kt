@@ -28,8 +28,6 @@ import kotlinx.serialization.json.Json
 expect class Factory {
     fun createRoomDatabase(): AppDatabase
 
-    fun createApi(): FruittieApi
-
     fun createCartDataStore(): CartDataStore
 }
 

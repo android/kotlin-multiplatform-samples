@@ -56,6 +56,4 @@ actual class Factory {
         )
         return requireNotNull(documentDirectory).path!!
     }
-
-    actual fun createApi(): FruittieApi = commonCreateApi()
 }
