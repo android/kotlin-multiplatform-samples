@@ -13,13 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.fruitties.di
+package com.example.fruitties.utils
 
-import com.example.fruitties.database.AppDatabase
-import com.example.fruitties.database.CartDataStore
+import kotlinx.serialization.json.Json
 
-expect class Factory {
-    fun createRoomDatabase(): AppDatabase
-
-    fun createCartDataStore(): CartDataStore
+object JsonConfig {
+    val json = Json { ignoreUnknownKeys = true }
 }
