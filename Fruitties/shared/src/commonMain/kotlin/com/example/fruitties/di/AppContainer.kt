@@ -20,7 +20,6 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.fruitties.DataRepository
 import com.example.fruitties.network.FruittieApi
 import com.example.fruitties.network.FruittieNetworkApi
-import com.example.fruitties.utils.JsonConfig.json
 import com.example.fruitties.viewmodel.CartViewModel
 import com.example.fruitties.viewmodel.FruittieViewModel
 import com.example.fruitties.viewmodel.FruittieViewModel.Companion.FRUITTIE_ID_KEY
@@ -33,6 +32,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.serialization.json.Json
+
+val json = Json { ignoreUnknownKeys = true }
 
 class AppContainer(
     private val factory: Factory,

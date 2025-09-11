@@ -18,8 +18,8 @@ package com.example.fruitties.database
 import androidx.datastore.core.DataStoreFactory
 import androidx.datastore.core.okio.OkioSerializer
 import androidx.datastore.core.okio.OkioStorage
+import com.example.fruitties.di.json
 import com.example.fruitties.model.Fruittie
-import com.example.fruitties.utils.JsonConfig.json
 import kotlinx.coroutines.flow.Flow
 import kotlinx.serialization.Serializable
 import okio.BufferedSink
