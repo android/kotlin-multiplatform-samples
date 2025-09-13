@@ -18,20 +18,29 @@ package com.example.fruitties.di
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.fruitties.DataRepository
+import com.example.fruitties.network.FruittieApi
+import com.example.fruitties.network.FruittieNetworkApi
 import com.example.fruitties.viewmodel.CartViewModel
 import com.example.fruitties.viewmodel.FruittieViewModel
 import com.example.fruitties.viewmodel.FruittieViewModel.Companion.FRUITTIE_ID_KEY
 import com.example.fruitties.viewmodel.MainViewModel
+import io.ktor.client.HttpClient
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.http.ContentType
+import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.serialization.json.Json
+
+val json = Json { ignoreUnknownKeys = true }
 
 class AppContainer(
     private val factory: Factory,
 ) {
     val dataRepository: DataRepository by lazy {
         DataRepository(
-            api = factory.createApi(),
+            api = commonCreateApi(),
             database = factory.createRoomDatabase(),
             cartDataStore = factory.createCartDataStore(),
             scope = CoroutineScope(Dispatchers.Default + SupervisorJob()),
@@ -59,4 +68,14 @@ class AppContainer(
             )
         }
     }
+
+    internal fun commonCreateApi(): FruittieApi =
+        FruittieNetworkApi(
+            client = HttpClient {
+                install(ContentNegotiation) {
+                    json(json, contentType = ContentType.Any)
+                }
+            },
+            apiUrl = "https://android.github.io/kotlin-multiplatform-samples/fruitties-api",
+        )
 }

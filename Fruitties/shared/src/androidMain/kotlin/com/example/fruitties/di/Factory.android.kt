@@ -21,7 +21,6 @@ import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import com.example.fruitties.database.AppDatabase
 import com.example.fruitties.database.CartDataStore
 import com.example.fruitties.database.DB_FILE_NAME
-import com.example.fruitties.network.FruittieApi
 import kotlinx.coroutines.Dispatchers
 
 actual class Factory(
@@ -45,6 +44,4 @@ actual class Factory(
                     "cart.json",
                 ).absolutePath
         }
-
-    actual fun createApi(): FruittieApi = commonCreateApi()
 }
