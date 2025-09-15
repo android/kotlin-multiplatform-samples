@@ -17,30 +17,9 @@ package com.example.fruitties.di
 
 import com.example.fruitties.database.AppDatabase
 import com.example.fruitties.database.CartDataStore
-import com.example.fruitties.network.FruittieApi
-import com.example.fruitties.network.FruittieNetworkApi
-import io.ktor.client.HttpClient
-import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.http.ContentType
-import io.ktor.serialization.kotlinx.json.json
-import kotlinx.serialization.json.Json
 
 expect class Factory {
     fun createRoomDatabase(): AppDatabase
 
-    fun createApi(): FruittieApi
-
     fun createCartDataStore(): CartDataStore
 }
-
-internal fun commonCreateApi(): FruittieApi =
-    FruittieNetworkApi(
-        client = HttpClient {
-            install(ContentNegotiation) {
-                json(json, contentType = ContentType.Any)
-            }
-        },
-        apiUrl = "https://android.github.io/kotlin-multiplatform-samples/fruitties-api",
-    )
-
-val json = Json { ignoreUnknownKeys = true }
