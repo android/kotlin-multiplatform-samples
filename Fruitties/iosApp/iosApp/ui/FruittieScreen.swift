@@ -58,7 +58,7 @@ struct FruittieScreen: View {
                         fruittieViewModel.addToCart(fruittie: content.fruittie)
                     }) {
                         HStack {
-                            Image(systemName: "cart.fill")
+                            Image(systemName: "cart.fill.badge.plus")
                             Text("Add to cart")
                         }
                         .padding()
