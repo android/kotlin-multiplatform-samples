@@ -24,4 +24,7 @@
     <string name="add_to_cart">Add to cart</string>
     <string name="in_cart">In cart: %1$d</string>
     <string name="cart_has_items">Cart has %1$d items</string>
+    <string name="error_loading">Failed to load items. Please check your connection and try again.</string>
+    <string name="error_loading_more">Failed to load more items</string>
+    <string name="retry">Retry</string>
 </resources>

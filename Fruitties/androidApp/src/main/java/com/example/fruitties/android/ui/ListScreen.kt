@@ -23,11 +23,11 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Button
@@ -39,6 +39,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -50,6 +51,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.itemKey
 import com.example.fruitties.android.LocalAppContainer
 import com.example.fruitties.android.R
 import com.example.fruitties.model.Fruittie
@@ -64,6 +69,7 @@ fun ListScreen(
         factory = LocalAppContainer.current.mainViewModelFactory,
     ),
 ) {
+    val lazyPagingItems = viewModel.fruittiesPagingData.collectAsLazyPagingItems()
     val uiState by viewModel.homeUiState.collectAsState()
     val topAppBarScrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     Scaffold(
@@ -94,21 +100,83 @@ fun ListScreen(
             }
         },
     ) { paddingValues ->
-        LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            contentPadding = PaddingValues(bottom = 72.dp),
-            modifier = Modifier
-                .nestedScroll(topAppBarScrollBehavior.nestedScrollConnection)
-                .padding(paddingValues)
-                .consumeWindowInsets(paddingValues),
-        ) {
-            items(items = uiState.fruitties, key = { it.id }) { item ->
+        when (lazyPagingItems.loadState.refresh) {
+            is LoadState.Loading -> {
+                LoadingIndicator(
+                    modifier = Modifier
+                        .padding(paddingValues)
+                        .fillMaxHeight()
+                        .consumeWindowInsets(paddingValues),
+                )
+            }
+            is LoadState.Error -> {
+                ErrorStateItem(
+                    message = stringResource(R.string.error_loading),
+                    onRetry = { lazyPagingItems.refresh() },
+                    modifier = Modifier
+                        .padding(paddingValues)
+                        .consumeWindowInsets(paddingValues)
+                        .padding(16.dp),
+                )
+            }
+            else -> {
+                PagingList(
+                    lazyPagingItems = lazyPagingItems,
+                    paddingValues = paddingValues,
+                    topAppBarScrollBehavior = topAppBarScrollBehavior,
+                    onFruittieClick = onFruittieClick,
+                    onAddToCart = viewModel::addItemToCart,
+                )
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun PagingList(
+    lazyPagingItems: LazyPagingItems<Fruittie>,
+    paddingValues: PaddingValues,
+    topAppBarScrollBehavior: TopAppBarScrollBehavior,
+    onFruittieClick: (Fruittie) -> Unit,
+    onAddToCart: (Fruittie) -> Unit,
+) {
+    LazyColumn(
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        contentPadding = PaddingValues(bottom = 72.dp),
+        modifier = Modifier
+            .nestedScroll(topAppBarScrollBehavior.nestedScrollConnection)
+            .padding(paddingValues)
+            .consumeWindowInsets(paddingValues),
+    ) {
+        items(
+            count = lazyPagingItems.itemCount,
+            key = lazyPagingItems.itemKey { it.id },
+        ) { index ->
+            val item = lazyPagingItems[index]
+            if (item != null) {
                 FruittieItem(
                     item = item,
                     onClick = onFruittieClick,
-                    onAddToCart = viewModel::addItemToCart,
+                    onAddToCart = onAddToCart,
                     modifier = Modifier.fillMaxWidth(),
                 )
+            }
+        }
+
+        item {
+            when (lazyPagingItems.loadState.append) {
+                is LoadState.Loading -> {
+                    LoadingIndicator(modifier = Modifier.padding(16.dp))
+                }
+                is LoadState.Error -> {
+                    ErrorStateItem(
+                        message = stringResource(R.string.error_loading_more),
+                        onRetry = { lazyPagingItems.retry() },
+                        modifier = Modifier.padding(16.dp),
+                    )
+                }
+                else -> {}
             }
         }
     }

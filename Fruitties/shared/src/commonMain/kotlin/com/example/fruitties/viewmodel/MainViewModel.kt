@@ -18,12 +18,15 @@ package com.example.fruitties.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import co.touchlab.kermit.Logger
 import com.example.fruitties.DataRepository
 import com.example.fruitties.model.Fruittie
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
@@ -39,12 +42,14 @@ class MainViewModel(
         Logger.v { "MainViewModel cleared" }
     }
 
+    val fruittiesPagingData: Flow<PagingData<Fruittie>> =
+        repository.getPagingData().cachedIn(viewModelScope)
+
     val homeUiState: StateFlow<HomeUiState> =
         repository
-            .getData()
-            .combine(repository.cartDetails) { fruitties, cartState ->
+            .cartDetails
+            .map { cartState ->
                 HomeUiState(
-                    fruitties = fruitties,
                     cartItemCount = cartState.sumOf { item -> item.count },
                 )
             }.stateIn(
@@ -64,7 +69,6 @@ class MainViewModel(
  * Ui State for the home screen
  */
 data class HomeUiState(
-    val fruitties: List<Fruittie> = listOf(),
     val cartItemCount: Int = 0,
 )
 

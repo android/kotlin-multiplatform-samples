@@ -23,7 +23,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 @Entity
 data class Fruittie(
-    @PrimaryKey(autoGenerate = true) val id: Long = 0,
+    @PrimaryKey val id: Long = 0,
     @SerialName("name")
     val name: String,
     @SerialName("full_name")
