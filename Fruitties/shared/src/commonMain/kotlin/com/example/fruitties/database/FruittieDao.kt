@@ -15,6 +15,7 @@
  */
 package com.example.fruitties.database
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.MapColumn
@@ -31,8 +32,14 @@ interface FruittieDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(fruitties: List<Fruittie>)
 
+    @Query("SELECT * FROM Fruittie ORDER BY id DESC")
+    fun pagingSource(): PagingSource<Int, Fruittie>
+
     @Query("SELECT * FROM Fruittie")
     fun getAllAsFlow(): Flow<List<Fruittie>>
+
+    @Query("DELETE FROM Fruittie")
+    suspend fun clearAll()
 
     @Query("SELECT COUNT(*) as count FROM Fruittie")
     suspend fun count(): Int

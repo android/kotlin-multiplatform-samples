@@ -18,6 +18,7 @@ package com.example.fruitties.android.ui
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -27,10 +28,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -46,10 +47,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.paging.LoadState
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.itemKey
 import com.example.fruitties.android.LocalAppContainer
 import com.example.fruitties.android.R
 import com.example.fruitties.model.Fruittie
@@ -64,6 +69,7 @@ fun ListScreen(
         factory = LocalAppContainer.current.mainViewModelFactory,
     ),
 ) {
+    val lazyPagingItems = viewModel.fruittiesPagingData.collectAsLazyPagingItems()
     val uiState by viewModel.homeUiState.collectAsState()
     val topAppBarScrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     Scaffold(
@@ -102,13 +108,45 @@ fun ListScreen(
                 .padding(paddingValues)
                 .consumeWindowInsets(paddingValues),
         ) {
-            items(items = uiState.fruitties, key = { it.id }) { item ->
-                FruittieItem(
-                    item = item,
-                    onClick = onFruittieClick,
-                    onAddToCart = viewModel::addItemToCart,
-                    modifier = Modifier.fillMaxWidth(),
-                )
+            items(
+                count = lazyPagingItems.itemCount,
+                key = lazyPagingItems.itemKey { it.id }
+            ) { index ->
+                val item = lazyPagingItems[index]
+                if (item != null) {
+                    FruittieItem(
+                        item = item,
+                        onClick = onFruittieClick,
+                        onAddToCart = viewModel::addItemToCart,
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                }
+            }
+
+            item {
+                when (lazyPagingItems.loadState.append) {
+                    is LoadState.Loading -> {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp),
+                            contentAlignment = Alignment.Center,
+                        ) {
+                            CircularProgressIndicator()
+                        }
+                    }
+                    is LoadState.Error -> {
+                        Text(
+                            text = "Error loading more items",
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp),
+                            textAlign = TextAlign.Center,
+                            color = MaterialTheme.colorScheme.error,
+                        )
+                    }
+                    else -> {}
+                }
             }
         }
     }

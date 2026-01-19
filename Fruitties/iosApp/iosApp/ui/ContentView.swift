@@ -33,10 +33,9 @@ struct ContentView: View {
             factory: appContainer.value.mainViewModelFactory
         )
         NavigationStack {
-            Observing(mainViewModel.homeUiState) { homeUIState in
+            Observing(mainViewModel.fruittiesPagingData) { pagingData in
                 List {
-                    ForEach(homeUIState.fruitties, id: \.self) {
-                        value in
+                    ForEach(pagingData, id: \.self) { value in
                         HStack {
                             NavigationLink {
                                 FruittieScreen(fruittie: value)

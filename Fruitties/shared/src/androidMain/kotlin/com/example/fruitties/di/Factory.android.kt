@@ -34,6 +34,7 @@ actual class Factory(
                 name = dbFile.absolutePath,
             ).setDriver(BundledSQLiteDriver())
             .setQueryCoroutineContext(Dispatchers.IO)
+            .fallbackToDestructiveMigration(dropAllTables = true)
             .build()
     }
 

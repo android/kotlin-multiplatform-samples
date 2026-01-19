@@ -15,17 +15,21 @@
  */
 package com.example.fruitties
 
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.example.fruitties.database.AppDatabase
 import com.example.fruitties.database.CartDataStore
 import com.example.fruitties.model.CartItemDetails
 import com.example.fruitties.model.Fruittie
 import com.example.fruitties.network.FruittieApi
+import com.example.fruitties.paging.FruittieRemoteMediator
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapLatest
-import kotlinx.coroutines.launch
 
 class DataRepository(
     private val api: FruittieApi,
@@ -53,14 +57,18 @@ class DataRepository(
         cartDataStore.remove(fruittie)
     }
 
-    fun getData(): Flow<List<Fruittie>> {
-        scope.launch {
-            if (database.fruittieDao().count() < 1) {
-                refreshData()
-            }
-        }
-        return loadData()
-    }
+    @OptIn(ExperimentalPagingApi::class)
+    fun getPagingData(): Flow<PagingData<Fruittie>> =
+        Pager(
+            config = PagingConfig(
+                pageSize = 20,
+                prefetchDistance = 10,
+                enablePlaceholders = false,
+                initialLoadSize = 20
+            ),
+            remoteMediator = FruittieRemoteMediator(api, database),
+            pagingSourceFactory = { database.fruittieDao().pagingSource() },
+        ).flow
 
     suspend fun getFruittie(id: Long): Fruittie? = database.fruittieDao().getFruittie(id)
 
@@ -68,11 +76,4 @@ class DataRepository(
         cartDataStore.cart.map { cart ->
             cart.items.find { it.id == id }?.count ?: 0
         }
-
-    fun loadData(): Flow<List<Fruittie>> = database.fruittieDao().getAllAsFlow()
-
-    suspend fun refreshData() {
-        val response = api.getData()
-        database.fruittieDao().insert(response.feed)
-    }
 }
