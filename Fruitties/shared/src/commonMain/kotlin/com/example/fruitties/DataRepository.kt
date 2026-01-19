@@ -61,10 +61,10 @@ class DataRepository(
     fun getPagingData(): Flow<PagingData<Fruittie>> =
         Pager(
             config = PagingConfig(
-                pageSize = 20,
-                prefetchDistance = 10,
+                pageSize = PAGE_SIZE,
+                prefetchDistance = PREFETCH_DISTANCE,
                 enablePlaceholders = false,
-                initialLoadSize = 20
+                initialLoadSize = INITIAL_LOAD_SIZE,
             ),
             remoteMediator = FruittieRemoteMediator(api, database),
             pagingSourceFactory = { database.fruittieDao().pagingSource() },
@@ -76,4 +76,10 @@ class DataRepository(
         cartDataStore.cart.map { cart ->
             cart.items.find { it.id == id }?.count ?: 0
         }
+
+    companion object {
+        private const val PAGE_SIZE = 20
+        private const val PREFETCH_DISTANCE = 10
+        private const val INITIAL_LOAD_SIZE = 20
+    }
 }
